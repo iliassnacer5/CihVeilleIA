@@ -1,0 +1,213 @@
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { AlertCircle, TrendingUp, FileText, Database, CheckCircle2 } from 'lucide-react'
+import { KPICard } from '@/components/kpi-card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { api } from '@/lib/api'
+
+function getSeverityColor(severity: string) {
+  switch (severity) {
+    case 'high':
+      return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    case 'medium':
+      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+    default:
+      return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+  }
+}
+
+export default function DashboardPage() {
+  const [kpis, setKpis] = useState<any>(null)
+  const [analytics, setAnalytics] = useState<any>(null)
+  const [alerts, setAlerts] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [kpiData, analyticsData, alertsData] = await Promise.all([
+          api.getKpis(),
+          api.getDashboardAnalytics(),
+          api.getLatestAlerts()
+        ])
+        setKpis(kpiData)
+        setAnalytics(analyticsData)
+        setAlerts(alertsData)
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadData()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* KPI Cards */}
+      <div>
+        <h1 className="text-3xl font-bold text-foreground mb-6">Dashboard</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <KPICard
+            title="Monitored Sources"
+            value={kpis?.monitored_sources?.toString() || "0"}
+            subtitle="Active sources tracking"
+            icon={<Database size={32} />}
+          />
+          <KPICard
+            title="Documents (Month)"
+            value={kpis?.documents_month?.toLocaleString() || "0"}
+            subtitle="Collected this month"
+            icon={<FileText size={32} />}
+          />
+          <KPICard
+            title="Regulatory Updates"
+            value={kpis?.regulatory_updates?.toString() || "0"}
+            subtitle="Detected & processed"
+            icon={<AlertCircle size={32} />}
+          />
+          <KPICard
+            title="AI Processing"
+            value={`${kpis?.ai_processing_rate || 0}%`}
+            subtitle="System uptime"
+            icon={<CheckCircle2 size={32} />}
+          />
+        </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Documents Over Time */}
+        <Card className="border border-border">
+          <CardHeader>
+            <CardTitle className="text-lg">Documents Over Time</CardTitle>
+            <CardDescription>Monthly document collection trend</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={analytics?.documents_over_time || []}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px',
+                  }}
+                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="documents"
+                  stroke="hsl(var(--chart-1))"
+                  strokeWidth={2}
+                  dot={{ fill: 'hsl(var(--chart-1))' }}
+                  name="Documents"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="alerts"
+                  stroke="hsl(var(--chart-2))"
+                  strokeWidth={2}
+                  dot={{ fill: 'hsl(var(--chart-2))' }}
+                  name="Alerts"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Distribution by Theme */}
+        <Card className="border border-border">
+          <CardHeader>
+            <CardTitle className="text-lg">Distribution by Theme</CardTitle>
+            <CardDescription>Document categorization breakdown</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px',
+                  }}
+                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                />
+                <Pie
+                  data={analytics?.distribution_by_theme || []}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={(entry: any) => `${entry.name} (${entry.value}%)`}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {(analytics?.distribution_by_theme || []).map((entry: any, index: number) => (
+                    <Cell key={`cell-${index}`} fill={`hsl(var(--chart-${(index % 4) + 1}))`} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Latest Alerts */}
+      <Card className="border border-border">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-lg">Latest Alerts</CardTitle>
+              <CardDescription>
+                Most recent detected regulatory and market updates
+              </CardDescription>
+            </div>
+            <Button variant="outline" size="sm">
+              View All
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {alerts.map((alert) => (
+              <div
+                key={alert.id}
+                className="flex items-start gap-4 p-4 border border-border rounded-lg hover:bg-secondary transition-colors"
+              >
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-foreground text-sm mb-1">
+                    {alert.title}
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    {alert.source} • {alert.timestamp}
+                  </p>
+                </div>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${getSeverityColor(alert.severity)}`}
+                >
+                  {alert.severity.charAt(0).toUpperCase() +
+                    alert.severity.slice(1)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

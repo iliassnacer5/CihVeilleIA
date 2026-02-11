@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    /* Banking Professional Theme - Light Mode */
+    --background: 0 0% 99%;
+    --foreground: 210 11% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+    /* Primary: Dark Blue */
+    --primary: 210 40% 20%;
+    --primary-foreground: 0 0% 100%;
+    /* Secondary: Light Gray */
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 210 11% 15%;
+    /* Muted: Gray */
+    --muted: 0 0% 88%;
+    --muted-foreground: 210 5% 45%;
+    /* Accent: Muted Green */
+    --accent: 164 75% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 91%;
+    --input: 0 0% 96%;
+    --ring: 210 40% 20%;
+    --chart-1: 210 40% 50%;
+    --chart-2: 164 75% 55%;
+    --chart-3: 210 20% 60%;
+    --chart-4: 164 65% 45%;
+    --chart-5: 210 30% 70%;
+    --radius: 0.5rem;
+    --sidebar-background: 210 40% 20%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 210 40% 25%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 164 75% 50%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 40% 35%;
+    --sidebar-ring: 164 75% 50%;
+  }
+  .dark {
+    /* Banking Professional Theme - Dark Mode */
+    --background: 210 40% 12%;
+    --foreground: 0 0% 95%;
+    --card: 210 40% 18%;
+    --card-foreground: 0 0% 95%;
+    --popover: 210 40% 18%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 210 40% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 22%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 210 20% 30%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 164 75% 55%;
+    --accent-foreground: 210 40% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 40% 25%;
+    --input: 210 40% 22%;
+    --ring: 164 75% 55%;
+    --chart-1: 210 50% 60%;
+    --chart-2: 164 75% 60%;
+    --chart-3: 210 30% 70%;
+    --chart-4: 164 65% 55%;
+    --chart-5: 210 40% 75%;
+    --sidebar-background: 210 40% 15%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 210 40% 25%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 164 75% 55%;
+    --sidebar-accent-foreground: 210 40% 12%;
+    --sidebar-border: 210 40% 28%;
+    --sidebar-ring: 164 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
