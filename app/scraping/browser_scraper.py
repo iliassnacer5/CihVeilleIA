@@ -26,7 +26,7 @@ class BrowserScraper(BaseScraper):
         content_selector: str,
         date_selector: Optional[str] = None,
         max_articles: int = 5,
-        timeout: float = 30000, # ms
+        timeout: float = 60000, # ms
         engine: str = "chromium"
     ) -> None:
         self.base_url = base_url.rstrip("/")
@@ -41,12 +41,43 @@ class BrowserScraper(BaseScraper):
         domain = urlparse(self.base_url).netloc
         self._is_authorized = domain in security_settings.SOURCE_WHITELIST
 
-    def fetch(self) -> Iterable[ScrapedItem]:
-        """Exécution synchrone via asyncio run pour rester compatible avec l'orchestrateur."""
+    async def fetch(self) -> Iterable[ScrapedItem]:
+        """Exécution asynchrone pour Playwright sur Windows avec ProactorLoop isolé."""
         if not self._is_authorized:
             return []
         
-        return asyncio.run(self._async_fetch())
+        # Sur Windows, Playwright nécessite ProactorEventLoop pour les sous-processus.
+        # Si la boucle principale n'est pas compatible (ex: SelectorLoop), on exécute 
+        # le travail dans un thread séparé avec sa propre boucle Proactor.
+        import sys
+        import threading
+        from concurrent.futures import Future
+
+        if sys.platform == "win32":
+            def _run_async_work(future):
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    # Forcer le policy dans ce thread
+                    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+                    # Recréer la boucle avec le nouveau policy
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    
+                    result = loop.run_until_complete(self._async_fetch())
+                    future.set_result(result)
+                except Exception as e:
+                    future.set_exception(e)
+                finally:
+                    loop.close()
+
+            f = Future()
+            t = threading.Thread(target=_run_async_work, args=(f,))
+            t.start()
+            # On attend le résultat asynchronement dans le thread principal (FastAPI)
+            return await asyncio.wrap_future(f)
+        else:
+            return await self._async_fetch()
 
     async def _async_fetch(self) -> List[ScrapedItem]:
         documents = []

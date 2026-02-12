@@ -18,7 +18,7 @@ class BaseScraper(ABC):
     source_name: str
 
     @abstractmethod
-    def fetch(self) -> Iterable[ScrapedItem]:
+    async def fetch(self) -> Iterable[ScrapedItem]:
         """Récupère les documents bruts depuis la source cible."""
         raise NotImplementedError
 

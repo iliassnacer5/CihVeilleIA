@@ -163,7 +163,7 @@ class InstitutionalSiteScraper(BaseScraper):
             http2=False,
             follow_redirects=True
         )
-    def fetch(self) -> Iterable[ScrapedItem]:
+    async def fetch(self) -> Iterable[ScrapedItem]:
         """Récupère une liste de documents institutionnels avec contrôles de conformité."""
         if not self._is_authorized:
             return []

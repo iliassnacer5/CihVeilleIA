@@ -45,18 +45,18 @@ class BankingNlpService:
     - génération de résumés courts.
 
     Les modèles par défaut sont:
-    - classification: zero-shot multilingue (`joeddav/xlm-roberta-large-xnli`);
-    - NER: modèle multilingue (`Davlan/xlm-roberta-base-ner-hrl`);
-    - résumé: modèle de summarization multilingue (`csebuetnlp/mT5_multilingual_XLSum`).
+    - classification: DeBERTa multilingue (`MoritzLaurer/mDeBERTa-v3-base-mnli-xnli`);
+    - NER: CamemBERT NER (`Jean-Baptiste/camembert-ner`);
+    - résumé: mT5 multilingue (`csebuetnlp/mT5_multilingual_XLSum`).
 
     Tu peux surcharger les noms de modèles via le constructeur.
     """
 
     def __init__(
         self,
-        classifier_model: str = "joeddav/xlm-roberta-large-xnli",
-        ner_model: str = "Davlan/xlm-roberta-base-ner-hrl",
-        summarizer_model: str = "csebuetnlp/mT5_multilingual_XLSum",
+        classifier_model: str = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli", # Multilingue robuste
+        ner_model: str = "Jean-Baptiste/camembert-ner", # Excellent pour le Français
+        summarizer_model: str = "csebuetnlp/mT5_multilingual_XLSum", # Spécialisé multilingue (XLSum)
         device: int | str | None = None,
     ) -> None:
         """Initialise les noms de modèles sans charger les pipelines immédiatement.

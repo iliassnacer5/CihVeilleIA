@@ -1,4 +1,5 @@
 import logging
+import asyncio
 import time
 from typing import List
 
@@ -57,7 +58,7 @@ class ScrapingOrchestrator:
                 doc.setdefault("confidence", 50)
             return docs
 
-    def run_all_sources(self, limit_per_source: int = 5):
+    async def run_all_sources(self, limit_per_source: int = 5):
         """Lance le cycle complet de veille sur toutes les sources enregistrées."""
         total_sources = len(SOURCES_REGISTRY)
         logger.info(f"Démarrage du cycle de veille sur {total_sources} sources...")
@@ -85,7 +86,7 @@ class ScrapingOrchestrator:
                         max_articles=limit_per_source
                     )
                 
-                items = list(scraper.fetch())
+                items = list(await scraper.fetch())
                 if not items:
                     continue
                 
@@ -129,7 +130,7 @@ class ScrapingOrchestrator:
         
         return results
 
-    def run_single_source(self, source_id: str, config: dict, limit: int = 5) -> int:
+    async def run_single_source(self, source_id: str, config: dict, limit: int = 5) -> int:
         """Exécute le scraping pour une source spécifique avec enrichissement."""
         logger.info(f"Scraping manuel de la source: {config.get('name')} ({source_id})")
         
@@ -155,7 +156,7 @@ class ScrapingOrchestrator:
             )
         
         try:
-            items = list(scraper.fetch())
+            items = list(await scraper.fetch())
             if not items:
                 return 0
             

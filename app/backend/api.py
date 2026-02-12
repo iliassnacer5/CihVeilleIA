@@ -1,3 +1,14 @@
+import asyncio
+import sys
+
+# Windows-specific: ensure ProactorEventLoop is used for subprocesses (Playwright)
+if sys.platform == "win32":
+    try:
+        if not isinstance(asyncio.get_event_loop_policy(), asyncio.WindowsProactorEventLoopPolicy):
+            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+    except Exception:
+        pass
+
 from fastapi import Depends, FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import time
@@ -102,7 +113,12 @@ def create_app() -> FastAPI:
         async def load_models_bg():
             logger.info("Starting background model loading...")
             try:
-                await asyncio.to_thread(get_nlp_service)
+                nlp = await asyncio.to_thread(get_nlp_service)
+                # Trigger property access to start background loading/downloading
+                logger.info("Pre-loading Classifier model...")
+                getattr(nlp, "_classifier")
+                logger.info("Pre-loading Summarizer model...")
+                getattr(nlp, "_summarizer")
                 logger.info("Background model loading complete.")
             except Exception as e:
                 logger.error(f"Background model loading failed: {e}")
@@ -281,7 +297,7 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=404, detail="Source non trouvée")
             
         try:
-            count = orchestrator.run_single_source(source_id, config)
+            count = await orchestrator.run_single_source(source_id, config)
             return {"status": "success", "count": count, "message": f"{count} documents récupérés."}
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

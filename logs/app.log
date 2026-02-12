@@ -6132,3 +6132,1524 @@ ValueError: `tiktoken` is required to read a `tiktoken` file. Install it with `p
 KeyError: "Unknown task summarization, available tasks are ['any-to-any', 'audio-classification', 'automatic-speech-recognition', 'depth-estimation', 'document-question-answering', 'feature-extraction', 'fill-mask', 'image-classification', 'image-feature-extraction', 'image-segmentation', 'image-text-to-text', 'image-to-image', 'keypoint-matching', 'mask-generation', 'ner', 'object-detection', 'question-answering', 'sentiment-analysis', 'table-question-answering', 'text-classification', 'text-generation', 'text-to-audio', 'text-to-speech', 'token-classification', 'video-classification', 'visual-question-answering', 'vqa', 'zero-shot-audio-classification', 'zero-shot-classification', 'zero-shot-image-classification', 'zero-shot-object-detection', 'translation_XX_to_YY']"
 
 2026-02-11 11:35:34,387 | INFO | uvicorn.access | 127.0.0.1:62928 - "POST /documents/698c54409897cc9ce2eab5d1/summarize HTTP/1.1" 500
+2026-02-11 11:53:01,267 | INFO | uvicorn.access | 127.0.0.1:54923 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 11:53:01,436 | INFO | uvicorn.access | 127.0.0.1:54923 - "GET /documents HTTP/1.1" 200
+2026-02-11 11:53:05,634 | INFO | uvicorn.access | 127.0.0.1:54923 - "OPTIONS /documents/698c4170def91f65e86e4090 HTTP/1.1" 200
+2026-02-11 11:53:05,673 | INFO | uvicorn.access | 127.0.0.1:54923 - "GET /documents/698c4170def91f65e86e4090 HTTP/1.1" 200
+2026-02-11 11:53:08,841 | INFO | uvicorn.access | 127.0.0.1:54923 - "OPTIONS /documents/698c4170def91f65e86e4090/summarize HTTP/1.1" 200
+2026-02-11 11:53:08,845 | INFO | app.backend.api | Summarize request received for document: 698c4170def91f65e86e4090
+2026-02-11 11:53:52,895 | INFO | httpx | HTTP Request: HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-11 11:53:52,954 | INFO | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/csebuetnlp/mT5_multilingual_XLSum/2437a524effdbadc327ced84595508f1e32025b3/config.json "HTTP/1.1 200 OK"
+2026-02-11 11:53:52,967 | ERROR | app.backend.api | Erreur lors de la synthèse IA : "Unknown task summarization, available tasks are ['any-to-any', 'audio-classification', 'automatic-speech-recognition', 'depth-estimation', 'document-question-answering', 'feature-extraction', 'fill-mask', 'image-classification', 'image-feature-extraction', 'image-segmentation', 'image-text-to-text', 'image-to-image', 'keypoint-matching', 'mask-generation', 'ner', 'object-detection', 'question-answering', 'sentiment-analysis', 'table-question-answering', 'text-classification', 'text-generation', 'text-to-audio', 'text-to-speech', 'token-classification', 'video-classification', 'visual-question-answering', 'vqa', 'zero-shot-audio-classification', 'zero-shot-classification', 'zero-shot-image-classification', 'zero-shot-object-detection', 'translation_XX_to_YY']"
+2026-02-11 11:53:52,972 | ERROR | app.backend.api | Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 369, in summarize_document
+    summaries = nlp_service.summarize_documents([text], max_length=200, min_length=50)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 260, in summarize_documents
+    output = self._summarizer(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 121, in _summarizer
+    self._summarizer_pipeline = pipeline(
+                                ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=self.model_names["summarizer"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        device=self.device,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\__init__.py", line 777, in pipeline
+    normalized_task, targeted_task, task_options = check_task(task)
+                                                   ~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\__init__.py", line 381, in check_task
+    return PIPELINE_REGISTRY.check_task(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 1356, in check_task
+    raise KeyError(
+        f"Unknown task {task}, available tasks are {self.get_supported_tasks() + ['translation_XX_to_YY']}"
+    )
+KeyError: "Unknown task summarization, available tasks are ['any-to-any', 'audio-classification', 'automatic-speech-recognition', 'depth-estimation', 'document-question-answering', 'feature-extraction', 'fill-mask', 'image-classification', 'image-feature-extraction', 'image-segmentation', 'image-text-to-text', 'image-to-image', 'keypoint-matching', 'mask-generation', 'ner', 'object-detection', 'question-answering', 'sentiment-analysis', 'table-question-answering', 'text-classification', 'text-generation', 'text-to-audio', 'text-to-speech', 'token-classification', 'video-classification', 'visual-question-answering', 'vqa', 'zero-shot-audio-classification', 'zero-shot-classification', 'zero-shot-image-classification', 'zero-shot-object-detection', 'translation_XX_to_YY']"
+
+2026-02-11 11:53:52,974 | INFO | uvicorn.access | 127.0.0.1:54924 - "POST /documents/698c4170def91f65e86e4090/summarize HTTP/1.1" 500
+2026-02-11 11:59:53,636 | INFO | uvicorn.error | Shutting down
+2026-02-11 11:59:53,672 | INFO | uvicorn.error | Shutting down
+2026-02-11 11:59:53,758 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 11:59:53,775 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 11:59:53,783 | INFO | uvicorn.error | Finished server process [20212]
+2026-02-11 11:59:53,924 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 11:59:53,987 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 11:59:53,996 | INFO | uvicorn.error | Finished server process [12076]
+2026-02-11 12:01:22,075 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 12:01:22,352 | INFO | uvicorn.error | Started server process [17604]
+2026-02-11 12:01:22,352 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 12:01:22,353 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 12:01:22,432 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 12:01:22,433 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 12:01:22,435 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 12:01:22,435 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 12:01:55,490 | INFO | uvicorn.error | Shutting down
+2026-02-11 12:01:55,591 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 12:01:55,592 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 12:01:55,592 | INFO | uvicorn.error | Finished server process [17604]
+2026-02-11 12:07:08,862 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 12:07:08,981 | INFO | uvicorn.error | Started server process [27548]
+2026-02-11 12:07:08,981 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 12:07:08,982 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 12:07:09,015 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 12:07:09,016 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 12:07:09,018 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 12:07:09,020 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 12:07:09,047 | ERROR | uvicorn.error | Traceback (most recent call last):
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 701, in lifespan
+    await receive()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\queues.py", line 186, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2026-02-11 12:07:21,332 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 12:07:21,419 | INFO | uvicorn.error | Started server process [27340]
+2026-02-11 12:07:21,420 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 12:07:21,420 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 12:07:21,444 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 12:07:21,444 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 12:07:21,446 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 12:07:21,447 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 12:09:56,500 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 12:09:56,583 | INFO | uvicorn.error | Started server process [29924]
+2026-02-11 12:09:56,583 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 12:09:56,584 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 12:09:56,604 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 12:09:56,605 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 12:09:56,607 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 12:09:56,608 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 12:10:43,128 | INFO | uvicorn.access | 127.0.0.1:49164 - "GET /documents HTTP/1.1" 200
+2026-02-11 12:10:45,137 | INFO | app.backend.api | Summarize request received for document: 698c54409897cc9ce2eab5d1
+2026-02-11 12:58:44,214 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 23826ec5-0e49-467e-9b07-926cb5d3219c)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 12:58:44,217 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 12:58:45,221 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 462687ab-79d5-4cba-9ca3-6549fcc14937)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 12:58:45,223 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 12:58:47,227 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 4242e54f-397d-4945-923e-43468b92a73c)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 12:58:47,228 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 12:58:51,231 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 89198bf3-f136-43e6-bb9d-7b7b90310c42)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 12:58:51,232 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 12:58:59,234 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 10803681-c34c-43c3-8978-670bacd67259)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 12:58:59,235 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 12:59:07,238 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 2dcc503a-122b-480f-814c-579ee6dcd7e9)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 12:59:07,271 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 65f47c14-652b-468e-96fe-39faec9daff7)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 12:59:07,277 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 12:59:08,284 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 16220bee-58b3-4465-a9e6-623229d33d60)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 12:59:08,284 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 12:59:10,287 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: d0ee4c1f-c36e-476e-a6e1-888c9e40d2bf)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 12:59:10,288 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 12:59:14,290 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 8822e1de-604a-467b-b71f-dd01c822beed)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 12:59:14,292 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 12:59:22,303 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 5b9dcb7d-e8a8-4d48-b246-35c7aa50493a)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 12:59:22,303 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 12:59:30,315 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 741f2fbe-70e0-468c-a264-74b42382cd5d)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 12:59:30,320 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 57c6d4cf-f916-4a30-99fd-3cd94c5f364d)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 12:59:30,320 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 12:59:31,323 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 3aa3e468-5f4c-480f-9eab-27ed0cdebb88)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 12:59:31,324 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 12:59:33,328 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 6f78a53b-c1c8-4c4b-b69a-f759bb608f90)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 12:59:33,329 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 12:59:37,331 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 502008d5-0f35-4d51-81ea-63ed5047f338)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 12:59:37,332 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 12:59:45,342 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 83f15633-dc15-45e6-aa16-460d1cb28c7f)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 12:59:45,343 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 12:59:53,347 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 629884c6-37c4-45f7-a004-12ba2f785f87)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 12:59:53,359 | ERROR | app.backend.api | Erreur lors de la synthèse IA : Could not load model csebuetnlp/mT5_multilingual_XLSum with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSeq2SeqLM'>, <class 'transformers.models.mt5.modeling_mt5.MT5ForConditionalGeneration'>). See the original errors:
+
+while loading with AutoModelForSeq2SeqLM, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3805, in from_pretrained
+    resolved_archive_file = cached_file(
+        pretrained_model_name_or_path, filename, **cached_file_kwargs
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+        path_or_repo_id,
+    ...<10 lines>...
+        local_files_only=local_files_only,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+        # Destination
+    ...<14 lines>...
+        force_download=force_download,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        incomplete_path=Path(blob_path + ".incomplete"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        xet_file_data=xet_file_data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1727, in _download_to_tmp_and_move
+    xet_get(
+    ~~~~~~~^
+        incomplete_path=incomplete_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        displayed_filename=filename,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 633, in xet_get
+    download_files(
+    ~~~~~~~~~~~~~~^
+        xet_download_info,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        progress_updater=[progress_updater],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+RuntimeError: Data processing error: CAS service error : ReqwestMiddleware Error: Request failed after 5 retries
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3892, in from_pretrained
+    raise EnvironmentError(
+    ...<5 lines>...
+    ) from e
+OSError: Can't load the model for 'csebuetnlp/mT5_multilingual_XLSum'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'csebuetnlp/mT5_multilingual_XLSum' is the correct path to a directory containing a file named pytorch_model.bin, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+while loading with MT5ForConditionalGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3880, in from_pretrained
+    raise EnvironmentError(
+    ...<3 lines>...
+    )
+OSError: csebuetnlp/mT5_multilingual_XLSum does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+
+2026-02-11 12:59:53,421 | ERROR | app.backend.api | Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 369, in summarize_document
+    summaries = nlp_service.summarize_documents([text], max_length=200, min_length=50)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 260, in summarize_documents
+    output = self._summarizer(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 121, in _summarizer
+    self._summarizer_pipeline = pipeline(
+                                ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=self.model_names["summarizer"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        device=self.device,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\__init__.py", line 940, in pipeline
+    framework, model = infer_framework_load_model(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model,
+        ^^^^^^
+    ...<5 lines>...
+        **model_kwargs,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 302, in infer_framework_load_model
+    raise ValueError(
+        f"Could not load model {model} with any of the following classes: {class_tuple}. See the original errors:\n\n{error}\n"
+    )
+ValueError: Could not load model csebuetnlp/mT5_multilingual_XLSum with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSeq2SeqLM'>, <class 'transformers.models.mt5.modeling_mt5.MT5ForConditionalGeneration'>). See the original errors:
+
+while loading with AutoModelForSeq2SeqLM, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3805, in from_pretrained
+    resolved_archive_file = cached_file(
+        pretrained_model_name_or_path, filename, **cached_file_kwargs
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+        path_or_repo_id,
+    ...<10 lines>...
+        local_files_only=local_files_only,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+        # Destination
+    ...<14 lines>...
+        force_download=force_download,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        incomplete_path=Path(blob_path + ".incomplete"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        xet_file_data=xet_file_data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1727, in _download_to_tmp_and_move
+    xet_get(
+    ~~~~~~~^
+        incomplete_path=incomplete_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        displayed_filename=filename,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 633, in xet_get
+    download_files(
+    ~~~~~~~~~~~~~~^
+        xet_download_info,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        progress_updater=[progress_updater],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+RuntimeError: Data processing error: CAS service error : ReqwestMiddleware Error: Request failed after 5 retries
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3892, in from_pretrained
+    raise EnvironmentError(
+    ...<5 lines>...
+    ) from e
+OSError: Can't load the model for 'csebuetnlp/mT5_multilingual_XLSum'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'csebuetnlp/mT5_multilingual_XLSum' is the correct path to a directory containing a file named pytorch_model.bin, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+while loading with MT5ForConditionalGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3880, in from_pretrained
+    raise EnvironmentError(
+    ...<3 lines>...
+    )
+OSError: csebuetnlp/mT5_multilingual_XLSum does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+
+
+2026-02-11 12:59:53,431 | INFO | uvicorn.access | 127.0.0.1:49169 - "POST /documents/698c54409897cc9ce2eab5d1/summarize HTTP/1.1" 500
+2026-02-11 13:11:35,825 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:11:35,993 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:11:36,048 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:11:36,056 | INFO | uvicorn.error | Finished server process [29924]
+2026-02-11 13:12:03,255 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:12:03,381 | INFO | uvicorn.error | Started server process [19484]
+2026-02-11 13:12:03,381 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:12:03,382 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:12:03,583 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:12:03,584 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:12:03,585 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:12:03,586 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:14:59,193 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:14:59,278 | INFO | uvicorn.error | Started server process [25332]
+2026-02-11 13:14:59,279 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:14:59,279 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:14:59,301 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:14:59,302 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:14:59,303 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:14:59,304 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:16:10,674 | INFO | uvicorn.access | 127.0.0.1:53148 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 13:16:10,838 | INFO | uvicorn.access | 127.0.0.1:53148 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:16:13,051 | INFO | uvicorn.access | 127.0.0.1:53148 - "OPTIONS /documents/698c54409897cc9ce2eab5d1 HTTP/1.1" 200
+2026-02-11 13:16:13,105 | INFO | uvicorn.access | 127.0.0.1:53148 - "GET /documents/698c54409897cc9ce2eab5d1 HTTP/1.1" 200
+2026-02-11 13:16:16,128 | INFO | uvicorn.access | 127.0.0.1:53148 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 13:16:16,129 | INFO | uvicorn.access | 127.0.0.1:53150 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 13:16:16,169 | INFO | uvicorn.access | 127.0.0.1:53150 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:16:16,177 | INFO | uvicorn.access | 127.0.0.1:53150 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:16:23,904 | INFO | uvicorn.access | 127.0.0.1:53160 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:16:23,909 | INFO | uvicorn.access | 127.0.0.1:53160 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:16:27,651 | INFO | uvicorn.access | 127.0.0.1:53160 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:16:27,662 | INFO | uvicorn.access | 127.0.0.1:53160 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:16:32,599 | INFO | uvicorn.access | 127.0.0.1:53160 - "OPTIONS /sources/scrape/imf_news HTTP/1.1" 200
+2026-02-11 13:16:32,869 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 13:16:32,870 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 13:16:36,611 | INFO | uvicorn.access | 127.0.0.1:53160 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 13:16:36,612 | ERROR | uvicorn.error | Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 95, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 153, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 107, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 416, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 651, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 76, in get_orchestrator
+    _ORCHESTRATOR = ScrapingOrchestrator()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 20, in __init__
+    self.rag_pipeline = RagPipeline()
+                        ~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\rag\pipeline.py", line 32, in __init__
+    self.embedding_service = EmbeddingService(model_name=embedding_model)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\embeddings.py", line 11, in __init__
+    self.model = SentenceTransformer(model_name)
+                 ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\SentenceTransformer.py", line 327, in __init__
+    modules, self.module_kwargs = self._load_sbert_model(
+                                  ~~~~~~~~~~~~~~~~~~~~~~^
+        model_name_or_path,
+        ^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        config_kwargs=config_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\SentenceTransformer.py", line 2305, in _load_sbert_model
+    module = module_class.load(
+        model_name_or_path,
+    ...<11 lines>...
+        backend=self.backend,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\models\Transformer.py", line 366, in load
+    return cls(model_name_or_path=model_name_or_path, **init_kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\models\Transformer.py", line 89, in __init__
+    self._load_model(model_name_or_path, config, cache_dir, backend, is_peft_model, **model_args)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\models\Transformer.py", line 197, in _load_model
+    self.auto_model = AutoModel.from_pretrained(
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model_name_or_path, config=config, cache_dir=cache_dir, **model_args
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3964, in from_pretrained
+    with safe_open(resolved_archive_file, framework="pt") as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: The paging file is too small for this operation to complete. (os error 1455)
+2026-02-11 13:17:23,084 | INFO | uvicorn.access | 127.0.0.1:63580 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:17:23,088 | INFO | uvicorn.access | 127.0.0.1:63580 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:17:29,495 | INFO | uvicorn.access | 127.0.0.1:63581 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-11 13:17:29,498 | INFO | uvicorn.access | 127.0.0.1:63581 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-11 13:17:29,523 | INFO | uvicorn.access | 127.0.0.1:63581 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 13:17:29,535 | INFO | uvicorn.access | 127.0.0.1:63581 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 13:17:31,999 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:17:32,008 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:17:33,112 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:17:33,118 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:17:37,100 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 13:17:37,107 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 13:17:39,204 | INFO | uvicorn.access | 127.0.0.1:63587 - "OPTIONS /audit/logs HTTP/1.1" 200
+2026-02-11 13:17:39,442 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /audit/logs HTTP/1.1" 200
+2026-02-11 13:17:39,446 | INFO | uvicorn.access | 127.0.0.1:63587 - "GET /audit/logs HTTP/1.1" 200
+2026-02-11 13:18:09,439 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:18:09,493 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:18:09,540 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:18:09,541 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:18:09,542 | INFO | uvicorn.error | Finished server process [19484]
+2026-02-11 13:18:09,595 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:18:09,596 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:18:09,596 | INFO | uvicorn.error | Finished server process [25332]
+2026-02-11 13:18:28,011 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:18:28,143 | INFO | uvicorn.error | Started server process [30424]
+2026-02-11 13:18:28,144 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:18:28,146 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:18:28,148 | INFO | uvicorn.error | Started server process [19172]
+2026-02-11 13:18:28,149 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:18:28,150 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:18:28,189 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:18:28,189 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:18:28,191 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:18:28,192 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:18:28,192 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:18:28,194 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:18:28,195 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:18:40,850 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:18:40,850 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:18:40,951 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:18:40,952 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:18:40,952 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:18:40,952 | INFO | uvicorn.error | Finished server process [19172]
+2026-02-11 13:18:40,952 | INFO | uvicorn.error | Finished server process [30424]
+2026-02-11 13:18:54,989 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:18:55,083 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:18:55,114 | INFO | uvicorn.error | Started server process [15852]
+2026-02-11 13:18:55,115 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:18:55,116 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:18:55,176 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:18:55,177 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:18:55,179 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:18:55,180 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:18:55,216 | INFO | uvicorn.error | Started server process [27128]
+2026-02-11 13:18:55,217 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:18:55,218 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:18:55,323 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:18:55,323 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:18:55,325 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:18:55,327 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:22:16,480 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:22:16,485 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:22:18,458 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:22:20,878 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /documents/698c54409897cc9ce2eab5d1 HTTP/1.1" 200
+2026-02-11 13:22:24,939 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:22:24,948 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:22:26,640 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 13:22:26,641 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 13:22:28,770 | INFO | uvicorn.access | 127.0.0.1:57428 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 13:22:28,771 | ERROR | uvicorn.error | Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 95, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 153, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 107, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 416, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 651, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 76, in get_orchestrator
+    _ORCHESTRATOR = ScrapingOrchestrator()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 20, in __init__
+    self.rag_pipeline = RagPipeline()
+                        ~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\rag\pipeline.py", line 32, in __init__
+    self.embedding_service = EmbeddingService(model_name=embedding_model)
+                             ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\embeddings.py", line 11, in __init__
+    self.model = SentenceTransformer(model_name)
+                 ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\SentenceTransformer.py", line 327, in __init__
+    modules, self.module_kwargs = self._load_sbert_model(
+                                  ~~~~~~~~~~~~~~~~~~~~~~^
+        model_name_or_path,
+        ^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        config_kwargs=config_kwargs,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\SentenceTransformer.py", line 2305, in _load_sbert_model
+    module = module_class.load(
+        model_name_or_path,
+    ...<11 lines>...
+        backend=self.backend,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\models\Transformer.py", line 366, in load
+    return cls(model_name_or_path=model_name_or_path, **init_kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\models\Transformer.py", line 89, in __init__
+    self._load_model(model_name_or_path, config, cache_dir, backend, is_peft_model, **model_args)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\sentence_transformers\models\Transformer.py", line 197, in _load_model
+    self.auto_model = AutoModel.from_pretrained(
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model_name_or_path, config=config, cache_dir=cache_dir, **model_args
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3964, in from_pretrained
+    with safe_open(resolved_archive_file, framework="pt") as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: The paging file is too small for this operation to complete. (os error 1455)
+2026-02-11 13:28:01,088 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:28:01,198 | INFO | uvicorn.error | Started server process [30068]
+2026-02-11 13:28:01,199 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:28:01,199 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:28:01,236 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:28:01,237 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:28:01,241 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:28:01,242 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:28:04,285 | INFO | uvicorn.access | 127.0.0.1:49249 - "POST /sources/scrape/bis_press HTTP/1.1" 405
+2026-02-11 13:29:34,547 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 13:29:34,548 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 13:29:41,407 | INFO | app.scraping.orchestrator | Scraping manuel de la source: Bank for International Settlements (bis_press)
+2026-02-11 13:29:42,833 | INFO | app.scraping.institutional_scraper | robots.txt chargé depuis https://www.bis.org/robots.txt
+2026-02-11 13:29:42,854 | INFO | app.storage.audit_log | Audit: SCRAPING | FETCH_START | START
+2026-02-11 13:29:42,854 | INFO | app.scraping.institutional_scraper | Chargement de la page liste: https://www.bis.org/press/index.htm
+2026-02-11 13:29:43,202 | INFO | httpx | HTTP Request: GET https://www.bis.org/press/index.htm "HTTP/1.1 302 Found"
+2026-02-11 13:29:43,332 | INFO | httpx | HTTP Request: GET http://www.bis.org/list/press_releases/index.htm "HTTP/1.1 301 Moved Permanently"
+2026-02-11 13:29:43,402 | INFO | httpx | HTTP Request: GET https://www.bis.org/list/press_releases/index.htm "HTTP/1.1 302 Found"
+2026-02-11 13:29:43,465 | INFO | httpx | HTTP Request: GET http://www.bis.org/press/pressrels.htm?r "HTTP/1.1 301 Moved Permanently"
+2026-02-11 13:29:43,536 | INFO | httpx | HTTP Request: GET https://www.bis.org/press/pressrels.htm?r "HTTP/1.1 200 OK"
+2026-02-11 13:29:43,563 | WARNING | app.scraping.institutional_scraper | Aucun lien d'article trouvé avec le sélecteur 'a[href*='/press/p']' sur https://www.bis.org/press/index.htm
+2026-02-11 13:29:43,565 | INFO | app.storage.audit_log | Audit: SCRAPING | FETCH_END | SUCCESS
+2026-02-11 13:29:43,566 | INFO | uvicorn.access | 127.0.0.1:59678 - "GET /sources/scrape/bis_press HTTP/1.1" 200
+2026-02-11 13:31:24,569 | INFO | uvicorn.access | 127.0.0.1:57176 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 13:31:24,585 | INFO | uvicorn.access | 127.0.0.1:57176 - "GET /sources HTTP/1.1" 200
+2026-02-11 13:31:28,227 | INFO | uvicorn.access | 127.0.0.1:57184 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 13:31:28,228 | INFO | uvicorn.access | 127.0.0.1:57185 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 13:31:28,255 | INFO | uvicorn.access | 127.0.0.1:57185 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:31:28,259 | INFO | uvicorn.access | 127.0.0.1:57185 - "GET /documents HTTP/1.1" 200
+2026-02-11 13:36:08,463 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 13:36:08,468 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): asyncio.run() cannot be called from a running event loop
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 158, in run_single_source
+    items = list(scraper.fetch())
+                 ~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 49, in fetch
+    return asyncio.run(self._async_fetch())
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 191, in run
+    raise RuntimeError(
+        "asyncio.run() cannot be called from a running event loop")
+RuntimeError: asyncio.run() cannot be called from a running event loop
+
+2026-02-11 13:36:08,469 | INFO | uvicorn.access | 127.0.0.1:62227 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 13:36:57,778 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:36:57,879 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:36:57,880 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:36:57,880 | INFO | uvicorn.error | Finished server process [30068]
+2026-02-11 13:37:14,376 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:37:14,483 | INFO | uvicorn.error | Started server process [15348]
+2026-02-11 13:37:14,484 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:37:14,484 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:37:14,525 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:37:14,526 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:37:14,528 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:37:14,529 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:42:50,821 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:42:50,922 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:42:50,923 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:42:50,924 | INFO | uvicorn.error | Finished server process [15348]
+2026-02-11 13:43:12,364 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:43:12,518 | INFO | uvicorn.error | Started server process [19100]
+2026-02-11 13:43:12,518 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:43:12,519 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:43:12,568 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:43:12,569 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:43:12,571 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:43:12,572 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 13:43:30,760 | INFO | uvicorn.error | Shutting down
+2026-02-11 13:43:30,861 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 13:43:30,862 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 13:43:30,862 | INFO | uvicorn.error | Finished server process [19100]
+2026-02-11 13:43:51,682 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 13:43:51,823 | INFO | uvicorn.error | Started server process [24368]
+2026-02-11 13:43:51,824 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 13:43:51,825 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 13:43:51,872 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 13:43:51,872 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 13:43:51,875 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 13:43:51,876 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:16:13,216 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:16:13,430 | INFO | uvicorn.error | Started server process [11496]
+2026-02-11 14:16:13,430 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:16:13,432 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:16:13,508 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:16:13,508 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:16:13,511 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:16:13,512 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:17:13,620 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:17:13,621 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:17:23,512 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:17:23,522 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): name 'asyncio' is not defined
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 161, in run_single_source
+    if hasattr(scraper, "fetch") and asyncio.iscoroutinefunction(scraper.fetch):
+                                     ^^^^^^^
+NameError: name 'asyncio' is not defined. Did you forget to import 'asyncio'?
+
+2026-02-11 14:17:23,524 | INFO | uvicorn.access | 127.0.0.1:64991 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 14:17:33,614 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:17:33,618 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:17:33,715 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:17:33,719 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:17:33,719 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:17:33,720 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:17:33,721 | INFO | uvicorn.error | Finished server process [24368]
+2026-02-11 14:17:33,721 | INFO | uvicorn.error | Finished server process [11496]
+2026-02-11 14:17:54,806 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:17:54,974 | INFO | uvicorn.error | Started server process [5804]
+2026-02-11 14:17:54,975 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:17:54,976 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:17:55,019 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:17:55,020 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:17:55,023 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:17:55,024 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:19:27,850 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:19:27,851 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:19:36,048 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:19:36,049 | ERROR | asyncio | Task exception was never retrieved
+future: <Task finished name='Task-6' coro=<Connection.run() done, defined at C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py:305> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 312, in run
+    await self._transport.connect()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2026-02-11 14:19:36,361 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): 
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 163, in run_single_source
+    items = list(await scraper.fetch())
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 49, in fetch
+    return await self._async_fetch()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 53, in _async_fetch
+    async with async_playwright() as p:
+               ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\async_api\_context_manager.py", line 46, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+
+2026-02-11 14:19:36,364 | INFO | uvicorn.access | 127.0.0.1:61575 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 14:25:04,121 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:25:04,222 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:25:04,227 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:25:04,228 | INFO | uvicorn.error | Finished server process [5804]
+2026-02-11 14:25:28,852 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:25:29,019 | INFO | uvicorn.error | Started server process [2740]
+2026-02-11 14:25:29,020 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:25:29,022 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:25:29,067 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:25:29,068 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:25:29,070 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:25:29,072 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:25:50,344 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:25:50,345 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:26:46,706 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: ae24f503-ac90-469d-92fd-e670a547a97e)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/1_Pooling/config.json
+2026-02-11 14:26:46,706 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 14:27:08,798 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: ea5ebcd1-eca6-4e65-ad9b-d8ed410c3835)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/1_Pooling/config.json
+2026-02-11 14:27:08,799 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 14:27:19,024 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:27:19,025 | ERROR | asyncio | Task exception was never retrieved
+future: <Task finished name='Task-6' coro=<Connection.run() done, defined at C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py:305> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 312, in run
+    await self._transport.connect()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2026-02-11 14:27:19,041 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): 
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 163, in run_single_source
+    items = list(await scraper.fetch())
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 49, in fetch
+    return await self._async_fetch()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 53, in _async_fetch
+    async with async_playwright() as p:
+               ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\async_api\_context_manager.py", line 46, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+
+2026-02-11 14:27:19,042 | INFO | uvicorn.access | 127.0.0.1:55764 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 14:28:27,979 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:28:28,109 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:28:28,110 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:28:28,111 | INFO | uvicorn.error | Finished server process [2740]
+2026-02-11 14:28:46,307 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:28:46,412 | INFO | uvicorn.error | Started server process [24428]
+2026-02-11 14:28:46,412 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:28:46,413 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:28:46,447 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:28:46,448 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:28:46,449 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:28:46,450 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:29:53,055 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:29:53,211 | INFO | uvicorn.error | Started server process [29224]
+2026-02-11 14:29:53,212 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:29:53,213 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:29:53,259 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:29:53,260 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:29:53,263 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:29:53,265 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:30:14,517 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:30:14,518 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:30:22,502 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:30:22,503 | ERROR | asyncio | Task exception was never retrieved
+future: <Task finished name='Task-6' coro=<Connection.run() done, defined at C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py:305> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 312, in run
+    await self._transport.connect()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2026-02-11 14:30:22,517 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): 
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 163, in run_single_source
+    items = list(await scraper.fetch())
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 49, in fetch
+    return await self._async_fetch()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 53, in _async_fetch
+    async with async_playwright() as p:
+               ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\async_api\_context_manager.py", line 46, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+
+2026-02-11 14:30:22,519 | INFO | uvicorn.access | 127.0.0.1:53789 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 14:30:27,652 | INFO | uvicorn.access | 127.0.0.1:59791 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 14:30:27,708 | INFO | uvicorn.access | 127.0.0.1:59791 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:31:27,957 | INFO | uvicorn.access | 127.0.0.1:57054 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:32:05,716 | INFO | uvicorn.access | 127.0.0.1:56061 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:32:40,147 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:32:40,174 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:32:40,249 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:32:40,250 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:32:40,250 | INFO | uvicorn.error | Finished server process [24428]
+2026-02-11 14:32:40,275 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:32:40,276 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:32:40,276 | INFO | uvicorn.error | Finished server process [29224]
+2026-02-11 14:33:08,298 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:33:08,478 | INFO | uvicorn.error | Started server process [4360]
+2026-02-11 14:33:08,478 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:33:08,480 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:33:08,529 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:33:08,530 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:33:08,532 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:33:08,533 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:33:08,540 | ERROR | uvicorn.error | Traceback (most recent call last):
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 701, in lifespan
+    await receive()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\queues.py", line 186, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2026-02-11 14:33:30,279 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:33:30,465 | INFO | uvicorn.error | Started server process [17456]
+2026-02-11 14:33:30,466 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:33:30,467 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:33:30,513 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:33:30,514 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:33:30,516 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:33:30,518 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:33:30,523 | ERROR | uvicorn.error | Traceback (most recent call last):
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 701, in lifespan
+    await receive()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\queues.py", line 186, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2026-02-11 14:33:50,698 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:33:50,846 | INFO | uvicorn.error | Started server process [25504]
+2026-02-11 14:33:50,846 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:33:50,847 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:33:50,882 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:33:50,883 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:33:50,886 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:33:50,887 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:34:49,471 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:34:49,628 | INFO | uvicorn.error | Started server process [15892]
+2026-02-11 14:34:49,628 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:34:49,629 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:34:49,668 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:34:49,669 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:34:49,671 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:34:49,672 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:35:29,030 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:35:29,031 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:35:39,409 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:35:39,410 | ERROR | asyncio | Task exception was never retrieved
+future: <Task finished name='Task-6' coro=<Connection.run() done, defined at C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py:305> exception=NotImplementedError()>
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 312, in run
+    await self._transport.connect()
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+2026-02-11 14:35:39,425 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): 
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 159, in run_single_source
+    items = list(await scraper.fetch())
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 49, in fetch
+    return await self._async_fetch()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 53, in _async_fetch
+    async with async_playwright() as p:
+               ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\async_api\_context_manager.py", line 46, in __aenter__
+    playwright = AsyncPlaywright(next(iter(done)).result())
+                                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\subprocess.py", line 224, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        stderr=stderr, **kwds)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1802, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        protocol, popen_args, False, stdin, stdout, stderr,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        bufsize, **kwargs)
+        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 539, in _make_subprocess_transport
+    raise NotImplementedError
+NotImplementedError
+
+2026-02-11 14:35:39,428 | INFO | uvicorn.access | 127.0.0.1:58682 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 14:36:42,428 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:36:42,443 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:36:42,529 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:36:42,530 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:36:42,531 | INFO | uvicorn.error | Finished server process [15892]
+2026-02-11 14:36:42,544 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:36:42,545 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:36:42,546 | INFO | uvicorn.error | Finished server process [25504]
+2026-02-11 14:37:08,750 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:37:08,900 | INFO | uvicorn.error | Started server process [8492]
+2026-02-11 14:37:08,900 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:37:08,901 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:37:08,946 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:37:08,947 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:37:08,949 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:37:08,950 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:37:18,582 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:37:18,582 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:37:22,014 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:37:22,160 | INFO | uvicorn.error | Started server process [1448]
+2026-02-11 14:37:22,160 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:37:22,161 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:37:22,197 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:37:22,197 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:37:22,200 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:37:22,201 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:37:28,574 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:37:48,554 | INFO | app.scraping.browser_scraper | Navigate to https://www.imf.org/en/news with Playwright
+2026-02-11 14:38:19,090 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.imf.org/en/news", waiting until "domcontentloaded"
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 159, in run_single_source
+    items = list(await scraper.fetch())
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 78, in fetch
+    return await asyncio.wrap_future(f)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 67, in _run_async_work
+    result = loop.run_until_complete(self._async_fetch())
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 100, in _async_fetch
+    await page.goto(self.base_url, timeout=self.timeout, wait_until="domcontentloaded")
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\async_api\_generated.py", line 9045, in goto
+    await self._impl_obj.goto(
+        url=url, timeout=timeout, waitUntil=wait_until, referer=referer
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_page.py", line 552, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_frame.py", line 153, in goto
+    await self._channel.send(
+        "goto", self._navigation_timeout, locals_to_params(locals())
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 69, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.imf.org/en/news", waiting until "domcontentloaded"
+
+
+2026-02-11 14:38:19,092 | INFO | uvicorn.access | 127.0.0.1:61003 - "GET /sources/scrape/imf_news HTTP/1.1" 500
+2026-02-11 14:38:29,430 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:38:29,503 | INFO | uvicorn.error | Shutting down
+2026-02-11 14:38:29,532 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:38:29,533 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:38:29,534 | INFO | uvicorn.error | Finished server process [1448]
+2026-02-11 14:38:29,604 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 14:38:29,605 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 14:38:29,606 | INFO | uvicorn.error | Finished server process [8492]
+2026-02-11 14:38:50,994 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:38:51,168 | INFO | uvicorn.error | Started server process [8052]
+2026-02-11 14:38:51,169 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:38:51,170 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:38:51,210 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:38:51,211 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:38:51,213 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:38:51,215 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:38:51,256 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:38:51,257 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:38:59,989 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:39:02,465 | INFO | app.scraping.browser_scraper | Navigate to https://www.imf.org/en/news with Playwright
+2026-02-11 14:39:22,801 | INFO | app.scraping.browser_scraper | Found 5 potential articles
+2026-02-11 14:39:22,801 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/01/15/cf-as-korea-ages-fiscal-reforms-can-help-safeguard-government-finances
+2026-02-11 14:40:01,248 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2025/12/10/sp121025-md-remarks-2025-china-article-iv-consultation-press-conference
+2026-02-11 14:40:14,622 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2025/12/10/sp121025-md-remarks-2025-china-article-iv-consultation-press-conference
+2026-02-11 14:40:29,615 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/02/11/cf-brazil-can-boost-growth-by-bringing-more-women-into-the-labor-force
+2026-02-11 14:40:45,747 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/02/10/pr-26040-cote-divoire-statement-by-imf-dmd-kenji-okumura-at-the-conclusion-of-his-visit
+2026-02-11 14:40:56,749 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-11 14:40:58,170 | ERROR | app.scraping.orchestrator | Erreur lors de l'enrichissement NLP: MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-32 is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2026-02-11 14:40:58,819 | INFO | uvicorn.access | 127.0.0.1:52351 - "GET /sources/scrape/imf_news HTTP/1.1" 200
+2026-02-11 14:46:52,123 | INFO | uvicorn.access | 127.0.0.1:54166 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 14:46:52,125 | INFO | uvicorn.access | 127.0.0.1:54167 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 14:46:52,187 | INFO | uvicorn.access | 127.0.0.1:54167 - "GET /sources HTTP/1.1" 200
+2026-02-11 14:46:52,197 | INFO | uvicorn.access | 127.0.0.1:54167 - "GET /sources HTTP/1.1" 200
+2026-02-11 14:46:55,838 | INFO | uvicorn.access | 127.0.0.1:54167 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 14:46:55,839 | INFO | uvicorn.access | 127.0.0.1:54166 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 14:46:55,902 | INFO | uvicorn.access | 127.0.0.1:54166 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:46:55,913 | INFO | uvicorn.access | 127.0.0.1:54166 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:46:58,048 | INFO | uvicorn.access | 127.0.0.1:49164 - "OPTIONS /documents/698c86ea3964da4d0a96b607 HTTP/1.1" 200
+2026-02-11 14:46:58,081 | INFO | uvicorn.access | 127.0.0.1:49164 - "GET /documents/698c86ea3964da4d0a96b607 HTTP/1.1" 200
+2026-02-11 14:47:00,420 | INFO | uvicorn.access | 127.0.0.1:49164 - "OPTIONS /documents/698c86ea3964da4d0a96b607/summarize HTTP/1.1" 200
+2026-02-11 14:47:00,428 | INFO | app.backend.api | Summarize request received for document: 698c86ea3964da4d0a96b607
+2026-02-11 14:47:01,605 | ERROR | app.backend.api | Erreur lors de la synthèse IA : MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-32 is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2026-02-11 14:47:01,707 | ERROR | app.backend.api | Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 403, in hf_raise_for_status
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\requests\models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://huggingface.co/MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-32/resolve/main/config.json
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+        path_or_repo_id,
+    ...<10 lines>...
+        local_files_only=local_files_only,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+        # Destination
+    ...<14 lines>...
+        force_download=force_download,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1121, in _hf_hub_download_to_cache_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1662, in _raise_on_head_call_error
+    raise head_call_error
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1550, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+        url=url, proxies=proxies, timeout=etag_timeout, headers=headers, token=token, endpoint=endpoint
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1467, in get_hf_file_metadata
+    r = _request_wrapper(
+        method="HEAD",
+    ...<5 lines>...
+        timeout=timeout,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 283, in _request_wrapper
+    response = _request_wrapper(
+        method=method,
+    ...<2 lines>...
+        **params,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 307, in _request_wrapper
+    hf_raise_for_status(response)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 453, in hf_raise_for_status
+    raise _format(RepositoryNotFoundError, message, response) from e
+huggingface_hub.errors.RepositoryNotFoundError: 404 Client Error. (Request ID: Root=1-698c8854-67840a355114f76b691420a3;724d6d20-41bb-457d-85d8-ccd16c863eda)
+
+Repository Not Found for url: https://huggingface.co/MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-32/resolve/main/config.json.
+Please make sure you specified the correct `repo_id` and `repo_type`.
+If you are trying to access a private or gated repo, make sure you are authenticated. For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 375, in summarize_document
+    classifications = nlp_service.classify_documents([text])
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 163, in classify_documents
+    output = self._classifier(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 100, in _classifier
+    self._classifier_pipeline = pipeline(
+                                ~~~~~~~~^
+        "zero-shot-classification",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        model=self.model_names["classifier"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        device=self.device,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\__init__.py", line 812, in pipeline
+    resolved_config_file = cached_file(
+        pretrained_model_name_or_path,
+    ...<5 lines>...
+        **hub_kwargs,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 426, in cached_file
+    raise EnvironmentError(
+    ...<4 lines>...
+    ) from e
+OSError: MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-32 is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+
+2026-02-11 14:47:01,713 | INFO | uvicorn.access | 127.0.0.1:49165 - "POST /documents/698c86ea3964da4d0a96b607/summarize HTTP/1.1" 500
+2026-02-11 14:51:36,976 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 14:51:37,086 | INFO | uvicorn.error | Started server process [9648]
+2026-02-11 14:51:37,086 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 14:51:37,087 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 14:51:37,134 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 14:51:37,135 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 14:51:37,137 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 14:51:37,138 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 14:51:45,829 | INFO | uvicorn.access | 127.0.0.1:56915 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:51:52,921 | INFO | uvicorn.access | 127.0.0.1:56929 - "GET /sources HTTP/1.1" 200
+2026-02-11 14:51:52,926 | INFO | uvicorn.access | 127.0.0.1:56929 - "GET /sources HTTP/1.1" 200
+2026-02-11 14:51:55,594 | INFO | uvicorn.access | 127.0.0.1:56929 - "OPTIONS /sources/scrape/imf_news HTTP/1.1" 200
+2026-02-11 14:51:55,632 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 14:51:55,632 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 14:52:03,233 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 14:52:05,522 | INFO | app.scraping.browser_scraper | Navigate to https://www.imf.org/en/news with Playwright
+2026-02-11 14:52:09,549 | INFO | uvicorn.access | 127.0.0.1:56943 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:52:09,555 | INFO | uvicorn.access | 127.0.0.1:56943 - "GET /documents HTTP/1.1" 200
+2026-02-11 14:52:23,144 | INFO | app.scraping.browser_scraper | Found 5 potential articles
+2026-02-11 14:52:23,144 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/01/15/cf-as-korea-ages-fiscal-reforms-can-help-safeguard-government-finances
+2026-02-11 14:52:34,840 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2025/12/10/sp121025-md-remarks-2025-china-article-iv-consultation-press-conference
+2026-02-11 14:52:41,790 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2025/12/10/sp121025-md-remarks-2025-china-article-iv-consultation-press-conference
+2026-02-11 14:52:49,466 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/02/11/cf-brazil-can-boost-growth-by-bringing-more-women-into-the-labor-force
+2026-02-11 14:52:55,096 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/02/10/pr-26040-cote-divoire-statement-by-imf-dmd-kenji-okumura-at-the-conclusion-of-his-visit
+2026-02-11 14:53:02,197 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-11 14:53:02,956 | ERROR | app.scraping.orchestrator | Erreur lors de l'enrichissement NLP: MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-32 is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2026-02-11 15:04:42,995 | INFO | uvicorn.error | Shutting down
+2026-02-11 15:04:43,096 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 15:04:43,098 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 15:04:43,098 | INFO | uvicorn.error | Finished server process [9648]
+2026-02-11 15:05:17,108 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 15:05:17,402 | INFO | uvicorn.error | Started server process [19340]
+2026-02-11 15:05:17,403 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 15:05:17,405 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 15:05:17,547 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 15:05:17,603 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 15:05:17,669 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 15:05:17,676 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 15:05:17,877 | INFO | uvicorn.error | Shutting down
+2026-02-11 15:05:17,979 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 15:05:17,981 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 15:05:17,981 | INFO | uvicorn.error | Finished server process [19340]
+2026-02-11 15:05:44,834 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 15:05:45,049 | INFO | uvicorn.error | Started server process [31252]
+2026-02-11 15:05:45,050 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 15:05:45,052 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 15:05:45,110 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 15:05:45,111 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 15:05:45,114 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 15:05:45,116 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 15:08:37,310 | INFO | uvicorn.error | Shutting down
+2026-02-11 15:08:37,412 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 15:08:37,414 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 15:08:37,415 | INFO | uvicorn.error | Finished server process [31252]
+2026-02-11 15:09:15,464 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 15:09:15,715 | INFO | uvicorn.error | Started server process [11964]
+2026-02-11 15:09:15,716 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 15:09:15,718 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 15:09:15,787 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 15:09:15,788 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 15:09:15,791 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 15:09:15,792 | INFO | app.backend.api | Background model loading complete.
+2026-02-11 15:12:28,739 | INFO | uvicorn.access | 127.0.0.1:61225 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 15:12:28,868 | INFO | uvicorn.access | 127.0.0.1:61225 - "GET /documents HTTP/1.1" 200
+2026-02-11 15:12:30,537 | INFO | uvicorn.access | 127.0.0.1:61225 - "GET /documents HTTP/1.1" 200
+2026-02-11 15:12:44,588 | INFO | uvicorn.access | 127.0.0.1:61240 - "OPTIONS /documents/698c89beadf2db58b536c18a HTTP/1.1" 200
+2026-02-11 15:12:44,637 | INFO | uvicorn.access | 127.0.0.1:61240 - "GET /documents/698c89beadf2db58b536c18a HTTP/1.1" 200
+2026-02-11 15:16:06,315 | INFO | uvicorn.error | Shutting down
+2026-02-11 15:16:06,417 | INFO | uvicorn.error | Waiting for application shutdown.
+2026-02-11 15:16:06,419 | INFO | uvicorn.error | Application shutdown complete.
+2026-02-11 15:16:06,420 | INFO | uvicorn.error | Finished server process [11964]
+2026-02-11 15:16:43,839 | INFO | app.config.logging_config | Logging initialisé
+2026-02-11 15:16:44,109 | INFO | uvicorn.error | Started server process [21020]
+2026-02-11 15:16:44,110 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-11 15:16:44,111 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-11 15:16:44,188 | INFO | app.backend.api | Static sources initialized in MongoDB.
+2026-02-11 15:16:44,189 | INFO | app.backend.api | Starting background model loading...
+2026-02-11 15:16:44,192 | INFO | uvicorn.error | Application startup complete.
+2026-02-11 15:16:44,193 | INFO | app.backend.api | Pre-loading Classifier model...
