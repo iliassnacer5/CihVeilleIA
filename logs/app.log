@@ -7653,3 +7653,320 @@ If this is a private repository, make sure to pass a token having permission to 
 2026-02-11 15:16:44,189 | INFO | app.backend.api | Starting background model loading...
 2026-02-11 15:16:44,192 | INFO | uvicorn.error | Application startup complete.
 2026-02-11 15:16:44,193 | INFO | app.backend.api | Pre-loading Classifier model...
+2026-02-11 15:29:49,167 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 419adb71-7043-4b96-bccf-bd661d330525)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/model.safetensors
+2026-02-11 15:29:49,169 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 15:30:11,053 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 0ed9cac7-20b8-428a-8ce2-e451aed51533)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/model.safetensors
+2026-02-11 15:30:11,054 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 15:30:32,973 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 43ba9258-a02d-4bc8-8652-28a26391aa17)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/model.safetensors
+2026-02-11 15:30:32,974 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 15:31:05,061 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 50933f33-53de-45bc-b139-8b2d9ca5b896)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/model.safetensors
+2026-02-11 15:31:05,062 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 15:31:29,360 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 4744a3b7-4e47-4824-828d-4a95830bd567)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/model.safetensors
+2026-02-11 15:31:29,365 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 15:31:52,814 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: fe8bfda8-a5c1-4e5c-b5b2-14309b7b66c6)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/model.safetensors
+2026-02-11 15:32:17,216 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 54f7fe68-f831-408e-a136-eb3bbfb9aef4)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/pytorch_model.bin
+2026-02-11 15:32:17,221 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 15:32:42,859 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 0d6c4e92-7387-4fb2-81a8-0fdd9b098dca)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/pytorch_model.bin
+2026-02-11 15:32:42,861 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 15:33:03,809 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 3761aa55-c6af-4acd-af4f-e12aeb4e0547)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/pytorch_model.bin
+2026-02-11 15:33:03,811 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 15:33:21,999 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: a46ceb12-0a15-4da9-9374-a1cfe7c6047b)')' thrown while requesting HEAD https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli/resolve/main/pytorch_model.bin
+2026-02-11 15:33:22,001 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 15:37:48,139 | ERROR | app.backend.api | Background model loading failed: Could not load model MoritzLaurer/mDeBERTa-v3-base-mnli-xnli with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>, <class 'transformers.models.deberta_v2.modeling_deberta_v2.DebertaV2ForSequenceClassification'>). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3776, in from_pretrained
+    resolved_archive_file = cached_file(pretrained_model_name_or_path, filename, **cached_file_kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+        path_or_repo_id,
+    ...<10 lines>...
+        local_files_only=local_files_only,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+        # Destination
+    ...<14 lines>...
+        force_download=force_download,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        incomplete_path=Path(blob_path + ".incomplete"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        xet_file_data=xet_file_data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1727, in _download_to_tmp_and_move
+    xet_get(
+    ~~~~~~~^
+        incomplete_path=incomplete_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        displayed_filename=filename,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 633, in xet_get
+    download_files(
+    ~~~~~~~~~~~~~~^
+        xet_download_info,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        progress_updater=[progress_updater],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+RuntimeError: Data processing error: CAS service error : IO Error: There is not enough space on the disk. (os error 112)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3892, in from_pretrained
+    raise EnvironmentError(
+    ...<5 lines>...
+    ) from e
+OSError: Can't load the model for 'MoritzLaurer/mDeBERTa-v3-base-mnli-xnli'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'MoritzLaurer/mDeBERTa-v3-base-mnli-xnli' is the correct path to a directory containing a file named pytorch_model.bin, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+while loading with DebertaV2ForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3805, in from_pretrained
+    resolved_archive_file = cached_file(
+        pretrained_model_name_or_path, filename, **cached_file_kwargs
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+        path_or_repo_id,
+    ...<10 lines>...
+        local_files_only=local_files_only,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+        # Destination
+    ...<14 lines>...
+        force_download=force_download,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        incomplete_path=Path(blob_path + ".incomplete"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        xet_file_data=xet_file_data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1727, in _download_to_tmp_and_move
+    xet_get(
+    ~~~~~~~^
+        incomplete_path=incomplete_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        displayed_filename=filename,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 633, in xet_get
+    download_files(
+    ~~~~~~~~~~~~~~^
+        xet_download_info,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        progress_updater=[progress_updater],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+RuntimeError: Data processing error: CAS service error : ReqwestMiddleware Error: Request failed after 5 retries
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3892, in from_pretrained
+    raise EnvironmentError(
+    ...<5 lines>...
+    ) from e
+OSError: Can't load the model for 'MoritzLaurer/mDeBERTa-v3-base-mnli-xnli'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'MoritzLaurer/mDeBERTa-v3-base-mnli-xnli' is the correct path to a directory containing a file named pytorch_model.bin, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+
+2026-02-11 15:37:48,151 | INFO | uvicorn.access | 127.0.0.1:56054 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-11 15:37:48,196 | INFO | uvicorn.access | 127.0.0.1:60051 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-11 15:37:48,198 | INFO | uvicorn.access | 127.0.0.1:56066 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-11 15:37:48,199 | INFO | uvicorn.access | 127.0.0.1:56068 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-11 15:37:48,200 | INFO | uvicorn.access | 127.0.0.1:56067 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-11 15:37:48,202 | INFO | uvicorn.access | 127.0.0.1:56069 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-11 15:59:54,090 | INFO | uvicorn.access | 127.0.0.1:50957 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-11 15:59:54,094 | INFO | uvicorn.access | 127.0.0.1:50958 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-11 15:59:54,096 | INFO | uvicorn.access | 127.0.0.1:50959 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-11 15:59:54,129 | INFO | uvicorn.access | 127.0.0.1:50957 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 15:59:54,399 | INFO | uvicorn.access | 127.0.0.1:50959 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-11 15:59:54,602 | INFO | uvicorn.access | 127.0.0.1:50958 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-11 15:59:56,284 | INFO | uvicorn.access | 127.0.0.1:50958 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 15:59:56,289 | INFO | uvicorn.access | 127.0.0.1:50959 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 15:59:56,306 | INFO | uvicorn.access | 127.0.0.1:50958 - "GET /documents HTTP/1.1" 200
+2026-02-11 15:59:56,322 | INFO | uvicorn.access | 127.0.0.1:50958 - "GET /documents HTTP/1.1" 200
+2026-02-11 16:00:01,633 | INFO | uvicorn.access | 127.0.0.1:50961 - "OPTIONS /documents/698c89beadf2db58b536c18a HTTP/1.1" 200
+2026-02-11 16:00:01,651 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /documents/698c89beadf2db58b536c18a HTTP/1.1" 200
+2026-02-11 16:00:04,670 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-11 16:00:04,692 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-11 16:00:04,702 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 16:00:04,725 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-11 16:00:04,744 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-11 16:00:04,753 | INFO | uvicorn.access | 127.0.0.1:50961 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-11 16:00:08,545 | INFO | uvicorn.access | 127.0.0.1:50961 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 16:00:08,548 | INFO | uvicorn.access | 127.0.0.1:50971 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-11 16:00:08,574 | INFO | uvicorn.access | 127.0.0.1:50971 - "GET /sources HTTP/1.1" 200
+2026-02-11 16:00:08,583 | INFO | uvicorn.access | 127.0.0.1:50971 - "GET /sources HTTP/1.1" 200
+2026-02-11 16:00:11,138 | INFO | uvicorn.access | 127.0.0.1:50971 - "GET /documents HTTP/1.1" 200
+2026-02-11 16:00:11,153 | INFO | uvicorn.access | 127.0.0.1:50971 - "GET /documents HTTP/1.1" 200
+2026-02-11 16:00:12,668 | INFO | uvicorn.access | 127.0.0.1:50971 - "GET /sources HTTP/1.1" 200
+2026-02-11 16:00:12,678 | INFO | uvicorn.access | 127.0.0.1:50971 - "GET /sources HTTP/1.1" 200
+2026-02-11 16:00:17,008 | INFO | uvicorn.access | 127.0.0.1:50971 - "OPTIONS /sources/scrape/imf_news HTTP/1.1" 200
+2026-02-11 16:00:17,113 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-11 16:00:17,113 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-11 16:00:17,150 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 625b23e4-dbcf-498b-a7df-91fd9d4bf320)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/./modules.json
+2026-02-11 16:00:17,153 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 16:00:18,161 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: f2ce6e56-26fc-4101-9207-22486c28bc0a)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/./modules.json
+2026-02-11 16:00:18,162 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 16:00:20,166 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 49dab639-7b4e-4d39-8a88-6d0f0c1095b5)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/./modules.json
+2026-02-11 16:00:20,168 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 16:00:24,171 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 2dacd9ba-1b7a-4d8f-9321-f28dafcf364a)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/./modules.json
+2026-02-11 16:00:24,173 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 16:00:32,178 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 6fddf2cb-c001-4592-a47d-54c73e8a0725)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/./modules.json
+2026-02-11 16:00:32,179 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 16:00:55,035 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-11 16:01:15,339 | INFO | app.scraping.browser_scraper | Navigate to https://www.imf.org/en/news with Playwright
+2026-02-11 16:01:34,479 | INFO | app.scraping.browser_scraper | Found 5 potential articles
+2026-02-11 16:01:34,480 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/01/15/cf-as-korea-ages-fiscal-reforms-can-help-safeguard-government-finances
+2026-02-11 16:01:44,829 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2025/12/10/sp121025-md-remarks-2025-china-article-iv-consultation-press-conference
+2026-02-11 16:01:53,384 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2025/12/10/sp121025-md-remarks-2025-china-article-iv-consultation-press-conference
+2026-02-11 16:02:00,319 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/02/11/cf-brazil-can-boost-growth-by-bringing-more-women-into-the-labor-force
+2026-02-11 16:02:15,231 | INFO | app.scraping.browser_scraper | Scraping article: https://www.imf.org/en/news/articles/2026/02/10/pr-26040-cote-divoire-statement-by-imf-dmd-kenji-okumura-at-the-conclusion-of-his-visit
+2026-02-11 16:02:23,719 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-11 19:21:07,012 | WARNING | huggingface_hub.utils._http | '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 7469823b-0c94-4e35-9bba-c3e4092d51ae)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:21:07,017 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 19:21:08,023 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: fb7d0d2d-f709-4a58-a4f1-3317de0d4799)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:21:08,030 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 19:21:10,033 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: a8d36f90-a4f6-4d41-8d92-67095b85b87e)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:21:10,034 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 19:21:14,037 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 88c501bb-5d16-4156-8034-e3adde50d244)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:21:14,038 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 19:21:22,041 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 0ad33bb6-2006-4b17-bc65-4705d5c75a53)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:21:22,042 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 19:21:30,045 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 61c462dd-26dc-48f2-b89d-d45ffda38a12)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:21:30,159 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: f8f346e3-d5fe-4f40-894d-f610bbb35193)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:21:30,160 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 19:21:31,163 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 85ae3bbe-1566-437f-ae01-57e56ef3775c)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:21:31,165 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 19:21:33,167 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 3a56b791-25d9-4e9d-adf6-d4369f98ba6a)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:21:33,168 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 19:21:37,173 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 0f0383cb-4223-48b1-a0a8-9fcb555fd437)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:21:37,174 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 19:21:45,177 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: f3f70e97-3dc0-43a1-96bd-c66c1b74a1c7)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:21:45,179 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 19:21:53,181 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: f699258c-e8c8-49de-8072-b68561ab1f05)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:21:53,186 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 4bfd2b2c-3ba3-4b19-9605-633e4e524858)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:21:53,186 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 19:21:54,189 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 67629130-b7f8-4114-9e93-aba47281768c)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:21:54,190 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 19:21:56,193 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 0e0ae182-0d8c-4d81-a557-fa6c3d3e5eee)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:21:56,194 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 19:22:00,196 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 5d7af815-4cf8-462b-b404-1f66333bc72e)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:22:00,197 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 19:22:08,208 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: eba97221-86ff-4440-aeba-f4791d7d1883)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:22:08,209 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 19:22:16,211 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 5bf7e427-cb5a-4f39-9a25-968fd13f9f3b)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:22:16,288 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: bfdf2b3a-15fd-4d80-b6ef-1cfe10675fd3)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:22:16,289 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 19:22:17,292 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 92a448a4-32e3-4ac4-b771-e278516f21a0)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:22:17,293 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 19:22:19,296 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: cb1ea713-216d-44e2-bc30-77c22a3a6b44)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:22:19,297 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 19:22:23,300 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 076fe3eb-ff2c-4312-b418-bd407d0d8035)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:22:23,301 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 19:22:31,304 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 37c9f61f-03b4-43a3-8c97-9e02cd70ae67)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:22:31,305 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 19:22:39,309 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: ff315933-88d5-46aa-b4e6-376ae7996e6f)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/config.json
+2026-02-11 19:22:39,315 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 7014ea9c-a7ee-45ec-8843-a574a419790b)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:22:39,315 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 19:22:40,319 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: cc37dae7-387b-450a-b7bf-3e9b5b9a82e3)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:22:40,320 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 19:22:42,324 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: d0cc0f70-fe91-453a-a61b-b8982ac5abc1)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:22:42,325 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 19:22:46,328 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 3f60c1bf-e795-46a3-9803-67663d93016f)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:22:46,329 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 19:22:54,332 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 5e8a96e8-2f20-4508-8c4e-d297a3193c3d)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:22:54,333 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 19:23:02,336 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: e5d88fed-a5d1-42b8-96c7-884efceb8270)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin
+2026-02-11 19:23:02,344 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 93866b54-c39d-4d76-b7e5-793a9114a411)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:23:02,344 | WARNING | huggingface_hub.utils._http | Retrying in 1s [Retry 1/5].
+2026-02-11 19:23:03,348 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 124116b7-0c48-442a-a988-2f27c9332b91)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:23:03,349 | WARNING | huggingface_hub.utils._http | Retrying in 2s [Retry 2/5].
+2026-02-11 19:23:05,352 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: eb40fc54-99e9-44ef-b91b-87247b09b878)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:23:05,353 | WARNING | huggingface_hub.utils._http | Retrying in 4s [Retry 3/5].
+2026-02-11 19:23:09,356 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: e874e38f-6161-43bb-87b3-18b8615aae83)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:23:09,357 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 4/5].
+2026-02-11 19:23:17,361 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 4e7346da-5b75-4c21-a028-729a5d0245f8)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:23:17,362 | WARNING | huggingface_hub.utils._http | Retrying in 8s [Retry 5/5].
+2026-02-11 19:23:25,366 | WARNING | huggingface_hub.utils._http | '(MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno 11001] getaddrinfo failed)"))'), '(Request ID: 2daa2f39-fa1b-48d7-8a16-cf0b2467861a)')' thrown while requesting HEAD https://huggingface.co/csebuetnlp/mT5_multilingual_XLSum/resolve/main/pytorch_model.bin.index.json
+2026-02-11 19:23:25,375 | ERROR | app.scraping.orchestrator | Erreur lors de l'enrichissement NLP: Could not load model csebuetnlp/mT5_multilingual_XLSum with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSeq2SeqLM'>, <class 'transformers.models.mt5.modeling_mt5.MT5ForConditionalGeneration'>). See the original errors:
+
+while loading with AutoModelForSeq2SeqLM, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3880, in from_pretrained
+    raise EnvironmentError(
+    ...<3 lines>...
+    )
+OSError: csebuetnlp/mT5_multilingual_XLSum does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+while loading with MT5ForConditionalGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3880, in from_pretrained
+    raise EnvironmentError(
+    ...<3 lines>...
+    )
+OSError: csebuetnlp/mT5_multilingual_XLSum does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+
+2026-02-11 19:23:27,941 | INFO | uvicorn.access | 127.0.0.1:64004 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 19:23:27,943 | INFO | uvicorn.access | 127.0.0.1:64027 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 19:23:27,944 | INFO | uvicorn.access | 127.0.0.1:64003 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 19:23:27,945 | INFO | uvicorn.access | 127.0.0.1:64017 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 19:23:27,946 | INFO | uvicorn.access | 127.0.0.1:64005 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-11 19:23:27,947 | INFO | uvicorn.access | 127.0.0.1:64016 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-12 09:19:48,371 | INFO | uvicorn.access | 127.0.0.1:54801 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-12 09:19:48,494 | INFO | uvicorn.access | 127.0.0.1:54801 - "GET /documents HTTP/1.1" 200
+2026-02-12 09:19:52,636 | INFO | uvicorn.access | 127.0.0.1:54801 - "OPTIONS /documents/698cc91d623be620af45e369 HTTP/1.1" 200
+2026-02-12 09:19:52,665 | INFO | uvicorn.access | 127.0.0.1:54801 - "GET /documents/698cc91d623be620af45e369 HTTP/1.1" 200
+2026-02-12 09:19:55,402 | INFO | uvicorn.access | 127.0.0.1:54801 - "OPTIONS /documents/698cc91d623be620af45e369/summarize HTTP/1.1" 200
+2026-02-12 09:19:55,412 | INFO | app.backend.api | Summarize request received for document: 698cc91d623be620af45e369

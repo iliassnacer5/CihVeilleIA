@@ -2,8 +2,10 @@ fastapi
 uvicorn[standard]
 httpx
 beautifulsoup4
+lxml
 spacy
 sentence-transformers
+torch
 faiss-cpu
 numpy
 pydantic
