@@ -17,7 +17,9 @@ class Settings(BaseSettings):
     vector_store_dir: Path = base_dir / "vector_store"
 
     # API / Sécurité (exemples, à surcharger par variables d'env)
-    api_secret_key: str = "change-me-in-prod"
+    api_secret_key: str = "7ec3505c04df465d6a2f3b9260655d78d49826d40026e632b732432ef1e6807f" # Example, should be env
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 60
     allowed_origins: list[str] = ["*"]
 
     # MongoDB (stockage des documents enrichis)

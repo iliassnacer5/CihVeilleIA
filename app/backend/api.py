@@ -28,9 +28,17 @@ from app.rag.pipeline import RagPipeline
 from app.rag.chatbot import RagChatbot
 from app.nlp.banking_nlp import BankingNlpService
 from app.search.semantic_search import SearchFilters
-from app.storage.mongo_store import MongoEnrichedDocumentStore, MongoSourceStore, MongoSystemStore
+from app.storage.mongo_store import (
+    MongoEnrichedDocumentStore, MongoSourceStore, MongoSystemStore, 
+    MongoUserStore, MongoAlertStore
+)
 from app.storage.audit_log import audit_logger
 from app.scraping.orchestrator import ScrapingOrchestrator
+from app.backend.auth import (
+    get_password_hash, verify_password, create_access_token, 
+    get_current_active_user, check_admin_role
+)
+from fastapi.security import OAuth2PasswordRequestForm
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +50,20 @@ _MONGO_STORE = None
 _SOURCE_STORE = None
 _SYSTEM_STORE = None
 _ORCHESTRATOR = None
+_USER_STORE = None
+_ALERT_STORE = None
+
+def get_user_store() -> MongoUserStore:
+    global _USER_STORE
+    if _USER_STORE is None:
+        _USER_STORE = MongoUserStore()
+    return _USER_STORE
+
+def get_alert_store() -> MongoAlertStore:
+    global _ALERT_STORE
+    if _ALERT_STORE is None:
+        _ALERT_STORE = MongoAlertStore()
+    return _ALERT_STORE
 
 def get_nlp_service() -> BankingNlpService:
     global _NLP_SERVICE
@@ -128,10 +150,39 @@ def create_app() -> FastAPI:
         # 1. Init Static Sources in MongoDB
         try:
             source_store = get_source_store()
-            source_store.init_static_sources()
-            logger.info("Static sources initialized in MongoDB.")
+            await source_store.init_static_sources()
+            
+            # Ensure indexes on all stores
+            await (get_mongo_store()).ensure_indexes()
+            await (get_source_store()).ensure_indexes()
+            await (get_user_store()).ensure_indexes()
+            await (get_alert_store()).ensure_indexes()
+            await (get_system_store()).ensure_indexes()
+            
+            logger.info("Static sources and indexes initialized in MongoDB.")
         except Exception as e:
             logger.error(f"Failed to init static sources: {e}")
+
+    # --- Authentication ---
+
+    @app.post("/token", response_model=Token)
+    async def login_for_access_token(
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        user_store: MongoUserStore = Depends(get_user_store)
+    ):
+        user = await user_store.get_user_by_username(form_data.username)
+        if not user or not verify_password(form_data.password, user["hashed_password"]):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        access_token = create_access_token(data={"sub": user["username"]})
+        return {"access_token": access_token, "token_type": "bearer"}
+
+    @app.get("/users/me", response_model=User)
+    async def read_users_me(current_user: dict = Depends(get_current_active_user)):
+        return current_user
 
     @app.get("/health")
     async def health_check() -> dict:
@@ -142,19 +193,20 @@ def create_app() -> FastAPI:
     @app.get("/analytics/kpis", response_model=KpiResponse)
     async def get_kpis(
         store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
-        source_store: MongoSourceStore = Depends(get_source_store)
+        source_store: MongoSourceStore = Depends(get_source_store),
+        current_user: dict = Depends(get_current_active_user)
     ):
         try:
             # Monitored Sources (Real count from DB)
-            sources_count = source_store._collection.count_documents({})
+            sources_count = await store._db["sources"].count_documents({})
             
             # Documents current month
             now = time.time()
             start_of_month = now - (30 * 24 * 3600) # Approx
-            docs_month = store.collection.count_documents({"created_at": {"$gte": start_of_month}})
+            docs_month = await store.collection.count_documents({"created_at": {"$gte": start_of_month}})
             
             # Regulatory Updates (Theme-based count)
-            reg_updates = store.collection.count_documents({
+            reg_updates = await store.collection.count_documents({
                 "created_at": {"$gte": start_of_month}, 
                 "$or": [{"topics": "Regulation"}, {"topics": "Réglementation"}]
             })
@@ -172,7 +224,10 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=500, detail="Error calculating KPIs")
 
     @app.get("/analytics/dashboard", response_model=DashboardAnalytics)
-    async def get_dashboard_analytics(store: MongoEnrichedDocumentStore = Depends(get_mongo_store)):
+    async def get_dashboard_analytics(
+        store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
         # 1. Documents over time (Last 6 months)
         pipeline_over_time = [
             {
@@ -192,7 +247,8 @@ def create_app() -> FastAPI:
             {"$sort": {"_id.year": 1, "_id.month": 1}}
         ]
         
-        docs_over_time = list(store.collection.aggregate(pipeline_over_time))
+        cursor_over_time = store.collection.aggregate(pipeline_over_time)
+        docs_over_time = await cursor_over_time.to_list(length=100)
         
         chart_data = []
         months_map = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 
@@ -211,7 +267,8 @@ def create_app() -> FastAPI:
             {"$limit": 5}
         ]
         
-        themes_dist = list(store.collection.aggregate(pipeline_themes))
+        cursor_themes = store.collection.aggregate(pipeline_themes)
+        themes_dist = await cursor_themes.to_list(length=5)
         dist_items = []
         total_themes = sum(t["count"] for t in themes_dist) if themes_dist else 1
         
@@ -225,47 +282,49 @@ def create_app() -> FastAPI:
         )
 
     @app.get("/alerts/latest", response_model=list[AlertItem])
-    async def get_latest_alerts(store: MongoEnrichedDocumentStore = Depends(get_mongo_store)):
-        # Treat high confidence, recent documents as alerts
-        cursor = store.collection.find({
-            "confidence": {"$gte": 80}
-        }).sort("created_at", -1).limit(5)
+    async def get_latest_alerts(
+        alert_store: MongoAlertStore = Depends(get_alert_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
+        # Fetch real persistent alerts from MongoAlertStore
+        docs = await alert_store.get_user_alerts(user_id=str(current_user["id"]), limit=10)
         
         alerts = []
-        for doc in cursor:
-            # Determine severity based on keywords
-            severity = "medium"
-            title = doc.get("title", "Untitled")
-            if "urg" in title.lower() or "sanction" in title.lower() or "fail" in title.lower():
-                severity = "high"
-            
+        for doc in docs:
             alerts.append(AlertItem(
-                id=str(doc["_id"]),
-                title=title,
-                description=doc.get("summary", "No summary available.")[:150] + "...",
-                source=doc.get("source_id", "Unknown"),
-                severity=severity,
-                category=doc.get("topics", ["General"])[0] if doc.get("topics") else "General",
+                id=doc["_id"],
+                title=doc.get("title", "Alerte"),
+                description=doc.get("message", ""),
+                source=doc.get("metadata", {}).get("source", "System"),
+                severity=doc.get("priority", "medium"),
+                category=doc.get("metadata", {}).get("topics", ["Général"])[0] if doc.get("metadata", {}).get("topics") else "Général",
                 timestamp=time.strftime('%Y-%m-%d %H:%M', time.localtime(doc.get("created_at", time.time()))),
-                read=False
+                read=doc.get("is_read", False)
             ))
         return alerts
 
     @app.get("/sources", response_model=List[SourceSchema])
-    async def list_sources(source_store=Depends(get_source_store)):
+    async def list_sources(
+        source_store=Depends(get_source_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
         # Sources are now fully managed in MongoDB (including static ones)
-        user_sources = source_store.list_sources()
+        user_sources = await source_store.list_sources()
         result = []
         for us in user_sources:
             result.append(SourceSchema(**us))
         return result
 
     @app.post("/sources", response_model=SourceSchema)
-    async def add_source(source: SourceSchema, source_store=Depends(get_source_store)):
+    async def add_source(
+        source: SourceSchema, 
+        source_store=Depends(get_source_store),
+        current_user: dict = Depends(check_admin_role)
+    ):
         try:
             # Compatibilité Pydantic v1/v2
             source_dict = source.model_dump() if hasattr(source, "model_dump") else source.dict()
-            source_id = source_store.save_source(source_dict)
+            source_id = await source_store.save_source(source_dict)
             source.id = source_id
             
             audit_logger.log_event(
@@ -283,7 +342,8 @@ def create_app() -> FastAPI:
     async def scrape_source(
         source_id: str, 
         source_store=Depends(get_source_store),
-        orchestrator=Depends(get_orchestrator)
+        orchestrator=Depends(get_orchestrator),
+        current_user: dict = Depends(check_admin_role)
     ):
         # Chercher dans le registre statique
         from app.scraping.sources_registry import SOURCES_REGISTRY
@@ -291,7 +351,7 @@ def create_app() -> FastAPI:
         
         # Sinon chercher dans MongoDB
         if not config:
-            config = source_store.get_source(source_id)
+            config = await source_store.get_source(source_id)
             
         if not config:
             raise HTTPException(status_code=404, detail="Source non trouvée")
@@ -303,9 +363,13 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=500, detail=str(e))
 
     @app.post("/search")
-    async def semantic_search(request: QuestionRequest, rag_pipeline=Depends(get_rag_pipeline)):
+    async def semantic_search(
+        request: QuestionRequest, 
+        rag_pipeline=Depends(get_rag_pipeline),
+        current_user: dict = Depends(get_current_active_user)
+    ):
         # Retrieve context from RAG pipeline
-        docs = rag_pipeline.retrieve(request.question, top_k=5)
+        docs = await rag_pipeline.retrieve(request.question, top_k=5)
         results = []
         for i, doc in enumerate(docs):
             results.append({
@@ -322,8 +386,12 @@ def create_app() -> FastAPI:
     # --- Document Management ---
 
     @app.get("/documents", response_model=list[DocumentListItem])
-    async def list_documents(store: MongoEnrichedDocumentStore = Depends(get_mongo_store)):
-        docs = list(store.collection.find().sort("created_at", -1).limit(50))
+    async def list_documents(
+        store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
+        cursor = store.collection.find().sort("created_at", -1).limit(50)
+        docs = await cursor.to_list(length=50)
         result = []
         for d in docs:
             result.append(DocumentListItem(
@@ -338,9 +406,13 @@ def create_app() -> FastAPI:
         return result
 
     @app.get("/documents/{doc_id}", response_model=DocumentDetail)
-    async def get_document_detail(doc_id: str, store: MongoEnrichedDocumentStore = Depends(get_mongo_store)):
+    async def get_document_detail(
+        doc_id: str, 
+        store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
         from bson import ObjectId
-        doc = store.collection.find_one({"_id": ObjectId(doc_id)})
+        doc = await store.collection.find_one({"_id": ObjectId(doc_id)})
         if not doc:
             raise HTTPException(status_code=404, detail="Document non trouvé")
         
@@ -358,17 +430,18 @@ def create_app() -> FastAPI:
         )
 
     @app.post("/documents/{doc_id}/summarize", response_model=SummarizeResponse)
-    def summarize_document(
+    async def summarize_document(
         doc_id: str,
         store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
-        nlp_service: BankingNlpService = Depends(get_nlp_service)
+        nlp_service: BankingNlpService = Depends(get_nlp_service),
+        current_user: dict = Depends(get_current_active_user)
     ):
         """Génère un résumé IA structuré pour un document spécifique."""
         logger.info(f"Summarize request received for document: {doc_id}")
         import traceback
         try:
             from bson import ObjectId
-            doc = store.collection.find_one({"_id": ObjectId(doc_id)})
+            doc = await store.collection.find_one({"_id": ObjectId(doc_id)})
             if not doc:
                 raise HTTPException(status_code=404, detail="Document non trouvé")
             
@@ -376,6 +449,8 @@ def create_app() -> FastAPI:
             if not text.strip():
                 raise HTTPException(status_code=400, detail="Le document ne contient pas de texte à résumer.")
             
+            # NLP calls (assuming they might benefit from being offloaded if heavy, but nlp_service is sync for now)
+            # We wrap them in asyncio.to_thread if needed, but per Plan we stick to nlp_service for now.
             # 1. Classification thématique
             classifications = nlp_service.classify_documents([text])
             topics = classifications[0].all_labels[:3] if classifications else ["Général"]
@@ -389,12 +464,12 @@ def create_app() -> FastAPI:
             entities_result = nlp_service.extract_entities([text])
             entities = list(set([e.text for e in entities_result[0]])) if entities_result else []
             
-            # 4. Faits clés (extraits des premières phrases significatives)
+            # 4. Faits clés
             sentences = [s.strip() for s in text.split('.') if len(s.strip()) > 30]
             key_facts = sentences[:5]
             
-            # Mise à jour du document dans MongoDB avec l'enrichissement
-            store.collection.update_one(
+            # Mise à jour du document dans MongoDB
+            await store.collection.update_one(
                 {"_id": ObjectId(doc_id)},
                 {"$set": {
                     "summary": summary,
@@ -423,18 +498,18 @@ def create_app() -> FastAPI:
     async def upload_document(
         file: UploadFile = File(...),
         pipeline: RagPipeline = Depends(get_rag_pipeline),
-        store: MongoEnrichedDocumentStore = Depends(get_mongo_store)
+        store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
+        current_user: dict = Depends(get_current_active_user)
     ):
-        # Simulation de sauvegarde et indexation (PFE)
         content = await file.read()
-        text_content = content.decode('utf-8', errors='ignore') # Simplification pour le texte
+        text_content = content.decode('utf-8', errors='ignore') 
         
         doc_id = str(uuid.uuid4())
-        # Indexation RAG
-        pipeline.index_documents([text_content], [{"source": "upload", "title": file.filename, "id": doc_id}])
+        # Indexation RAG (Will be async)
+        await pipeline.index_documents([text_content], [{"source": "upload", "title": file.filename, "id": doc_id}])
         
         # Sauvegarde Mongo
-        store.save_documents([{
+        await store.save_documents([{
             "title": file.filename,
             "text": text_content,
             "source_id": "upload",
@@ -452,17 +527,24 @@ def create_app() -> FastAPI:
     async def ask_rag(
         payload: QuestionRequest,
         pipeline: RagPipeline = Depends(get_rag_pipeline),
+        current_user: dict = Depends(get_current_active_user)
     ) -> RagAnswer:
-        result = pipeline.answer_question(question=payload.question, top_k=payload.top_k)
-        return RagAnswer(question=result.question, answer=result.answer, context=result.context)
+        result = await pipeline.answer_question(question=payload.question, top_k=payload.top_k)
+        return RagAnswer(
+            question=result.question, 
+            answer=result.answer, 
+            context=result.context,
+            sources=result.sources
+        )
 
     @app.post("/chatbot/ask", response_model=ChatAnswer)
     async def ask_chatbot(
         payload: ChatRequest,
         chatbot: RagChatbot = Depends(get_rag_chatbot),
+        current_user: dict = Depends(get_current_active_user)
     ) -> ChatAnswer:
         filters = SearchFilters(lang=payload.lang) if payload.lang else None
-        result = chatbot.answer(question=payload.question, filters=filters, top_k=payload.top_k)
+        result = await chatbot.answer(question=payload.question, filters=filters, top_k=payload.top_k)
         return ChatAnswer(
             question=result.question,
             answer=result.answer,
@@ -481,9 +563,11 @@ def create_app() -> FastAPI:
     # --- Audit & Settings (MongoDB) ---
     
     @app.get("/audit/logs", response_model=List[AuditLog])
-    async def get_audit_logs(system_store: MongoSystemStore = Depends(get_system_store)):
-        logs = system_store.get_logs(limit=50)
-        # Convert _id to string or handle Pydantic model
+    async def get_audit_logs(
+        system_store: MongoSystemStore = Depends(get_system_store),
+        current_user: dict = Depends(check_admin_role)
+    ):
+        logs = await system_store.get_logs(limit=50)
         cleaned_logs = []
         for log in logs:
             if "_id" in log:
@@ -492,26 +576,34 @@ def create_app() -> FastAPI:
         return cleaned_logs
 
     @app.get("/settings", response_model=AppSettings)
-    async def get_settings(system_store: MongoSystemStore = Depends(get_system_store)):
-        return system_store.get_settings()
+    async def get_settings(
+        system_store: MongoSystemStore = Depends(get_system_store),
+        current_user: dict = Depends(check_admin_role)
+    ):
+        return await system_store.get_settings()
 
     @app.post("/settings", response_model=AppSettings)
     async def update_settings(
         new_settings: AppSettings, 
-        system_store: MongoSystemStore = Depends(get_system_store)
+        system_store: MongoSystemStore = Depends(get_system_store),
+        current_user: dict = Depends(check_admin_role)
     ):
-        return system_store.update_settings(new_settings.dict())
+        return await system_store.update_settings(new_settings.dict())
 
     @app.get("/settings/domains", response_model=List[WhitelistedDomain])
-    async def get_domains(system_store: MongoSystemStore = Depends(get_system_store)):
-        return system_store.get_domains()
+    async def get_domains(
+        system_store: MongoSystemStore = Depends(get_system_store),
+        current_user: dict = Depends(check_admin_role)
+    ):
+        return await system_store.get_domains()
 
     @app.post("/settings/domains", response_model=WhitelistedDomain)
     async def add_domain(
         domain: WhitelistedDomain, 
-        system_store: MongoSystemStore = Depends(get_system_store)
+        system_store: MongoSystemStore = Depends(get_system_store),
+        current_user: dict = Depends(check_admin_role)
     ):
-        return system_store.add_domain(domain.dict())
+        return await system_store.add_domain(domain.dict())
 
     return app
 

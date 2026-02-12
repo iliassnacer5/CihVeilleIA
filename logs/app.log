@@ -7970,3 +7970,330 @@ OSError: csebuetnlp/mT5_multilingual_XLSum does not appear to have a file named 
 2026-02-12 09:19:52,665 | INFO | uvicorn.access | 127.0.0.1:54801 - "GET /documents/698cc91d623be620af45e369 HTTP/1.1" 200
 2026-02-12 09:19:55,402 | INFO | uvicorn.access | 127.0.0.1:54801 - "OPTIONS /documents/698cc91d623be620af45e369/summarize HTTP/1.1" 200
 2026-02-12 09:19:55,412 | INFO | app.backend.api | Summarize request received for document: 698cc91d623be620af45e369
+2026-02-12 10:11:05,909 | INFO | uvicorn.access | 127.0.0.1:50412 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-12 10:11:05,951 | INFO | uvicorn.access | 127.0.0.1:50411 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-12 10:11:06,963 | INFO | uvicorn.access | 127.0.0.1:50411 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:11:07,483 | INFO | uvicorn.access | 127.0.0.1:50412 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:11:10,864 | INFO | uvicorn.access | 127.0.0.1:50412 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-12 10:11:11,006 | INFO | uvicorn.access | 127.0.0.1:50412 - "GET /documents HTTP/1.1" 200
+2026-02-12 10:11:11,017 | INFO | uvicorn.access | 127.0.0.1:50412 - "GET /documents HTTP/1.1" 200
+2026-02-12 10:12:26,425 | INFO | uvicorn.access | 127.0.0.1:58250 - "OPTIONS /documents/698cc91d623be620af45e369 HTTP/1.1" 200
+2026-02-12 10:12:26,492 | INFO | uvicorn.access | 127.0.0.1:58250 - "GET /documents/698cc91d623be620af45e369 HTTP/1.1" 200
+2026-02-12 10:12:34,733 | INFO | uvicorn.access | 127.0.0.1:58258 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:12:34,739 | INFO | uvicorn.access | 127.0.0.1:58258 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:12:37,584 | INFO | uvicorn.access | 127.0.0.1:58258 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-12 10:12:37,586 | INFO | uvicorn.access | 127.0.0.1:58260 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:12:37,589 | INFO | uvicorn.access | 127.0.0.1:58258 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-12 10:12:37,978 | INFO | uvicorn.access | 127.0.0.1:58258 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:12:38,184 | INFO | uvicorn.access | 127.0.0.1:58260 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 10:12:38,215 | INFO | uvicorn.access | 127.0.0.1:58258 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:12:38,221 | INFO | uvicorn.access | 127.0.0.1:58270 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 10:12:38,233 | INFO | uvicorn.access | 127.0.0.1:58260 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 10:12:38,239 | INFO | uvicorn.access | 127.0.0.1:58270 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 10:12:41,856 | INFO | uvicorn.access | 127.0.0.1:58270 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:12:41,866 | INFO | uvicorn.access | 127.0.0.1:58270 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:13:04,811 | INFO | uvicorn.access | 127.0.0.1:58051 - "OPTIONS /sources/scrape/imf_news HTTP/1.1" 200
+2026-02-12 10:13:04,853 | INFO | app.scraping.orchestrator | Scraping manuel de la source: International Monetary Fund (imf_news)
+2026-02-12 10:13:23,672 | INFO | app.scraping.browser_scraper | Navigate to https://www.imf.org/en/news with Playwright
+2026-02-12 10:14:24,325 | ERROR | app.scraping.orchestrator | Erreur lors du scraping manuel (imf_news): Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.imf.org/en/news", waiting until "domcontentloaded"
+
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\orchestrator.py", line 159, in run_single_source
+    items = list(await scraper.fetch())
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 78, in fetch
+    return await asyncio.wrap_future(f)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 67, in _run_async_work
+    result = loop.run_until_complete(self._async_fetch())
+  File "C:\Users\ilias\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\scraping\browser_scraper.py", line 100, in _async_fetch
+    await page.goto(self.base_url, timeout=self.timeout, wait_until="domcontentloaded")
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\async_api\_generated.py", line 9045, in goto
+    await self._impl_obj.goto(
+        url=url, timeout=timeout, waitUntil=wait_until, referer=referer
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_page.py", line 552, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_frame.py", line 153, in goto
+    await self._channel.send(
+        "goto", self._navigation_timeout, locals_to_params(locals())
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 69, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\playwright\_impl\_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.imf.org/en/news", waiting until "domcontentloaded"
+
+
+2026-02-12 10:15:04,904 | INFO | uvicorn.access | 127.0.0.1:51149 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:18:46,987 | INFO | uvicorn.access | 127.0.0.1:59634 - "GET /documents HTTP/1.1" 200
+2026-02-12 10:18:46,998 | INFO | uvicorn.access | 127.0.0.1:59634 - "GET /documents HTTP/1.1" 200
+2026-02-12 10:18:52,210 | INFO | uvicorn.access | 127.0.0.1:59636 - "GET /documents/698cc91d623be620af45e369 HTTP/1.1" 200
+2026-02-12 10:19:05,764 | INFO | uvicorn.access | 127.0.0.1:59637 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:19:05,772 | INFO | uvicorn.access | 127.0.0.1:59637 - "GET /sources HTTP/1.1" 200
+2026-02-12 10:19:09,312 | INFO | uvicorn.access | 127.0.0.1:59637 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 10:19:09,331 | INFO | uvicorn.access | 127.0.0.1:59637 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 10:28:34,018 | INFO | uvicorn.access | 127.0.0.1:51383 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:28:34,019 | INFO | uvicorn.access | 127.0.0.1:51382 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-12 10:28:34,021 | INFO | uvicorn.access | 127.0.0.1:51384 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-12 10:28:34,023 | INFO | uvicorn.access | 127.0.0.1:51385 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-12 10:28:34,025 | INFO | uvicorn.access | 127.0.0.1:51386 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:28:34,026 | INFO | uvicorn.access | 127.0.0.1:51383 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-12 10:28:34,041 | INFO | uvicorn.access | 127.0.0.1:51384 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:28:34,056 | INFO | uvicorn.access | 127.0.0.1:51382 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 10:28:34,067 | INFO | uvicorn.access | 127.0.0.1:51384 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 10:28:34,081 | INFO | uvicorn.access | 127.0.0.1:51385 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 10:28:34,084 | INFO | uvicorn.access | 127.0.0.1:51382 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 10:28:34,098 | INFO | uvicorn.access | 127.0.0.1:51385 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 11:37:49,025 | INFO | uvicorn.access | 127.0.0.1:55321 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-12 11:37:49,030 | INFO | uvicorn.access | 127.0.0.1:55320 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-12 11:37:49,065 | INFO | uvicorn.access | 127.0.0.1:55320 - "GET /sources HTTP/1.1" 200
+2026-02-12 11:37:49,076 | INFO | uvicorn.access | 127.0.0.1:55320 - "GET /sources HTTP/1.1" 200
+2026-02-12 11:37:53,432 | INFO | uvicorn.access | 127.0.0.1:55320 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-12 11:37:53,434 | INFO | uvicorn.access | 127.0.0.1:55321 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-12 11:37:53,463 | INFO | uvicorn.access | 127.0.0.1:55321 - "GET /documents HTTP/1.1" 200
+2026-02-12 11:37:53,477 | INFO | uvicorn.access | 127.0.0.1:55321 - "GET /documents HTTP/1.1" 200
+2026-02-12 11:38:01,329 | INFO | uvicorn.access | 127.0.0.1:55322 - "GET /documents HTTP/1.1" 200
+2026-02-12 11:38:01,342 | INFO | uvicorn.access | 127.0.0.1:55322 - "GET /documents HTTP/1.1" 200
+2026-02-12 11:38:06,253 | INFO | uvicorn.access | 127.0.0.1:55322 - "OPTIONS /search HTTP/1.1" 200
+2026-02-12 11:38:06,523 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-12 11:38:06,525 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-12 11:38:17,692 | INFO | uvicorn.access | 127.0.0.1:55322 - "POST /search HTTP/1.1" 500
+2026-02-12 11:38:17,696 | ERROR | uvicorn.error | Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 95, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 153, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 107, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 308, in semantic_search
+    docs = rag_pipeline.retrieve(request.question, top_k=5)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RagPipeline' object has no attribute 'retrieve'
+2026-02-12 11:38:40,061 | INFO | uvicorn.access | 127.0.0.1:55329 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-12 11:38:40,068 | INFO | uvicorn.access | 127.0.0.1:55329 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-12 11:38:40,073 | INFO | uvicorn.access | 127.0.0.1:55329 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-12 11:38:40,081 | INFO | uvicorn.access | 127.0.0.1:55329 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-12 11:38:40,085 | INFO | uvicorn.access | 127.0.0.1:55329 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-12 11:38:40,094 | INFO | uvicorn.access | 127.0.0.1:55329 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-12 11:38:40,123 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 11:38:40,143 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 11:38:40,151 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 11:38:40,172 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 11:38:40,188 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 11:38:40,197 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 11:38:42,262 | INFO | uvicorn.access | 127.0.0.1:53983 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-12 11:38:42,267 | INFO | uvicorn.access | 127.0.0.1:53984 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 11:38:42,283 | INFO | uvicorn.access | 127.0.0.1:55329 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-12 11:41:34,491 | INFO | uvicorn.access | 127.0.0.1:54049 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 11:41:34,499 | INFO | uvicorn.access | 127.0.0.1:54049 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-12 11:49:20,759 | ERROR | uvicorn.error | Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 95, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\cors.py", line 153, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 107, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\fastapi\routing.py", line 316, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\starlette\concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\backend\api.py", line 385, in summarize_document
+    summaries = nlp_service.summarize_documents([text], max_length=200, min_length=50)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 260, in summarize_documents
+    output = self._summarizer(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\app\nlp\banking_nlp.py", line 121, in _summarizer
+    self._summarizer_pipeline = pipeline(
+                                ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=self.model_names["summarizer"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        device=self.device,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\__init__.py", line 940, in pipeline
+    framework, model = infer_framework_load_model(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model,
+        ^^^^^^
+    ...<5 lines>...
+        **model_kwargs,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\pipelines\base.py", line 289, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\models\auto\auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\modeling_utils.py", line 3805, in from_pretrained
+    resolved_archive_file = cached_file(
+        pretrained_model_name_or_path, filename, **cached_file_kwargs
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\transformers\utils\hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+        path_or_repo_id,
+    ...<10 lines>...
+        local_files_only=local_files_only,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+        # Destination
+    ...<14 lines>...
+        force_download=force_download,
+    )
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        incomplete_path=Path(blob_path + ".incomplete"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        xet_file_data=xet_file_data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 1727, in _download_to_tmp_and_move
+    xet_get(
+    ~~~~~~~^
+        incomplete_path=incomplete_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        displayed_filename=filename,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ilias\ai-projects\cih-veille-ia\.venv\Lib\site-packages\huggingface_hub\file_download.py", line 633, in xet_get
+    download_files(
+    ~~~~~~~~~~~~~~^
+        xet_download_info,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        progress_updater=[progress_updater],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+KeyboardInterrupt

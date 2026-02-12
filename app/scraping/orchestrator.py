@@ -13,6 +13,8 @@ from app.rag.pipeline import RagPipeline
 
 logger = logging.getLogger(__name__)
 
+from app.alerts.alerts_service import AlertService
+
 class ScrapingOrchestrator:
     """Orchestrateur pour la collecte massive d'informations avec enrichissement IA."""
 
@@ -20,37 +22,36 @@ class ScrapingOrchestrator:
         self.mongo_store = MongoEnrichedDocumentStore()
         self.rag_pipeline = RagPipeline()
         self.nlp_service = BankingNlpService()
+        self.alert_service = AlertService()
 
-    def _enrich_documents(self, docs: List[dict]) -> List[dict]:
-        """Enrichit une liste de documents avec classification, résumé et entités."""
+    async def _enrich_documents_async(self, docs: List[dict]) -> List[dict]:
+        """Enrichit une liste de documents avec classification, résumé et entités (Async)."""
         if not docs:
             return []
         
         texts = [d["text"] for d in docs]
-        
         logger.info(f"Enrichissement IA pour {len(docs)} documents...")
         
         try:
+            # On utilise to_thread car BankingNlpService est synchrone (CPU/GPU bound)
             # 1. Classification thématique
-            classifications = self.nlp_service.classify_documents(texts)
+            classifications = await asyncio.to_thread(self.nlp_service.classify_documents, texts)
             
             # 2. Résumé automatique
-            summaries = self.nlp_service.summarize_documents(texts, max_length=150, min_length=40)
+            summaries = await asyncio.to_thread(self.nlp_service.summarize_documents, texts, max_length=150, min_length=40)
             
             # 3. Extraction d'entités
-            entities_lists = self.nlp_service.extract_entities(texts)
+            entities_lists = await asyncio.to_thread(self.nlp_service.extract_entities, texts)
             
             for idx, doc in enumerate(docs):
                 doc["topics"] = [classifications[idx].label]  # Top label
                 doc["summary"] = summaries[idx].summary
-                # Extraction des textes d'entités uniques
                 doc["entities"] = list(set([e.text for e in entities_lists[idx]]))
                 doc["confidence"] = int(classifications[idx].score * 100)
                 
             return docs
         except Exception as e:
             logger.error(f"Erreur lors de l'enrichissement NLP: {e}")
-            # Fallback : on garde les docs mais avec des thèmes par défaut
             for doc in docs:
                 doc.setdefault("topics", ["Général"])
                 doc.setdefault("summary", doc["text"][:200] + "...")
@@ -58,81 +59,31 @@ class ScrapingOrchestrator:
                 doc.setdefault("confidence", 50)
             return docs
 
-    async def run_all_sources(self, limit_per_source: int = 5):
-        """Lance le cycle complet de veille sur toutes les sources enregistrées."""
-        total_sources = len(SOURCES_REGISTRY)
-        logger.info(f"Démarrage du cycle de veille sur {total_sources} sources...")
-        results = {}
+    async def run_all_sources(self, limit_per_source: int = 5, max_concurrency: int = 3):
+        """Lance le cycle complet de veille en parallèle avec contrôle de concurrence."""
+        logger.info(f"Démarrage du cycle de veille sur {len(SOURCES_REGISTRY)} sources...")
+        semaphore = asyncio.Semaphore(max_concurrency)
         
-        for source_id, config in SOURCES_REGISTRY.items():
-            try:
-                results[source_id] = 0
-                logger.info(f"Traitement de la source: {config['name']} ({source_id})")
-                
-                if config.get("use_browser"):
-                    scraper = BrowserScraper(
-                        base_url=config["base_url"],
-                        article_link_selector=config["article_link_selector"],
-                        title_selector=config["title_selector"],
-                        content_selector=config["content_selector"],
-                        max_articles=limit_per_source
-                    )
-                else:
-                    scraper = InstitutionalSiteScraper(
-                        base_url=config["base_url"],
-                        article_link_selector=config["article_link_selector"],
-                        title_selector=config["title_selector"],
-                        content_selector=config["content_selector"],
-                        max_articles=limit_per_source
-                    )
-                
-                items = list(await scraper.fetch())
-                if not items:
-                    continue
-                
-                # Conversion pour stockage
-                docs_to_save = []
-                for item in items:
-                    doc = {
-                        "source_id": source_id,
-                        "title": item.title,
-                        "url": item.url,
-                        "text": item.raw_text,
-                        "created_at": time.time(),
-                    }
-                    docs_to_save.append(doc)
-                
-                # ENRICHISSEMENT IA (Nouveau)
-                enriched_docs = self._enrich_documents(docs_to_save)
-                
-                # Sauvegarde MongoDB
-                self.mongo_store.save_documents(enriched_docs)
-                
-                # Indexation Vectorielle (RAG)
-                texts = [d["text"] for d in enriched_docs]
-                metadatas = [
-                    {
-                        "source": source_id, 
-                        "title": d["title"], 
-                        "url": d["url"],
-                        "topics": d["topics"],
-                        "summary": d["summary"]
-                    } for d in enriched_docs
-                ]
-                self.rag_pipeline.index_documents(texts, metadatas)
-                
-                results[source_id] = len(enriched_docs)
-                logger.info(f"Source {source_id} terminée: {len(enriched_docs)} documents enrichis et indexés.")
-                
-            except Exception as e:
-                import traceback
-                logger.error(f"Erreur lors du traitement de la source {source_id}: {e}\n{traceback.format_exc()}")
+        async def process_source(source_id, config):
+            async with semaphore:
+                try:
+                    logger.info(f"Traitement parallèle de {source_id}...")
+                    count = await self.run_single_source(source_id, config, limit=limit_per_source)
+                    return source_id, count
+                except Exception as e:
+                    logger.error(f"Erreur source {source_id}: {e}")
+                    return source_id, 0
+
+        tasks = [process_source(sid, cfg) for sid, cfg in SOURCES_REGISTRY.items()]
+        results_list = await asyncio.gather(*tasks)
         
+        results = dict(results_list)
+        logger.info("Cycle de veille terminé.")
         return results
 
     async def run_single_source(self, source_id: str, config: dict, limit: int = 5) -> int:
-        """Exécute le scraping pour une source spécifique avec enrichissement."""
-        logger.info(f"Scraping manuel de la source: {config.get('name')} ({source_id})")
+        """Exécute le scraping pour une source spécifique de manière asynchrone."""
+        logger.info(f"Scraping de la source: {config.get('name')} ({source_id})")
         
         article_link_selector = config.get("article_link_selector", "a")
         title_selector = config.get("title_selector", "h1")
@@ -171,12 +122,15 @@ class ScrapingOrchestrator:
                 }
                 docs_to_save.append(doc)
             
-            # ENRICHISSEMENT IA (Nouveau)
-            enriched_docs = self._enrich_documents(docs_to_save)
+            # ENRICHISSEMENT IA (Async)
+            enriched_docs = await self._enrich_documents_async(docs_to_save)
             
-            self.mongo_store.save_documents(enriched_docs)
+            await self.mongo_store.save_documents(enriched_docs)
             
-            # Indexation
+            # GENERATION ALERTS (Nouveau Phase 3)
+            await self.alert_service.process_new_documents(enriched_docs)
+            
+            # Indexation Vectorielle (RAG)
             texts = [d["text"] for d in enriched_docs]
             metadatas = [
                 {
@@ -187,14 +141,14 @@ class ScrapingOrchestrator:
                     "summary": d["summary"]
                 } for d in enriched_docs
             ]
-            self.rag_pipeline.index_documents(texts, metadatas)
+            await self.rag_pipeline.index_documents(texts, metadatas)
             
             return len(enriched_docs)
         except Exception as e:
-            import traceback
-            logger.error(f"Erreur lors du scraping manuel ({source_id}): {e}\n{traceback.format_exc()}")
-            raise e
+            logger.error(f"Erreur scraping {source_id}: {e}")
+            return 0
 
 if __name__ == "__main__":
+    # Pour test local
     orchestrator = ScrapingOrchestrator()
-    orchestrator.run_all_sources(limit_per_source=2)
+    asyncio.run(orchestrator.run_all_sources(limit_per_source=2))

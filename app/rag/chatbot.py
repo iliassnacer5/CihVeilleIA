@@ -79,13 +79,14 @@ class RagChatbot:
             sources=[],
         )
 
-    def answer(
+    async def answer(
         self,
         question: str,
         filters: Optional[SearchFilters] = None,
         top_k: int = 5,
     ) -> ChatbotAnswer:
         """Répond à une question métier en s'appuyant uniquement sur les documents indexés."""
+        import asyncio
         if not question or not question.strip():
             return self._make_fallback_answer(
                 question=question,
@@ -94,8 +95,8 @@ class RagChatbot:
 
         filters = filters or SearchFilters()
 
-        # Recherche principalement vectorielle pour la sémantique
-        results = self.search_engine.vector_search(
+        # Recherche principalement vectorielle pour la sémantique (Async)
+        results = await self.search_engine.vector_search(
             query=question,
             filters=filters,
             top_k=top_k,
@@ -129,11 +130,10 @@ class RagChatbot:
                 reason="Les documents trouvés ne contiennent pas de texte exploitable.",
             )
 
-        # On concatène les passages pour les résumer en une réponse courte.
-        # Le résumé reste borné par les capacités du modèle, ce qui limite
-        # les risques d'hallucination hors contexte.
         joined_context = "\n\n".join(context_texts)
-        summaries = self.nlp_service.summarize_documents(
+        # NLP processing offloaded to thread
+        summaries = await asyncio.to_thread(
+            self.nlp_service.summarize_documents,
             texts=[f"Question: {question}\n\nContexte:\n{joined_context}"],
             max_length=160,
             min_length=40,

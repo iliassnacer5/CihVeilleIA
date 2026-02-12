@@ -22,6 +22,7 @@ class RagAnswer(BaseModel):
     question: str
     answer: str
     context: List[str]
+    sources: Optional[List[dict]] = None
 
 
 class ChatSource(BaseModel):
@@ -151,4 +152,24 @@ class SourceSchema(BaseModel):
     frequency: str
     status: str = "Active"
     lastUpdated: str = "Never"
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+
+class User(BaseModel):
+    username: str
+    email: Optional[str] = None
+    role: str = "analyst"  # analyst, admin
+    is_active: bool = True
+
+
+class UserInDB(User):
+    hashed_password: str
 

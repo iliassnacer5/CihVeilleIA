@@ -64,16 +64,12 @@ class SemanticSearchEngine:
     # ------------------------------------------------------------------
     # Recherche par mots-clés (MongoDB)
     # ------------------------------------------------------------------
-    def keyword_search(
+    async def keyword_search(
         self,
         query: str,
         filters: Optional[SearchFilters] = None,
         limit: int = 20,
     ) -> List[SearchResult]:
-        """Recherche plein texte avec filtres via MongoDB.
-
-        Nécessite un index texte MongoDB sur les champs `title` et `text`.
-        """
         if not query or not query.strip():
             return []
 
@@ -114,7 +110,7 @@ class SemanticSearchEngine:
         ).sort("score", {"$meta": "textScore"}).limit(limit)
 
         results: List[SearchResult] = []
-        for doc in cursor:
+        async for doc in cursor:
             text = doc.get("summary") or doc.get("text") or ""
             snippet = text[:400] + ("..." if len(text) > 400 else "")
             results.append(
@@ -137,21 +133,23 @@ class SemanticSearchEngine:
     # ------------------------------------------------------------------
     # Recherche vectorielle (FAISS)
     # ------------------------------------------------------------------
-    def vector_search(
+    async def vector_search(
         self,
         query: str,
         filters: Optional[SearchFilters] = None,
         top_k: int = 10,
         oversampling_factor: int = 5,
     ) -> List[SearchResult]:
-        """Recherche sémantique par similarité vectorielle."""
         if not query or not query.strip():
             return []
 
+        import asyncio
         filters = filters or SearchFilters()
 
-        query_vec = self.embedding_service.encode([query])[0]
-        # On prend un peu plus de résultats, puis on filtre
+        query_vec = await asyncio.to_thread(self.embedding_service.encode, [query])
+        query_vec = query_vec[0]
+        
+        # FAISS search is fast but still blocking, usually okay but let's keep it in sync for now unless complex
         raw_results = self.vector_store.search(
             np.array(query_vec),
             k=top_k * oversampling_factor,
@@ -166,8 +164,6 @@ class SemanticSearchEngine:
                 meta_topics = meta.get("topics") or []
                 if not any(t in meta_topics for t in filters.topics):
                     return False
-            # Pour le filtrage par date, on s'appuie typiquement sur Mongo;
-            # ici on filtre uniquement sur metadata si disponible.
             return True
 
         results: List[SearchResult] = []
@@ -177,8 +173,6 @@ class SemanticSearchEngine:
 
             text = meta.get("summary") or meta.get("text") or ""
             snippet = text[:400] + ("..." if len(text) > 400 else "")
-
-            # Transforme une distance L2 en score de similarité simple
             score = 1.0 / (1.0 + float(dist))
 
             results.append(
@@ -202,9 +196,9 @@ class SemanticSearchEngine:
         return results
 
     # ------------------------------------------------------------------
-    # Recherche hybride (optionnelle pour futur UI)
+    # Recherche hybride
     # ------------------------------------------------------------------
-    def hybrid_search(
+    async def hybrid_search(
         self,
         query: str,
         filters: Optional[SearchFilters] = None,
@@ -212,17 +206,10 @@ class SemanticSearchEngine:
         vector_weight: float = 0.6,
         limit: int = 20,
     ) -> List[SearchResult]:
-        """Combine recherche par mots-clés et vectorielle.
-
-        Stratégie simple:
-        - on normalise les scores des deux listes;
-        - on fusionne sur `mongo_id`/`url` quand possible;
-        - on garde les `limit` meilleurs résultats agrégés.
-        """
         filters = filters or SearchFilters()
 
-        keyword_results = self.keyword_search(query, filters=filters, limit=limit)
-        vector_results = self.vector_search(query, filters=filters, top_k=limit)
+        keyword_results = await self.keyword_search(query, filters=filters, limit=limit)
+        vector_results = await self.vector_search(query, filters=filters, top_k=limit)
 
         def _normalize(scores: List[float]) -> List[float]:
             if not scores:
@@ -235,7 +222,6 @@ class SemanticSearchEngine:
         kw_scores = _normalize([r.score for r in keyword_results])
         vec_scores = _normalize([r.score for r in vector_results])
 
-        # indexation par clé logique (mongo_id ou url)
         combined: dict[str, SearchResult] = {}
         kw_map = {}
         for r, s in zip(keyword_results, kw_scores):
@@ -249,7 +235,6 @@ class SemanticSearchEngine:
             hybrid_score = keyword_weight * existing_kw_score + vector_weight * s
 
             if key in combined:
-                # fusion des infos
                 base = combined[key]
                 combined[key] = SearchResult(
                     mongo_id=base.mongo_id or r.mongo_id,
@@ -268,7 +253,6 @@ class SemanticSearchEngine:
                 r.score_type = "hybrid"
                 combined[key] = r
 
-        # Trie global sur le score hybride
         final_results = sorted(combined.values(), key=lambda r: r.score, reverse=True)
         return final_results[:limit]
 
