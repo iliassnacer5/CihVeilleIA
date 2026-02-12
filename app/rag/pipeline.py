@@ -23,6 +23,7 @@ class RagResult:
 from app.nlp.banking_nlp import BankingNlpService
 
 from app.nlp.reranking import RerankingService
+from app.rag.chunking import ChunkingService
 
 class RagPipeline:
     """Pipeline RAG améliorée avec chunking et reranking."""

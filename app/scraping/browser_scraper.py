@@ -24,6 +24,8 @@ class BrowserScraper(BaseScraper):
         article_link_selector: str,
         title_selector: str,
         content_selector: str,
+        category: str = "Général",
+        doc_type: str = "News",
         date_selector: Optional[str] = None,
         max_articles: int = 5,
         timeout: float = 60000, # ms
@@ -33,6 +35,8 @@ class BrowserScraper(BaseScraper):
         self.article_link_selector = article_link_selector
         self.title_selector = title_selector
         self.content_selector = content_selector
+        self.category = category
+        self.doc_type = doc_type
         self.date_selector = date_selector
         self.max_articles = max_articles
         self.timeout = timeout
@@ -162,5 +166,7 @@ class BrowserScraper(BaseScraper):
             title=title,
             url=url,
             raw_text=raw_text,
-            source=self.source_name
+            source=self.source_name,
+            category=self.category,
+            doc_type=self.doc_type
         )

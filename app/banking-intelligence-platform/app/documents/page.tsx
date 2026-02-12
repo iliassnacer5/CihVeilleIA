@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { ChevronRight, ExternalLink, Calendar, Zap, Upload, Loader2, Sparkles, BookOpen, Tag, Users, CheckCircle, Brain } from 'lucide-react'
+import { ChevronRight, ExternalLink, Calendar, Zap, Upload, Loader2, Sparkles, BookOpen, Tag, Users, CheckCircle, Brain, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DataTable } from '@/components/data-table'
@@ -43,6 +43,8 @@ export default function DocumentsPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [isSummarizing, setIsSummarizing] = useState(false)
   const [synthesis, setSynthesis] = useState<SummarizeResponse | null>(null)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const loadDocuments = async () => {
     setIsLoading(true)
@@ -116,6 +118,39 @@ export default function DocumentsPage() {
       alert('Failed to upload document.')
     } finally {
       setIsUploading(false)
+    }
+  }
+
+  const handleDelete = async (docId: string) => {
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) return
+
+    setIsDeleting(true)
+    try {
+      await api.deleteDocument(docId)
+      await loadDocuments()
+      if (selectedDoc?.id === docId) handleBackToList()
+    } catch (error) {
+      console.error('Delete failed:', error)
+      alert('Échec de la suppression.')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  const handleBulkDelete = async () => {
+    const count = selectedIds.size
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer les ${count} documents sélectionnés ?`)) return
+
+    setIsDeleting(true)
+    try {
+      await api.bulkDeleteDocuments(Array.from(selectedIds))
+      setSelectedIds(new Set())
+      await loadDocuments()
+    } catch (error) {
+      console.error('Bulk delete failed:', error)
+      alert('Échec de la suppression groupée.')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -405,7 +440,18 @@ export default function DocumentsPage() {
           <h1 className="text-3xl font-bold text-foreground">Collected Documents</h1>
           <p className="text-muted-foreground mt-1">Browse and analyze documents from monitored sources</p>
         </div>
-        <div>
+        <div className="flex items-center gap-3">
+          {selectedIds.size > 0 && (
+            <Button
+              variant="destructive"
+              onClick={handleBulkDelete}
+              disabled={isDeleting}
+              className="gap-2 animate-in fade-in zoom-in duration-300"
+            >
+              {isDeleting ? <Loader2 className="animate-spin" size={18} /> : <Trash2 size={18} />}
+              Supprimer ({selectedIds.size})
+            </Button>
+          )}
           <input
             type="file"
             id="file-upload"
@@ -474,14 +520,25 @@ export default function DocumentsPage() {
             ]}
             data={documents}
             rowKey="id"
+            selectedKeys={selectedIds}
+            onSelectionChange={setSelectedIds}
             actions={(row) => (
-              <button
-                onClick={() => handleViewDetail(row.id)}
-                className="text-accent hover:text-accent/80 transition-colors font-medium text-sm flex items-center gap-1"
-              >
-                View
-                <ChevronRight size={16} />
-              </button>
+              <div className="flex items-center gap-2 justify-end">
+                <button
+                  onClick={() => handleViewDetail(row.id)}
+                  className="p-2 hover:bg-secondary rounded-lg transition-colors text-accent"
+                  title="Voir les détails"
+                >
+                  <ChevronRight size={18} />
+                </button>
+                <button
+                  onClick={() => handleDelete(row.id)}
+                  className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors text-destructive"
+                  title="Supprimer"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
             )}
           />
         </CardContent>

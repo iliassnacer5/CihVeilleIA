@@ -24,31 +24,87 @@ export default function DashboardPage() {
   const [analytics, setAnalytics] = useState<any>(null)
   const [alerts, setAlerts] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadData = async () => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const [kpiData, analyticsData, alertsData] = await Promise.all([
+        api.getKpis(),
+        api.getDashboardAnalytics(),
+        api.getLatestAlerts()
+      ])
+      setKpis(kpiData)
+      setAnalytics(analyticsData)
+      setAlerts(alertsData)
+    } catch (error: any) {
+      console.error('Failed to load dashboard data:', error)
+
+      // User-friendly error messages based on error type
+      if (error.type === 'NETWORK_ERROR') {
+        setError('Unable to connect to server. Please ensure the backend is running on port 8000.')
+      } else if (error.type === 'TIMEOUT_ERROR') {
+        setError('Request timed out. The server might be slow or unresponsive.')
+      } else if (error.statusCode === 401) {
+        setError('Authentication required. Please log in.')
+      } else if (error.statusCode === 403) {
+        setError('Access denied. You do not have permission to view this data.')
+      } else if (error.statusCode >= 500) {
+        setError('Server error. Please try again later.')
+      } else {
+        setError(error.message || 'Failed to load dashboard data. Please try again.')
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
-    async function loadData() {
-      try {
-        const [kpiData, analyticsData, alertsData] = await Promise.all([
-          api.getKpis(),
-          api.getDashboardAnalytics(),
-          api.getLatestAlerts()
-        ])
-        setKpis(kpiData)
-        setAnalytics(analyticsData)
-        setAlerts(alertsData)
-      } catch (error) {
-        console.error('Failed to load dashboard data:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
     loadData()
   }, [])
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <Card className="max-w-md w-full border-destructive">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <AlertCircle className="h-8 w-8 text-destructive" />
+              <div>
+                <CardTitle className="text-destructive">Connection Error</CardTitle>
+                <CardDescription>Unable to load dashboard data</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">{error}</p>
+            <div className="bg-muted p-3 rounded-md text-xs font-mono">
+              <p>Troubleshooting:</p>
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                <li>Verify backend is running: <code>http://localhost:8000/health</code></li>
+                <li>Check terminal for backend errors</li>
+                <li>Ensure port 8000 is not blocked</li>
+              </ul>
+            </div>
+            <Button onClick={loadData} className="w-full">
+              <TrendingUp className="mr-2 h-4 w-4" />
+              Retry Connection
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     )
   }

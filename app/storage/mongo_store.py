@@ -59,6 +59,21 @@ class MongoEnrichedDocumentStore(BaseMongoStore):
         result = await self._collection.insert_many(docs_list)
         return [str(_id) for _id in result.inserted_ids]
 
+    async def delete_documents(self, mongo_ids: List[str]) -> int:
+        """Supprime un ou plusieurs documents par leurs IDs MongoDB."""
+        oids = []
+        for mid in mongo_ids:
+            try:
+                oids.append(ObjectId(mid))
+            except Exception:
+                logger.warning(f"ID MongoDB invalide ignoré pour suppression: {mid}")
+        
+        if not oids:
+            return 0
+            
+        result = await self._collection.delete_many({"_id": {"$in": oids}})
+        return result.deleted_count
+
     async def upsert_document(self, source_id: str, doc: Mapping) -> str:
         result = await self._collection.update_one(
             {"source_id": source_id},
@@ -112,6 +127,13 @@ class MongoSourceStore(BaseMongoStore):
     async def delete_source(self, source_id: str) -> bool:
         result = await self._collection.delete_one({"id": source_id})
         return result.deleted_count > 0
+
+    async def update_source_timestamp(self, source_id: str):
+        """Met à jour l'horodatage de la dernière opération de scraping."""
+        await self._collection.update_one(
+            {"id": source_id},
+            {"$set": {"lastUpdated": time.time()}}
+        )
 
     async def init_static_sources(self):
         from app.scraping.sources_registry import SOURCES_REGISTRY

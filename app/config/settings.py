@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List, Optional
 from pydantic_settings import BaseSettings
 
 
@@ -26,6 +27,12 @@ class Settings(BaseSettings):
     mongodb_uri: str = "mongodb://localhost:27017"
     mongodb_db_name: str = "VeillePlus"
     mongodb_collection_enriched: str = "enriched_documents"
+
+    # Azure / Outlook (Optionnel)
+    azure_client_id: Optional[str] = None
+    azure_client_secret: Optional[str] = None
+    azure_tenant_id: Optional[str] = None
+    azure_sender_email: str = "veille-ia@cih.ma"
 
     class Config:
         env_file = ".env"

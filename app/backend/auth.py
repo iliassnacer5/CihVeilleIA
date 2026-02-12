@@ -11,7 +11,7 @@ from app.backend.schemas import TokenData, UserInDB
 from app.storage.mongo_store import MongoUserStore
 
 # Configuration de la sécurité
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Singleton UserStore (sera initialisé via dépendance)

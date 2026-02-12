@@ -9,7 +9,7 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-from fastapi import Depends, FastAPI, File, UploadFile, HTTPException
+from fastapi import Depends, FastAPI, File, UploadFile, HTTPException, status, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 import time
 import uuid
@@ -20,7 +20,8 @@ from app.backend.schemas import (
     ChatAnswer, ChatRequest, ChatSource, QuestionRequest, RagAnswer,
     KpiResponse, DashboardAnalytics, AlertItem, DocumentListItem,
     DocumentDetail, SummarizeResponse, UploadResponse, ChartDataItem, ThemeDistributionItem,
-    AuditLog, WhitelistedDomain, AppSettings, SourceSchema
+    AuditLog, WhitelistedDomain, AppSettings, SourceSchema, Token, User,
+    BulkDeleteRequest
 )
 from app.config.logging_config import setup_logging
 from app.config.settings import settings
@@ -52,6 +53,38 @@ _SYSTEM_STORE = None
 _ORCHESTRATOR = None
 _USER_STORE = None
 _ALERT_STORE = None
+_CONNECTION_MANAGER = None
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: Dict[str, List[WebSocket]] = {}
+
+    async def connect(self, websocket: WebSocket, user_id: str):
+        await websocket.accept()
+        if user_id not in self.active_connections:
+            self.active_connections[user_id] = []
+        self.active_connections[user_id].append(websocket)
+        logger.info(f"WebSocket connected for user: {user_id}")
+
+    def disconnect(self, websocket: WebSocket, user_id: str):
+        if user_id in self.active_connections:
+            if websocket in self.active_connections[user_id]:
+                self.active_connections[user_id].remove(websocket)
+        logger.info(f"WebSocket disconnected for user: {user_id}")
+
+    async def broadcast_to_user(self, user_id: str, message: dict):
+        if user_id in self.active_connections:
+            for connection in self.active_connections[user_id]:
+                try:
+                    await connection.send_json(message)
+                except Exception as e:
+                    logger.error(f"Error broadcasting to {user_id}: {e}")
+
+def get_connection_manager() -> ConnectionManager:
+    global _CONNECTION_MANAGER
+    if _CONNECTION_MANAGER is None:
+        _CONNECTION_MANAGER = ConnectionManager()
+    return _CONNECTION_MANAGER
 
 def get_user_store() -> MongoUserStore:
     global _USER_STORE
@@ -103,10 +136,14 @@ def get_system_store() -> MongoSystemStore:
         _SYSTEM_STORE = MongoSystemStore()
     return _SYSTEM_STORE
 
-def get_orchestrator() -> ScrapingOrchestrator:
+def get_orchestrator(
+    manager: ConnectionManager = Depends(get_connection_manager)
+) -> ScrapingOrchestrator:
     global _ORCHESTRATOR
     if _ORCHESTRATOR is None:
         _ORCHESTRATOR = ScrapingOrchestrator()
+    # On injecte le manager dans l'alert_service de l'orchestrateur
+    _ORCHESTRATOR.alert_service.set_connection_manager(manager)
     return _ORCHESTRATOR
 
 def create_app() -> FastAPI:
@@ -137,15 +174,36 @@ def create_app() -> FastAPI:
             try:
                 nlp = await asyncio.to_thread(get_nlp_service)
                 # Trigger property access to start background loading/downloading
-                logger.info("Pre-loading Classifier model...")
-                getattr(nlp, "_classifier")
-                logger.info("Pre-loading Summarizer model...")
-                getattr(nlp, "_summarizer")
-                logger.info("Background model loading complete.")
+                # logger.info("Pre-loading Classifier model...")
+                # getattr(nlp, "_classifier")
+                # logger.info("Pre-loading Summarizer model...")
+                # getattr(nlp, "_summarizer")
+                # logger.info("Background model loading complete.")
             except Exception as e:
                 logger.error(f"Background model loading failed: {e}")
                 
         asyncio.create_task(load_models_bg())
+    
+    # --- WebSockets ---
+    
+    @app.websocket("/ws/notifications/{user_id}")
+    async def websocket_endpoint(
+        websocket: WebSocket, 
+        user_id: str,
+        manager: ConnectionManager = Depends(get_connection_manager)
+    ):
+        await manager.connect(websocket, user_id)
+        try:
+            while True:
+                # On attend juste que le client ne se déconnecte pas
+                data = await websocket.receive_text()
+                # On peut répondre par un pong
+                await websocket.send_json({"status": "alive", "user_id": user_id})
+        except WebSocketDisconnect:
+            manager.disconnect(websocket, user_id)
+        except Exception as e:
+            logger.error(f"WebSocket Error for {user_id}: {e}")
+            manager.disconnect(websocket, user_id)
 
         # 1. Init Static Sources in MongoDB
         try:
@@ -312,6 +370,13 @@ def create_app() -> FastAPI:
         user_sources = await source_store.list_sources()
         result = []
         for us in user_sources:
+            # Format lastUpdated for the frontend
+            last_upd = us.get("lastUpdated")
+            if isinstance(last_upd, (int, float)):
+                us["lastUpdated"] = time.strftime('%Y-%m-%d %H:%M', time.localtime(last_upd))
+            elif not last_upd or last_upd == "Never":
+                us["lastUpdated"] = "Jamais"
+                
             result.append(SourceSchema(**us))
         return result
 
@@ -332,7 +397,7 @@ def create_app() -> FastAPI:
                 "ADD_SOURCE", 
                 "SUCCESS", 
                 {"name": source.name, "url": source.url, "id": source.id}
-            )
+           )
             return source
         except Exception as e:
             logger.error(f"Erreur lors de l'ajout de la source: {e}")
@@ -422,12 +487,32 @@ def create_app() -> FastAPI:
             source=doc.get("source_id", "Web"),
             date=time.strftime('%Y-%m-%d', time.localtime(doc.get("created_at", time.time()))),
             theme=doc.get("topics", ["Général"])[0] if doc.get("topics") else "Général",
-            confidence=int(doc.get("confidence", 90)),
+            confidence=int(d.get("confidence", 90)) if (d := doc).get("confidence") else 90,
             url=doc.get("url"),
             summary=doc.get("summary", "Résumé non disponible."),
             entities=doc.get("entities", []),
             content=doc.get("text", "")
         )
+
+    @app.delete("/documents/{doc_id}")
+    async def delete_document(
+        doc_id: str,
+        store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
+        deleted_count = await store.delete_documents([doc_id])
+        if deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Document non trouvé")
+        return {"status": "success", "message": f"Document {doc_id} supprimé"}
+
+    @app.post("/documents/bulk-delete")
+    async def bulk_delete_documents(
+        payload: BulkDeleteRequest,
+        store: MongoEnrichedDocumentStore = Depends(get_mongo_store),
+        current_user: dict = Depends(get_current_active_user)
+    ):
+        deleted_count = await store.delete_documents(payload.doc_ids)
+        return {"status": "success", "deleted_count": deleted_count}
 
     @app.post("/documents/{doc_id}/summarize", response_model=SummarizeResponse)
     async def summarize_document(

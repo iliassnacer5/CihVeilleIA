@@ -38,6 +38,8 @@ class InstitutionalDocument:
     url: str
     raw_text: str
     source: str
+    category: str
+    doc_type: str
     published_at: Optional[datetime] = None
 
     def to_json_dict(self) -> dict:
@@ -110,6 +112,8 @@ class InstitutionalSiteScraper(BaseScraper):
         article_link_selector: str,
         title_selector: str,
         content_selector: str,
+        category: str = "Général",
+        doc_type: str = "News",
         date_selector: Optional[str] = None,
         max_articles: int = 20,
         user_agent: str = "cih-veille-ia-bot",
@@ -119,6 +123,8 @@ class InstitutionalSiteScraper(BaseScraper):
         self.article_link_selector = article_link_selector
         self.title_selector = title_selector
         self.content_selector = content_selector
+        self.category = category
+        self.doc_type = doc_type
         self.date_selector = date_selector
         self.max_articles = max_articles
         self.user_agent = user_agent
@@ -297,6 +303,8 @@ class InstitutionalSiteScraper(BaseScraper):
             url=url,
             raw_text=raw_text,
             source=self.source_name,
+            category=self.category,
+            doc_type=self.doc_type,
             published_at=published_at,
         )
 

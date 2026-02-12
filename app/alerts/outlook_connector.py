@@ -47,7 +47,8 @@ class OutlookConnector:
         if not token:
             return False
             
-        endpoint = "https://graph.microsoft.com/v1.0/users/veille-ia@cih.ma/sendMail"
+        sender = settings.azure_sender_email
+        endpoint = f"https://graph.microsoft.com/v1.0/users/{sender}/sendMail"
         
         email_body = {
             "message": {
@@ -108,6 +109,47 @@ class OutlookConnector:
                 <p style="font-size: 0.9em; color: #666;">
                     Cet e-mail est généré automatiquement par la plateforme CIH-Veille-IA.
                 </p>
+            </body>
+        </html>
+        """
+        return full_html
+
+    async def generate_alert_html(self, alert: Dict) -> str:
+        """Génère le contenu HTML pour une alerte individuelle détaillée."""
+        metadata = alert.get("metadata", {})
+        full_html = f"""
+        <html>
+            <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6;">
+                <div style="max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+                    <div style="background-color: #c41230; color: white; padding: 20px; text-align: center;">
+                        <h1 style="margin: 0; font-size: 24px;">🚨 Alerte Veille CIH Bank</h1>
+                    </div>
+                    <div style="padding: 20px;">
+                        <h2 style="color: #004a99; border-bottom: 2px solid #004a99; padding-bottom: 10px;">{alert.get('title')}</h2>
+                        <p><strong>Message:</strong> {alert.get('message')}</p>
+                        
+                        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
+                            <h3 style="margin-top: 0; color: #555;">Détails du document :</h3>
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li><strong>Source:</strong> {metadata.get('source')}</li>
+                                <li><strong>Catégorie:</strong> {metadata.get('category')}</li>
+                                <li><strong>Type:</strong> {metadata.get('doc_type')}</li>
+                                <li><strong>Date d'ajout:</strong> {metadata.get('added_at')}</li>
+                                <li><strong>Thématiques:</strong> {', '.join(metadata.get('topics', []))}</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 30px; text-align: center;">
+                            <a href="{metadata.get('url', '#')}" style="background-color: #004a99; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                                📖 Consulter le document complet
+                            </a>
+                        </div>
+                    </div>
+                    <div style="background-color: #f0f0f0; color: #666; padding: 15px; text-align: center; font-size: 12px;">
+                        <p>Cet e-mail est une notification automatique de votre plateforme CIH-Veille-IA.</p>
+                        <p>© 2026 CIH Bank - PFE Excellence Projet</p>
+                    </div>
+                </div>
             </body>
         </html>
         """

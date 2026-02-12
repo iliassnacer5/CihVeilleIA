@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 
 import './globals.css'
 import { LayoutContent } from './layout-content'
+import { Toaster } from '@/components/ui/toaster'
+import { RealTimeNotifications } from '@/components/RealTimeNotifications'
 
 const _geist = Geist({ subsets: ['latin'] })
 const _geistMono = Geist_Mono({ subsets: ['latin'] })
@@ -20,6 +22,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
 }
 
+import { AuthProvider } from './context/AuthContext'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
-        <LayoutContent>{children}</LayoutContent>
+        <AuthProvider>
+          <LayoutContent>{children}</LayoutContent>
+          <RealTimeNotifications />
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   )

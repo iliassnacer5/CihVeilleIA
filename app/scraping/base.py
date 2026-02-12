@@ -10,6 +10,8 @@ class ScrapedItem(Protocol):
     url: str
     raw_text: str
     source: str
+    category: str
+    doc_type: str
 
 
 class BaseScraper(ABC):

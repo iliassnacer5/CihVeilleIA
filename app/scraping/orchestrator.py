@@ -6,7 +6,8 @@ from typing import List
 from app.scraping.institutional_scraper import InstitutionalSiteScraper
 from app.scraping.browser_scraper import BrowserScraper
 from app.scraping.sources_registry import SOURCES_REGISTRY
-from app.storage.mongo_store import MongoEnrichedDocumentStore
+from app.storage.mongo_store import MongoEnrichedDocumentStore, MongoSourceStore
+from app.scraping.pdf_service import pdf_service
 from app.nlp.embeddings import EmbeddingService
 from app.nlp.banking_nlp import BankingNlpService
 from app.rag.pipeline import RagPipeline
@@ -20,6 +21,7 @@ class ScrapingOrchestrator:
 
     def __init__(self):
         self.mongo_store = MongoEnrichedDocumentStore()
+        self.source_store = MongoSourceStore()
         self.rag_pipeline = RagPipeline()
         self.nlp_service = BankingNlpService()
         self.alert_service = AlertService()
@@ -35,13 +37,19 @@ class ScrapingOrchestrator:
         try:
             # On utilise to_thread car BankingNlpService est synchrone (CPU/GPU bound)
             # 1. Classification thématique
+            logger.info("  [1/3] Classification thématique en cours...")
             classifications = await asyncio.to_thread(self.nlp_service.classify_documents, texts)
+            logger.info("  ✓ Classification terminée.")
             
             # 2. Résumé automatique
+            logger.info("  [2/3] Génération des résumés en cours...")
             summaries = await asyncio.to_thread(self.nlp_service.summarize_documents, texts, max_length=150, min_length=40)
+            logger.info("  ✓ Résumés terminés.")
             
             # 3. Extraction d'entités
+            logger.info("  [3/3] Extraction d'entités en cours...")
             entities_lists = await asyncio.to_thread(self.nlp_service.extract_entities, texts)
+            logger.info("  ✓ Extraction d'entités terminée.")
             
             for idx, doc in enumerate(docs):
                 doc["topics"] = [classifications[idx].label]  # Top label
@@ -85,6 +93,9 @@ class ScrapingOrchestrator:
         """Exécute le scraping pour une source spécifique de manière asynchrone."""
         logger.info(f"Scraping de la source: {config.get('name')} ({source_id})")
         
+        # Update source timestamp at the start of operation
+        await self.source_store.update_source_timestamp(source_id)
+        
         article_link_selector = config.get("article_link_selector", "a")
         title_selector = config.get("title_selector", "h1")
         content_selector = config.get("content_selector", "div, p")
@@ -95,6 +106,8 @@ class ScrapingOrchestrator:
                 article_link_selector=article_link_selector,
                 title_selector=title_selector,
                 content_selector=content_selector,
+                category=config.get("category", "Général"),
+                doc_type=config.get("doc_type", "News"),
                 max_articles=limit
             )
         else:
@@ -103,6 +116,8 @@ class ScrapingOrchestrator:
                 article_link_selector=article_link_selector,
                 title_selector=title_selector,
                 content_selector=content_selector,
+                category=config.get("category", "Général"),
+                doc_type=config.get("doc_type", "News"),
                 max_articles=limit
             )
         
@@ -113,21 +128,38 @@ class ScrapingOrchestrator:
             
             docs_to_save = []
             for item in items:
+                # Si le texte est vide ou si l'URL finit par .pdf, on tente une extraction PDF
+                text = item.raw_text
+                if not text or item.url.lower().endswith(".pdf"):
+                    extracted_text = await pdf_service.extract_text_from_url(item.url)
+                    if extracted_text:
+                        text = extracted_text
+
                 doc = {
                     "source_id": source_id,
                     "title": item.title,
                     "url": item.url,
-                    "text": item.raw_text,
+                    "text": text,
+                    "category": item.category,
+                    "doc_type": item.doc_type,
                     "created_at": time.time(),
                 }
                 docs_to_save.append(doc)
             
-            # ENRICHISSEMENT IA (Async)
+            # ENRICHISSEMENT IA
+            logger.info(f"Enrichissement IA pour {len(docs_to_save)} documents...")
             enriched_docs = await self._enrich_documents_async(docs_to_save)
             
-            await self.mongo_store.save_documents(enriched_docs)
+            logger.info(f"Sauvegarde de {len(enriched_docs)} documents dans MongoDB...")
+            try:
+                ids = await self.mongo_store.save_documents(enriched_docs)
+                logger.info(f"✓ {len(ids)} documents sauvegardés avec succès (IDs: {ids[:2]}...)")
+            except Exception as save_err:
+                logger.error(f"❌ Échec de la sauvegarde MongoDB: {save_err}")
+                raise
             
             # GENERATION ALERTS (Nouveau Phase 3)
+            logger.info("Traitement des alertes...")
             await self.alert_service.process_new_documents(enriched_docs)
             
             # Indexation Vectorielle (RAG)
