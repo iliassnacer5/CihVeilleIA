@@ -89,7 +89,7 @@ class AlertService:
                         "date": time.strftime("%d/%m/%Y", time.localtime())
                     }
                     
-                    target_email = "iliass.nacer@emsi-edu.ma"
+                    target_email = getattr(settings, "smtp_user", None) or "iliassnacer03@gmail.com"
                     # Fire-and-forget: ne pas bloquer le pipeline si l'email échoue
                     import asyncio
                     asyncio.create_task(

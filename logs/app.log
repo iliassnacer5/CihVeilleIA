@@ -25822,3 +25822,706 @@ asyncio.exceptions.CancelledError
 2026-02-14 22:20:16,501 | INFO | uvicorn.error | Application shutdown complete.
 2026-02-14 22:20:16,502 | INFO | uvicorn.error | Finished server process [12464]
 2026-02-14 22:20:16,503 | INFO | app.scraping.scheduler | Scheduler loop cancelled.
+2026-02-14 22:20:36,610 | INFO | app.config.logging_config | Logging initialisé
+2026-02-14 22:20:36,697 | INFO | uvicorn.error | Started server process [21120]
+2026-02-14 22:20:36,698 | INFO | uvicorn.error | Waiting for application startup.
+2026-02-14 22:20:36,698 | INFO | app.backend.api | Application Startup: Initializing Systems...
+2026-02-14 22:20:36,807 | ERROR | app.backend.api | Failed to init static sources/indexes: Index build failed: ed668f61-ea7d-4103-b19b-7ac80f2f3406: Collection VeillePlus.enriched_documents ( 13965950-272e-4cfc-a7a1-f2c6dc40c05a ) :: caused by :: E11000 duplicate key error collection: VeillePlus.enriched_documents index: idx_url dup key: { url: "https://www.bkam.ma/fr/Communiques/Besoins-previsionnels-du-tresor/2026/Besoin-previsionnel-du-tresor-pour-le-mois-de-fevrier-2026" }, full error: {'ok': 0.0, 'errmsg': 'Index build failed: ed668f61-ea7d-4103-b19b-7ac80f2f3406: Collection VeillePlus.enriched_documents ( 13965950-272e-4cfc-a7a1-f2c6dc40c05a ) :: caused by :: E11000 duplicate key error collection: VeillePlus.enriched_documents index: idx_url dup key: { url: "https://www.bkam.ma/fr/Communiques/Besoins-previsionnels-du-tresor/2026/Besoin-previsionnel-du-tresor-pour-le-mois-de-fevrier-2026" }', 'code': 11000, 'codeName': 'DuplicateKey', 'keyPattern': {'url': 1}, 'keyValue': {'url': 'https://www.bkam.ma/fr/Communiques/Besoins-previsionnels-du-tresor/2026/Besoin-previsionnel-du-tresor-pour-le-mois-de-fevrier-2026'}}
+2026-02-14 22:20:36,809 | INFO | app.scraping.scheduler | 🌙 Veille Scheduler started — scraping window: 00:00 - 05:00
+2026-02-14 22:20:36,809 | INFO | app.backend.api | 🚀 Automated Veille Scheduler started.
+2026-02-14 22:20:36,810 | INFO | app.backend.api | Starting background model loading...
+2026-02-14 22:20:36,811 | INFO | app.scraping.scheduler | 😴 Scheduler idle — next scraping at 2026-02-15 00:00 (in 1.7h)
+2026-02-14 22:20:36,811 | INFO | uvicorn.error | Application startup complete.
+2026-02-14 22:20:36,812 | INFO | app.backend.api | Pre-loading Classifier model...
+2026-02-14 22:20:36,812 | INFO | app.nlp.banking_nlp | Loading classifier: joeddav/xlm-roberta-large-xnli...
+2026-02-14 22:20:36,849 | INFO | uvicorn.access | 127.0.0.1:55274 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:20:40,758 | INFO | app.nlp.banking_nlp | ✅ Classifier loaded.
+2026-02-14 22:20:40,759 | INFO | app.backend.api | Pre-loading Summarizer model...
+2026-02-14 22:20:40,759 | INFO | app.nlp.banking_nlp | Loading local summarizer: Falconsai/text_summarization...
+2026-02-14 22:20:41,584 | INFO | app.nlp.banking_nlp | ✅ Local summarizer loaded.
+2026-02-14 22:20:41,584 | INFO | app.backend.api | Pre-loading NER model...
+2026-02-14 22:20:41,585 | INFO | app.nlp.banking_nlp | Loading NER: Jean-Baptiste/camembert-ner...
+2026-02-14 22:20:42,112 | INFO | app.nlp.banking_nlp | ✅ NER loaded.
+2026-02-14 22:20:42,113 | INFO | app.backend.api | Background model loading complete.
+2026-02-14 22:21:01,123 | INFO | uvicorn.access | 127.0.0.1:55275 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:21:31,425 | INFO | uvicorn.access | 127.0.0.1:55300 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:22:01,121 | INFO | uvicorn.access | 127.0.0.1:55301 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:22:31,423 | INFO | uvicorn.access | 127.0.0.1:55314 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:23:01,122 | INFO | uvicorn.access | 127.0.0.1:55315 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:23:09,192 | INFO | uvicorn.access | 127.0.0.1:55334 - "OPTIONS /users/me HTTP/1.1" 200
+2026-02-14 22:23:09,212 | INFO | uvicorn.access | 127.0.0.1:55334 - "GET /users/me HTTP/1.1" 200
+2026-02-14 22:23:09,299 | INFO | uvicorn.access | 127.0.0.1:55334 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:23:09,303 | INFO | uvicorn.access | 127.0.0.1:55334 - "OPTIONS /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:23:09,319 | INFO | uvicorn.access | 127.0.0.1:55334 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:23:09,330 | INFO | uvicorn.access | 127.0.0.1:55334 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:23:09,597 | INFO | uvicorn.error | 127.0.0.1:55341 - "WebSocket /ws/notifications/admin" [accepted]
+2026-02-14 22:23:09,597 | INFO | app.backend.api | WebSocket connected for user: admin
+2026-02-14 22:23:09,600 | INFO | uvicorn.error | connection open
+2026-02-14 22:23:13,055 | INFO | uvicorn.access | 127.0.0.1:55334 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-14 22:23:13,058 | INFO | uvicorn.access | 127.0.0.1:55339 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-14 22:23:13,073 | INFO | uvicorn.access | 127.0.0.1:55334 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:23:13,087 | INFO | uvicorn.access | 127.0.0.1:55334 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:23:26,501 | INFO | uvicorn.access | 127.0.0.1:55340 - "OPTIONS /sources/scrape/gpbm_news HTTP/1.1" 200
+2026-02-14 22:23:26,552 | INFO | app.nlp.embeddings | Loading embedding model: intfloat/multilingual-e5-large...
+2026-02-14 22:23:26,555 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-14 22:23:26,556 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: intfloat/multilingual-e5-large
+2026-02-14 22:45:55,512 | INFO | app.nlp.embeddings | ✅ Embedding model loaded: intfloat/multilingual-e5-large (1024 dimensions)
+2026-02-14 22:45:58,166 | INFO | app.rag.pipeline | RAG Pipeline: FAISS dimension = 1024
+2026-02-14 22:45:58,238 | WARNING | app.rag.vector_store | ⚠️ FAISS dimension changed (384 → 1024). Rebuilding index (old vectors discarded).
+2026-02-14 22:46:11,282 | INFO | app.nlp.reranking | Loading reranking model: cross-encoder/ms-marco-multilingual-MiniLM-L-6-v2...
+2026-02-14 22:46:11,460 | ERROR | app.nlp.reranking | Failed to load reranker: cross-encoder/ms-marco-multilingual-MiniLM-L-6-v2 is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2026-02-14 22:46:16,143 | INFO | app.nlp.llm_service | ✅ LLM Provider: Google Gemini initialized.
+2026-02-14 22:46:16,258 | INFO | app.scraping.orchestrator | Scraping de la source: GPBM (Banques du Maroc) (gpbm_news)
+2026-02-14 22:46:16,269 | INFO | app.backend.api | WebSocket disconnected for user: admin
+2026-02-14 22:46:16,286 | INFO | uvicorn.error | connection closed
+2026-02-14 22:46:16,434 | INFO | app.storage.audit_log | Audit: SECURITY | LOGIN | SUCCESS
+2026-02-14 22:46:31,377 | INFO | app.scraping.browser_scraper | Navigate to https://www.gpbm.ma/actualites with Playwright
+2026-02-14 22:46:45,162 | INFO | app.scraping.browser_scraper | Primary selector found 0 links
+2026-02-14 22:46:45,163 | WARNING | app.scraping.browser_scraper | Primary selector found 0 articles, trying auto-discovery...
+2026-02-14 22:46:45,164 | INFO | app.scraping.browser_scraper | Auto-discovery found 0 potential articles
+2026-02-14 22:46:45,165 | INFO | app.scraping.browser_scraper | Scraping 0 articles from https://www.gpbm.ma/actualites
+2026-02-14 22:46:45,508 | INFO | app.scraping.orchestrator | Aucun article trouvé pour gpbm_news
+2026-02-14 22:53:32,343 | INFO | app.storage.audit_log | Audit: SECURITY | LOGIN | FAILED
+2026-02-14 22:53:32,345 | INFO | uvicorn.access | 127.0.0.1:60069 - "POST /token HTTP/1.1" 401
+2026-02-14 22:53:38,764 | INFO | app.storage.audit_log | Audit: SECURITY | LOGIN | SUCCESS
+2026-02-14 22:53:38,766 | INFO | uvicorn.access | 127.0.0.1:60082 - "POST /token HTTP/1.1" 200
+2026-02-14 22:53:39,029 | INFO | uvicorn.access | 127.0.0.1:60082 - "OPTIONS /users/me HTTP/1.1" 200
+2026-02-14 22:53:39,040 | INFO | uvicorn.access | 127.0.0.1:60082 - "GET /users/me HTTP/1.1" 200
+2026-02-14 22:53:39,386 | INFO | uvicorn.error | 127.0.0.1:60091 - "WebSocket /ws/notifications/admin" [accepted]
+2026-02-14 22:53:39,388 | INFO | app.backend.api | WebSocket connected for user: admin
+2026-02-14 22:53:39,394 | INFO | uvicorn.error | connection open
+2026-02-14 22:53:39,607 | INFO | uvicorn.access | 127.0.0.1:60082 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:53:39,627 | INFO | uvicorn.access | 127.0.0.1:60083 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:53:39,639 | INFO | uvicorn.access | 127.0.0.1:60082 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-14 22:53:39,650 | INFO | uvicorn.access | 127.0.0.1:60083 - "OPTIONS /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:53:39,655 | INFO | uvicorn.access | 127.0.0.1:60082 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:53:39,673 | INFO | uvicorn.access | 127.0.0.1:60083 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-14 22:53:39,807 | INFO | uvicorn.access | 127.0.0.1:60082 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:53:39,842 | INFO | uvicorn.access | 127.0.0.1:60082 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:53:39,858 | INFO | uvicorn.access | 127.0.0.1:60082 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:53:39,884 | INFO | uvicorn.access | 127.0.0.1:60082 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:53:39,886 | INFO | uvicorn.access | 127.0.0.1:60083 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:53:39,904 | INFO | uvicorn.access | 127.0.0.1:60082 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:53:39,916 | INFO | uvicorn.access | 127.0.0.1:60083 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:53:45,118 | INFO | app.backend.api | WebSocket disconnected for user: admin
+2026-02-14 22:53:45,122 | INFO | uvicorn.error | connection closed
+2026-02-14 22:53:48,386 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /users/me HTTP/1.1" 200
+2026-02-14 22:53:48,494 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:53:48,518 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:53:48,534 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:53:48,549 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:53:48,573 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:53:48,596 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:53:48,622 | INFO | uvicorn.access | 127.0.0.1:60122 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:53:48,782 | INFO | uvicorn.error | 127.0.0.1:60131 - "WebSocket /ws/notifications/admin" [accepted]
+2026-02-14 22:53:48,783 | INFO | app.backend.api | WebSocket connected for user: admin
+2026-02-14 22:53:48,784 | INFO | uvicorn.error | connection open
+2026-02-14 22:54:18,792 | INFO | uvicorn.access | 127.0.0.1:55664 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:54:50,618 | INFO | uvicorn.access | 127.0.0.1:65171 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:54:50,669 | INFO | uvicorn.access | 127.0.0.1:65171 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-14 22:54:50,690 | INFO | uvicorn.access | 127.0.0.1:65171 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:54:50,709 | INFO | uvicorn.access | 127.0.0.1:65171 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:54:52,944 | INFO | uvicorn.access | 127.0.0.1:65171 - "OPTIONS /documents/6990e25e45e5d3a60d692003 HTTP/1.1" 200
+2026-02-14 22:54:52,977 | INFO | uvicorn.access | 127.0.0.1:65171 - "GET /documents/6990e25e45e5d3a60d692003 HTTP/1.1" 200
+2026-02-14 22:55:09,539 | INFO | uvicorn.access | 127.0.0.1:65187 - "OPTIONS /documents/6990e25e45e5d3a60d692003/summarize HTTP/1.1" 200
+2026-02-14 22:55:09,555 | INFO | app.backend.api | Summarize request received for document: 6990e25e45e5d3a60d692003
+2026-02-14 22:55:43,798 | INFO | app.nlp.banking_nlp | ✅ Gemini available for high-quality summarization
+2026-02-14 22:55:43,800 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:55:45,460 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 22:55:49,273 | INFO | uvicorn.access | 127.0.0.1:65187 - "POST /documents/6990e25e45e5d3a60d692003/summarize HTTP/1.1" 200
+2026-02-14 22:55:49,278 | INFO | uvicorn.access | 127.0.0.1:63996 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:55:49,493 | INFO | uvicorn.access | 127.0.0.1:63996 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:55:54,109 | INFO | uvicorn.access | 127.0.0.1:63996 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-14 22:55:54,139 | INFO | uvicorn.access | 127.0.0.1:63996 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:55:54,147 | INFO | uvicorn.access | 127.0.0.1:63996 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:56:04,316 | INFO | uvicorn.access | 127.0.0.1:62248 - "OPTIONS /sources/scrape/bis_press HTTP/1.1" 200
+2026-02-14 22:56:04,338 | INFO | app.scraping.orchestrator | Scraping de la source: Bank for International Settlements (BIS) (bis_press)
+2026-02-14 22:56:06,969 | INFO | app.scraping.browser_scraper | Navigate to https://www.bis.org/press/index.htm with Playwright
+2026-02-14 22:56:14,072 | INFO | uvicorn.access | 127.0.0.1:62251 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:56:14,083 | INFO | uvicorn.access | 127.0.0.1:62251 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:56:15,444 | INFO | uvicorn.access | 127.0.0.1:62251 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:56:15,460 | INFO | uvicorn.access | 127.0.0.1:62251 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:56:18,482 | INFO | uvicorn.access | 127.0.0.1:62251 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:56:20,822 | INFO | app.scraping.browser_scraper | Primary selector found 31 links
+2026-02-14 22:56:20,822 | INFO | app.scraping.browser_scraper | Scraping 5 articles from https://www.bis.org/press/index.htm
+2026-02-14 22:56:20,823 | INFO | app.scraping.browser_scraper | Scraping article [0]: https://www.bis.org/press/pressrels.htm?m=252
+2026-02-14 22:56:22,599 | INFO | app.scraping.browser_scraper | Scraping article [1]: https://www.bis.org/press/photo_gallery.htm?m=255
+2026-02-14 22:56:24,390 | INFO | app.scraping.browser_scraper | Scraping article [2]: https://www.bis.org/press/podcast.htm?m=260
+2026-02-14 22:56:26,687 | INFO | app.scraping.browser_scraper | Scraping article [3]: https://www.bis.org/press/p260209.htm
+2026-02-14 22:56:28,413 | INFO | app.scraping.browser_scraper | Scraping article [4]: https://www.bis.org/press/p260115.htm
+2026-02-14 22:56:31,784 | INFO | app.nlp.translation_service | ✅ Translation Service: Google Gemini initialized.
+2026-02-14 22:56:31,786 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:56:32,146 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:56:32,149 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:56:32,150 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:56:32,252 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:56:32,254 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:56:32,255 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:56:32,377 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:56:32,380 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:56:32,380 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:56:32,491 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:56:32,493 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:56:32,494 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:56:32,600 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:56:32,601 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:56:32,602 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-14 22:56:32,602 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-14 22:56:32,603 | INFO | app.scraping.orchestrator |   [1/3] Classification thématique en cours...
+2026-02-14 22:56:32,603 | INFO | app.nlp.banking_nlp | Loading classifier: joeddav/xlm-roberta-large-xnli...
+2026-02-14 22:56:38,929 | INFO | app.nlp.banking_nlp | ✅ Classifier loaded.
+2026-02-14 22:56:48,789 | INFO | uvicorn.access | 127.0.0.1:50180 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:57:18,797 | INFO | uvicorn.access | 127.0.0.1:63603 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:57:32,958 | INFO | uvicorn.access | 127.0.0.1:63621 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:57:32,979 | INFO | uvicorn.access | 127.0.0.1:63621 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:57:48,569 | INFO | uvicorn.access | 127.0.0.1:61968 - "OPTIONS /documents/bulk-delete HTTP/1.1" 200
+2026-02-14 22:57:48,585 | INFO | uvicorn.access | 127.0.0.1:61968 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:57:48,729 | INFO | uvicorn.access | 127.0.0.1:61968 - "POST /documents/bulk-delete HTTP/1.1" 200
+2026-02-14 22:57:48,749 | INFO | uvicorn.access | 127.0.0.1:61968 - "GET /documents HTTP/1.1" 200
+2026-02-14 22:57:51,216 | INFO | uvicorn.access | 127.0.0.1:61968 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:57:51,288 | INFO | uvicorn.access | 127.0.0.1:61968 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:57:56,665 | INFO | uvicorn.access | 127.0.0.1:64875 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:57:56,745 | INFO | uvicorn.access | 127.0.0.1:64875 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:58:00,156 | INFO | uvicorn.access | 127.0.0.1:64875 - "OPTIONS /alerts/6990e25e17f39737847a52ee/read HTTP/1.1" 200
+2026-02-14 22:58:00,175 | INFO | uvicorn.access | 127.0.0.1:64877 - "POST /alerts/6990e25e17f39737847a52ee/read HTTP/1.1" 200
+2026-02-14 22:58:00,940 | INFO | uvicorn.access | 127.0.0.1:64877 - "OPTIONS /alerts/6990e20d17f39737847a52ec/read HTTP/1.1" 200
+2026-02-14 22:58:00,955 | INFO | uvicorn.access | 127.0.0.1:64875 - "POST /alerts/6990e20d17f39737847a52ec/read HTTP/1.1" 200
+2026-02-14 22:58:01,669 | INFO | uvicorn.access | 127.0.0.1:64875 - "OPTIONS /alerts/6990e1f817f39737847a52e9/read HTTP/1.1" 200
+2026-02-14 22:58:01,683 | INFO | uvicorn.access | 127.0.0.1:64877 - "POST /alerts/6990e1f817f39737847a52e9/read HTTP/1.1" 200
+2026-02-14 22:58:02,682 | INFO | uvicorn.access | 127.0.0.1:64877 - "OPTIONS /alerts/6990da577e8a6c6253005e15/read HTTP/1.1" 200
+2026-02-14 22:58:02,703 | INFO | uvicorn.access | 127.0.0.1:64875 - "POST /alerts/6990da577e8a6c6253005e15/read HTTP/1.1" 200
+2026-02-14 22:58:03,924 | INFO | uvicorn.access | 127.0.0.1:64875 - "OPTIONS /alerts/6990da577e8a6c6253005e13/read HTTP/1.1" 200
+2026-02-14 22:58:03,939 | INFO | uvicorn.access | 127.0.0.1:64877 - "POST /alerts/6990da577e8a6c6253005e13/read HTTP/1.1" 200
+2026-02-14 22:58:05,160 | INFO | uvicorn.access | 127.0.0.1:64877 - "OPTIONS /alerts/6990da577e8a6c6253005e0f/read HTTP/1.1" 200
+2026-02-14 22:58:05,175 | INFO | uvicorn.access | 127.0.0.1:64875 - "POST /alerts/6990da577e8a6c6253005e0f/read HTTP/1.1" 200
+2026-02-14 22:58:05,789 | INFO | uvicorn.access | 127.0.0.1:64875 - "OPTIONS /alerts/6990da577e8a6c6253005e11/read HTTP/1.1" 200
+2026-02-14 22:58:05,804 | INFO | uvicorn.access | 127.0.0.1:64877 - "POST /alerts/6990da577e8a6c6253005e11/read HTTP/1.1" 200
+2026-02-14 22:58:07,175 | INFO | uvicorn.access | 127.0.0.1:64887 - "OPTIONS /alerts/6990da577e8a6c6253005e0d/read HTTP/1.1" 200
+2026-02-14 22:58:07,190 | INFO | uvicorn.access | 127.0.0.1:64887 - "POST /alerts/6990da577e8a6c6253005e0d/read HTTP/1.1" 200
+2026-02-14 22:58:07,787 | INFO | uvicorn.access | 127.0.0.1:64887 - "OPTIONS /alerts/6990d8dba21fe57207266930/read HTTP/1.1" 200
+2026-02-14 22:58:07,811 | INFO | uvicorn.access | 127.0.0.1:64889 - "POST /alerts/6990d8dba21fe57207266930/read HTTP/1.1" 200
+2026-02-14 22:58:11,434 | INFO | uvicorn.access | 127.0.0.1:64889 - "OPTIONS /alerts/69908a40f6747527b98b781d/read HTTP/1.1" 200
+2026-02-14 22:58:11,459 | INFO | uvicorn.access | 127.0.0.1:64887 - "POST /alerts/69908a40f6747527b98b781d/read HTTP/1.1" 200
+2026-02-14 22:58:12,168 | INFO | uvicorn.access | 127.0.0.1:64887 - "OPTIONS /alerts/69908a40f6747527b98b781f/read HTTP/1.1" 200
+2026-02-14 22:58:12,181 | INFO | uvicorn.access | 127.0.0.1:64889 - "POST /alerts/69908a40f6747527b98b781f/read HTTP/1.1" 200
+2026-02-14 22:58:13,251 | INFO | uvicorn.access | 127.0.0.1:64889 - "OPTIONS /alerts/69908a40f6747527b98b7821/read HTTP/1.1" 200
+2026-02-14 22:58:13,277 | INFO | uvicorn.access | 127.0.0.1:64887 - "POST /alerts/69908a40f6747527b98b7821/read HTTP/1.1" 200
+2026-02-14 22:58:14,273 | INFO | uvicorn.access | 127.0.0.1:64887 - "OPTIONS /alerts/69908a40f6747527b98b7823/read HTTP/1.1" 200
+2026-02-14 22:58:14,289 | INFO | uvicorn.access | 127.0.0.1:64889 - "POST /alerts/69908a40f6747527b98b7823/read HTTP/1.1" 200
+2026-02-14 22:58:15,335 | INFO | uvicorn.access | 127.0.0.1:64889 - "OPTIONS /alerts/6990d6e15c37baa5c81125df/read HTTP/1.1" 200
+2026-02-14 22:58:15,359 | INFO | uvicorn.access | 127.0.0.1:64887 - "POST /alerts/6990d6e15c37baa5c81125df/read HTTP/1.1" 200
+2026-02-14 22:58:16,982 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:58:16,996 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:58:18,082 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:58:18,116 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:58:18,136 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:58:18,181 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:58:18,207 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:58:18,224 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:58:18,589 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:58:19,216 | INFO | app.backend.api | WebSocket disconnected for user: admin
+2026-02-14 22:58:19,225 | INFO | uvicorn.error | connection closed
+2026-02-14 22:58:20,694 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /users/me HTTP/1.1" 200
+2026-02-14 22:58:21,019 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:58:21,225 | INFO | uvicorn.access | 127.0.0.1:50157 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:58:21,242 | INFO | uvicorn.access | 127.0.0.1:50156 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:58:21,251 | INFO | uvicorn.access | 127.0.0.1:50155 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:58:21,293 | INFO | uvicorn.access | 127.0.0.1:50157 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 22:58:21,317 | INFO | uvicorn.access | 127.0.0.1:50155 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 22:58:21,335 | INFO | uvicorn.error | 127.0.0.1:55914 - "WebSocket /ws/notifications/admin" [accepted]
+2026-02-14 22:58:21,369 | INFO | app.backend.api | WebSocket connected for user: admin
+2026-02-14 22:58:21,382 | INFO | uvicorn.error | connection open
+2026-02-14 22:58:21,399 | INFO | uvicorn.access | 127.0.0.1:50149 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 22:58:51,331 | INFO | uvicorn.access | 127.0.0.1:63830 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:59:21,029 | INFO | uvicorn.access | 127.0.0.1:63831 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:59:23,311 | INFO | uvicorn.access | 127.0.0.1:63831 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:59:23,469 | INFO | uvicorn.access | 127.0.0.1:63831 - "GET /sources HTTP/1.1" 200
+2026-02-14 22:59:31,390 | INFO | uvicorn.access | 127.0.0.1:60337 - "OPTIONS /sources/scrape/bam_news HTTP/1.1" 200
+2026-02-14 22:59:31,406 | INFO | app.scraping.orchestrator | Scraping de la source: Bank Al-Maghrib - Communiqués (bam_news)
+2026-02-14 22:59:35,833 | INFO | app.scraping.browser_scraper | Navigate to https://www.bkam.ma/fr/Communiques with Playwright
+2026-02-14 22:59:43,471 | INFO | app.scraping.browser_scraper | Primary selector found 20 links
+2026-02-14 22:59:43,472 | INFO | app.scraping.browser_scraper | Scraping 5 articles from https://www.bkam.ma/fr/Communiques
+2026-02-14 22:59:43,472 | INFO | app.scraping.browser_scraper | Scraping article [0]: https://www.bkam.ma/fr/Communiques/Besoins-previsionnels-du-tresor/2026/Besoin-previsionnel-du-tresor-pour-le-mois-de-fevrier-2026
+2026-02-14 22:59:45,856 | INFO | app.scraping.browser_scraper | Scraping article [1]: https://www.bkam.ma/fr/Communiques/Emission-de-bons-de-tresor-par-adjudication/2026/Emission-de-bons-de-tresor-par-adjudication-seance-du-10-02-2026
+2026-02-14 22:59:48,176 | INFO | app.scraping.browser_scraper | Scraping article [2]: https://www.bkam.ma/fr/Communiques/Emission-de-bons-de-tresor-par-adjudication/2026/Emission-de-bons-de-tresor-par-adjudication-seance-du-03-02-2026
+2026-02-14 22:59:50,603 | INFO | app.scraping.browser_scraper | Scraping article [3]: https://www.bkam.ma/fr/Communiques/Echange-des-bons-du-tresor/2026/Echange-de-valeurs-du-tresor-du-29-01-2026
+2026-02-14 22:59:51,350 | INFO | uvicorn.access | 127.0.0.1:53695 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 22:59:53,208 | INFO | app.scraping.browser_scraper | Scraping article [4]: https://www.bkam.ma/fr/Communiques/Emission-de-bons-de-tresor-par-adjudication/2026/Emission-de-bons-de-tresor-par-adjudication-seance-du-27-01-2026
+2026-02-14 22:59:55,961 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:59:56,304 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:59:56,307 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:59:56,309 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:59:56,432 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:59:56,435 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:59:56,437 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:59:56,544 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:59:56,550 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:59:56,553 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:59:56,661 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:59:56,664 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:59:56,666 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 22:59:56,767 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 22:59:56,770 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 22:59:56,772 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-14 22:59:56,772 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-14 22:59:56,773 | INFO | app.scraping.orchestrator |   [1/3] Classification thématique en cours...
+2026-02-14 23:00:21,341 | INFO | uvicorn.access | 127.0.0.1:53717 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:00:51,338 | INFO | uvicorn.access | 127.0.0.1:49870 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:00:54,996 | INFO | app.scraping.orchestrator |   ✓ Classification terminée.
+2026-02-14 23:00:54,999 | INFO | app.scraping.orchestrator |   [2/3] Génération des résumés en cours...
+2026-02-14 23:00:58,169 | INFO | app.nlp.banking_nlp | ✅ Gemini available for high-quality summarization
+2026-02-14 23:00:58,170 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:01:00,578 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:01:00,582 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:01:02,334 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:01:02,338 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:01:04,334 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:01:04,337 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:01:06,244 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:01:06,250 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:01:07,930 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:01:07,937 | INFO | app.scraping.orchestrator |   ✓ Résumés terminés.
+2026-02-14 23:01:07,937 | INFO | app.scraping.orchestrator |   [3/3] Extraction d'entités en cours...
+2026-02-14 23:01:07,938 | INFO | app.nlp.banking_nlp | Loading NER: Jean-Baptiste/camembert-ner...
+2026-02-14 23:01:10,246 | INFO | app.nlp.banking_nlp | ✅ NER loaded.
+2026-02-14 23:01:17,855 | INFO | app.scraping.orchestrator |   ✓ Extraction d'entités terminée.
+2026-02-14 23:01:17,856 | INFO | app.scraping.orchestrator | Enrichissement terminé, 5 documents enrichis
+2026-02-14 23:01:17,856 | INFO | app.scraping.orchestrator | Sauvegarde de 5 documents dans MongoDB...
+2026-02-14 23:01:17,975 | INFO | app.scraping.orchestrator | ✓ 5 documents sauvegardés avec succès (IDs: ['6990f0ad45e5d3a60d692004', '6990f0ad45e5d3a60d692005']...)
+2026-02-14 23:01:17,981 | INFO | app.scraping.orchestrator | Total documents en base: 5
+2026-02-14 23:01:17,985 | INFO | app.scraping.orchestrator | Traitement des alertes...
+2026-02-14 23:01:17,991 | INFO | root | --- AlertService: Processing 5 docs for admin ---
+2026-02-14 23:01:18,045 | INFO | root | --- Alert Calculated: Level=medium, Score=41 ---
+2026-02-14 23:01:18,197 | INFO | root | --- Alert Saved to DB: 6990f0ae1c5c6a747127ea15 ---
+2026-02-14 23:01:18,200 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:01:18,201 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:01:18,205 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:01:18,206 | INFO | root | --- Alert Calculated: Level=low, Score=17 ---
+2026-02-14 23:01:18,210 | INFO | root | --- Alert Saved to DB: 6990f0ae1c5c6a747127ea17 ---
+2026-02-14 23:01:18,211 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:01:18,211 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:01:18,215 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:01:18,217 | INFO | root | --- Alert Calculated: Level=low, Score=23 ---
+2026-02-14 23:01:18,220 | INFO | root | --- Alert Saved to DB: 6990f0ae1c5c6a747127ea19 ---
+2026-02-14 23:01:18,221 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:01:18,221 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:01:18,224 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:01:18,225 | INFO | root | --- Alert Calculated: Level=medium, Score=29 ---
+2026-02-14 23:01:18,228 | INFO | root | --- Alert Saved to DB: 6990f0ae1c5c6a747127ea1b ---
+2026-02-14 23:01:18,257 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:01:18,259 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:01:18,262 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:01:18,262 | INFO | root | --- Alert Calculated: Level=medium, Score=26 ---
+2026-02-14 23:01:18,267 | INFO | root | --- Alert Saved to DB: 6990f0ae1c5c6a747127ea1d ---
+2026-02-14 23:01:18,267 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:01:18,268 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:01:18,272 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:01:20,962 | INFO | app.rag.pipeline | Indexation RAG: 37 chunks from 5 documents.
+2026-02-14 23:01:21,325 | INFO | uvicorn.access | 127.0.0.1:56526 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:01:29,377 | INFO | uvicorn.access | 127.0.0.1:56537 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:01:29,400 | INFO | uvicorn.access | 127.0.0.1:56537 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:01:41,209 | INFO | uvicorn.access | 127.0.0.1:53527 - "OPTIONS /documents/6990f0ad45e5d3a60d692004 HTTP/1.1" 200
+2026-02-14 23:01:41,239 | INFO | uvicorn.access | 127.0.0.1:53527 - "GET /documents/6990f0ad45e5d3a60d692004 HTTP/1.1" 200
+2026-02-14 23:01:51,327 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:01:51,698 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:01:51,778 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:01:51,823 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:01:51,851 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:01:51,881 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:01:51,921 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:01:55,937 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:01:55,979 | INFO | uvicorn.access | 127.0.0.1:59928 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:01:59,478 | INFO | uvicorn.access | 127.0.0.1:59943 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:01:59,537 | INFO | uvicorn.access | 127.0.0.1:59943 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:02:02,071 | INFO | uvicorn.access | 127.0.0.1:59943 - "OPTIONS /documents/6990f0ad45e5d3a60d692008 HTTP/1.1" 200
+2026-02-14 23:02:02,085 | INFO | uvicorn.access | 127.0.0.1:59943 - "GET /documents/6990f0ad45e5d3a60d692008 HTTP/1.1" 200
+2026-02-14 23:02:08,425 | INFO | uvicorn.access | 127.0.0.1:59953 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:02:08,441 | INFO | uvicorn.access | 127.0.0.1:59953 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:02:21,329 | INFO | uvicorn.access | 127.0.0.1:57071 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:02:23,231 | INFO | uvicorn.access | 127.0.0.1:57071 - "OPTIONS /sources/scrape/cih_bank_news HTTP/1.1" 200
+2026-02-14 23:02:23,243 | INFO | app.scraping.orchestrator | Scraping de la source: CIH Bank - Communiqués (cih_bank_news)
+2026-02-14 23:02:23,883 | INFO | app.scraping.orchestrator |   ✓ Classification terminée.
+2026-02-14 23:02:23,884 | INFO | app.scraping.orchestrator |   [2/3] Génération des résumés en cours...
+2026-02-14 23:02:23,885 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:02:25,373 | INFO | app.scraping.browser_scraper | Navigate to https://www.cihbank.ma/actualite/banque with Playwright
+2026-02-14 23:02:25,590 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:02:25,592 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:02:26,830 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:02:26,834 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:02:27,975 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:02:27,978 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:02:29,259 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:02:29,261 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:02:30,408 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:02:30,411 | INFO | app.scraping.orchestrator |   ✓ Résumés terminés.
+2026-02-14 23:02:30,411 | INFO | app.scraping.orchestrator |   [3/3] Extraction d'entités en cours...
+2026-02-14 23:02:30,638 | INFO | app.scraping.browser_scraper | Primary selector found 0 links
+2026-02-14 23:02:30,638 | WARNING | app.scraping.browser_scraper | Primary selector found 0 articles, trying auto-discovery...
+2026-02-14 23:02:30,648 | INFO | app.scraping.browser_scraper | Auto-discovery found 49 potential articles
+2026-02-14 23:02:30,648 | INFO | app.scraping.browser_scraper | Scraping 5 articles from https://www.cihbank.ma/actualite/banque
+2026-02-14 23:02:30,650 | INFO | app.scraping.browser_scraper | Scraping article [0]: https://www.cihbank.ma/particuliers/nos-innovations/cih-mobile
+2026-02-14 23:02:31,983 | INFO | app.scraping.orchestrator |   ✓ Extraction d'entités terminée.
+2026-02-14 23:02:31,983 | INFO | app.scraping.orchestrator | Enrichissement terminé, 5 documents enrichis
+2026-02-14 23:02:31,984 | INFO | app.scraping.orchestrator | Sauvegarde de 5 documents dans MongoDB...
+2026-02-14 23:02:32,002 | INFO | app.scraping.orchestrator | ✓ 5 documents sauvegardés avec succès (IDs: ['6990f0f745e5d3a60d692009', '6990f0f745e5d3a60d69200a']...)
+2026-02-14 23:02:32,007 | INFO | app.scraping.orchestrator | Total documents en base: 10
+2026-02-14 23:02:32,008 | INFO | app.scraping.orchestrator | Traitement des alertes...
+2026-02-14 23:02:32,009 | INFO | root | --- AlertService: Processing 5 docs for admin ---
+2026-02-14 23:02:32,009 | INFO | root | --- Alert Calculated: Level=critical, Score=84 ---
+2026-02-14 23:02:32,013 | INFO | root | --- Alert Saved to DB: 6990f0f81c5c6a747127ea1f ---
+2026-02-14 23:02:32,014 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:02:32,014 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:02:32,022 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:02:32,025 | INFO | root | --- Alert Calculated: Level=critical, Score=86 ---
+2026-02-14 23:02:32,030 | INFO | root | --- Alert Saved to DB: 6990f0f81c5c6a747127ea21 ---
+2026-02-14 23:02:32,031 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:02:32,032 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:02:32,035 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:02:32,040 | INFO | root | --- Alert Calculated: Level=critical, Score=86 ---
+2026-02-14 23:02:32,045 | INFO | root | --- Alert Saved to DB: 6990f0f81c5c6a747127ea23 ---
+2026-02-14 23:02:32,047 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:02:32,048 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:02:33,459 | INFO | app.scraping.browser_scraper | Scraping article [1]: https://www.cihbank.ma/particuliers/devenir-client/code-60
+2026-02-14 23:02:35,865 | INFO | app.scraping.browser_scraper | Scraping article [2]: https://www.cihbank.ma/particuliers/devenir-client/code-18
+2026-02-14 23:02:38,046 | INFO | app.scraping.browser_scraper | Scraping article [3]: https://www.cihbank.ma/particuliers/devenir-client/Club-Sayidati
+2026-02-14 23:02:39,613 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0073.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:02:41.885Z 08DE6B98632AC319]')
+2026-02-14 23:02:39,614 | WARNING | app.notifications.service | Tentative 1 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:02:40,407 | INFO | app.scraping.browser_scraper | Scraping article [4]: https://www.cihbank.ma/particuliers/devenir-client/offre-fonctionnaires
+2026-02-14 23:02:46,660 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA4P292CA0008.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:02:43.093Z 08DE6B860FE83301]')
+2026-02-14 23:02:46,661 | WARNING | app.notifications.service | Tentative 2 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:02:53,790 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0057.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:06.799Z 08DE6BB3B7B698E8]')
+2026-02-14 23:02:53,790 | WARNING | app.notifications.service | Tentative 3 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:00,766 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0034.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:19.761Z 08DE6B9050AB000B]')
+2026-02-14 23:03:00,766 | WARNING | app.notifications.service | Tentative 1 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:07,925 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0010.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:03.446Z 08DE6B90904E2958]')
+2026-02-14 23:03:07,925 | WARNING | app.notifications.service | Tentative 2 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:15,032 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA4P292CA0013.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:08.474Z 08DE6BA26CBCB670]')
+2026-02-14 23:03:15,033 | WARNING | app.notifications.service | Tentative 3 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:15,033 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:03:15,034 | INFO | root | --- Alert Calculated: Level=critical, Score=86 ---
+2026-02-14 23:03:15,037 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:03:15,040 | INFO | root | --- Alert Saved to DB: 6990f1231c5c6a747127ea27 ---
+2026-02-14 23:03:15,041 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:03:15,041 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:03:15,471 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 23:03:15,473 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 23:03:22,179 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0005.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:18.645Z 08DE6BAF18313BF5]')
+2026-02-14 23:03:22,180 | WARNING | app.notifications.service | Tentative 1 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:29,291 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0011.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:23.962Z 08DE6B99A8C8375B]')
+2026-02-14 23:03:29,292 | WARNING | app.notifications.service | Tentative 2 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:36,362 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA2P292CA0020.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:25.235Z 08DE6BB279594F7E]')
+2026-02-14 23:03:36,362 | WARNING | app.notifications.service | Tentative 3 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:36,364 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:03:36,365 | INFO | root | --- Alert Calculated: Level=critical, Score=86 ---
+2026-02-14 23:03:36,367 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:03:36,371 | INFO | root | --- Alert Saved to DB: 6990f1381c5c6a747127ea2a ---
+2026-02-14 23:03:36,372 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:03:36,372 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:03:36,616 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 23:03:36,617 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 23:03:43,454 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0030.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:04:01.409Z 08DE6B97F3424C75]')
+2026-02-14 23:03:43,454 | WARNING | app.notifications.service | Tentative 1 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:50,676 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA2P292CA0014.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:03:45.247Z 08DE6B6F3AC77858]')
+2026-02-14 23:03:50,676 | WARNING | app.notifications.service | Tentative 2 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:58,479 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0057.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:04:11.512Z 08DE6BB3B7B69B2A]')
+2026-02-14 23:03:58,480 | WARNING | app.notifications.service | Tentative 3 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:03:58,484 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:03:58,763 | INFO | app.rag.pipeline | Indexation RAG: 6 chunks from 5 documents.
+2026-02-14 23:03:58,769 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:03:58,778 | INFO | app.backend.api | WebSocket disconnected for user: admin
+2026-02-14 23:03:58,779 | INFO | uvicorn.error | connection closed
+2026-02-14 23:03:59,039 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 23:03:59,048 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 23:04:05,942 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0066.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:04:09.690Z 08DE6B83EB367E80]')
+2026-02-14 23:04:05,943 | WARNING | app.notifications.service | Tentative 1 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:04:12,988 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0021.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:04:27.474Z 08DE6BF8F31438B2]')
+2026-02-14 23:04:12,990 | WARNING | app.notifications.service | Tentative 2 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:04:18,761 | ERROR | app.notifications.connectors | ❌ Authentification SMTP échouée pour Iliass Nacer. Si la 2FA est activée, utilisez un App Password. Erreur: (535, b'5.7.3 Authentication unsuccessful [MA3P292CA0004.ESPP292.PROD.OUTLOOK.COM 2026-02-14T22:04:12.234Z 08DE6BB7EA4F4B91]')
+2026-02-14 23:04:18,762 | WARNING | app.notifications.service | Tentative 3 échouée pour iliass.nacer@emsi-edu.ma
+2026-02-14 23:04:18,766 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:04:18,774 | INFO | uvicorn.access | 127.0.0.1:60337 - "GET /sources/scrape/bam_news HTTP/1.1" 200
+2026-02-14 23:04:18,776 | INFO | uvicorn.access | 127.0.0.1:55404 - "OPTIONS /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:04:18,777 | INFO | uvicorn.access | 127.0.0.1:55413 - "OPTIONS /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:04:18,778 | INFO | uvicorn.access | 127.0.0.1:55424 - "OPTIONS /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:04:19,028 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 23:04:19,030 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 23:04:19,031 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:04:19,086 | INFO | uvicorn.access | 127.0.0.1:56638 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:04:19,102 | INFO | uvicorn.access | 127.0.0.1:56638 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:04:19,104 | INFO | uvicorn.access | 127.0.0.1:56640 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:04:19,116 | INFO | uvicorn.access | 127.0.0.1:56640 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:04:19,140 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent "HTTP/1.1 404 Not Found"
+2026-02-14 23:04:19,142 | ERROR | app.nlp.translation_service | Language detection failed: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-02-14 23:04:19,144 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-14 23:04:19,144 | INFO | app.scraping.orchestrator | Enrichissement IA pour 5 documents...
+2026-02-14 23:04:19,145 | INFO | app.scraping.orchestrator |   [1/3] Classification thématique en cours...
+2026-02-14 23:04:21,131 | INFO | uvicorn.access | 127.0.0.1:56640 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:05:13,439 | INFO | uvicorn.access | 127.0.0.1:60698 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:05:24,545 | INFO | uvicorn.access | 127.0.0.1:53251 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:05:27,244 | INFO | uvicorn.access | 127.0.0.1:53251 - "OPTIONS /admin/emails HTTP/1.1" 200
+2026-02-14 23:05:27,259 | INFO | uvicorn.access | 127.0.0.1:53251 - "OPTIONS /admin/emails HTTP/1.1" 200
+2026-02-14 23:05:27,635 | INFO | uvicorn.access | 127.0.0.1:53251 - "GET /admin/emails HTTP/1.1" 200
+2026-02-14 23:05:27,654 | INFO | uvicorn.access | 127.0.0.1:53251 - "GET /admin/emails HTTP/1.1" 200
+2026-02-14 23:05:29,607 | INFO | uvicorn.access | 127.0.0.1:53251 - "OPTIONS /users/me HTTP/1.1" 200
+2026-02-14 23:05:29,634 | INFO | uvicorn.access | 127.0.0.1:53251 - "GET /users/me HTTP/1.1" 200
+2026-02-14 23:05:29,938 | INFO | uvicorn.access | 127.0.0.1:53251 - "GET /admin/emails HTTP/1.1" 200
+2026-02-14 23:05:29,955 | INFO | uvicorn.access | 127.0.0.1:63710 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:05:29,985 | INFO | uvicorn.access | 127.0.0.1:53251 - "GET /admin/emails HTTP/1.1" 200
+2026-02-14 23:05:30,242 | INFO | uvicorn.error | 127.0.0.1:51175 - "WebSocket /ws/notifications/admin" [accepted]
+2026-02-14 23:05:30,247 | INFO | app.backend.api | WebSocket connected for user: admin
+2026-02-14 23:05:30,269 | INFO | uvicorn.error | connection open
+2026-02-14 23:05:35,881 | INFO | uvicorn.access | 127.0.0.1:51200 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-14 23:05:35,886 | INFO | uvicorn.access | 127.0.0.1:51200 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-14 23:05:35,903 | INFO | uvicorn.access | 127.0.0.1:51200 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:05:35,920 | INFO | uvicorn.access | 127.0.0.1:51200 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:05:45,972 | INFO | uvicorn.access | 127.0.0.1:49684 - "OPTIONS /documents/6990f0f745e5d3a60d69200d HTTP/1.1" 200
+2026-02-14 23:05:45,989 | INFO | uvicorn.access | 127.0.0.1:49684 - "GET /documents/6990f0f745e5d3a60d69200d HTTP/1.1" 200
+2026-02-14 23:06:00,247 | INFO | uvicorn.access | 127.0.0.1:49281 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:06:04,213 | INFO | uvicorn.access | 127.0.0.1:49289 - "GET /admin/emails HTTP/1.1" 200
+2026-02-14 23:06:04,232 | INFO | uvicorn.access | 127.0.0.1:49289 - "GET /admin/emails HTTP/1.1" 200
+2026-02-14 23:06:05,671 | INFO | uvicorn.access | 127.0.0.1:49289 - "OPTIONS /sources HTTP/1.1" 200
+2026-02-14 23:06:05,703 | INFO | uvicorn.access | 127.0.0.1:49289 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:06:05,719 | INFO | uvicorn.access | 127.0.0.1:49289 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:06:07,163 | INFO | uvicorn.access | 127.0.0.1:49289 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:06:07,183 | INFO | uvicorn.access | 127.0.0.1:49289 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:06:14,258 | INFO | app.scraping.orchestrator |   ✓ Classification terminée.
+2026-02-14 23:06:14,258 | INFO | app.scraping.orchestrator |   [2/3] Génération des résumés en cours...
+2026-02-14 23:06:14,259 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:06:15,676 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:06:15,678 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:06:17,121 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:06:17,124 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:06:17,597 | INFO | uvicorn.access | 127.0.0.1:51267 - "OPTIONS /documents/6990f0f745e5d3a60d69200c HTTP/1.1" 200
+2026-02-14 23:06:17,604 | INFO | uvicorn.access | 127.0.0.1:51267 - "GET /documents/6990f0f745e5d3a60d69200c HTTP/1.1" 200
+2026-02-14 23:06:18,436 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:06:18,438 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:06:19,522 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:06:19,524 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:06:20,861 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:06:20,863 | INFO | app.scraping.orchestrator |   ✓ Résumés terminés.
+2026-02-14 23:06:20,863 | INFO | app.scraping.orchestrator |   [3/3] Extraction d'entités en cours...
+2026-02-14 23:06:22,240 | INFO | app.scraping.orchestrator |   ✓ Extraction d'entités terminée.
+2026-02-14 23:06:22,241 | INFO | app.scraping.orchestrator | Enrichissement terminé, 5 documents enrichis
+2026-02-14 23:06:22,241 | INFO | app.scraping.orchestrator | Sauvegarde de 5 documents dans MongoDB...
+2026-02-14 23:06:22,259 | INFO | app.scraping.orchestrator | ✓ 5 documents sauvegardés avec succès (IDs: ['6990f1de45e5d3a60d69200e', '6990f1de45e5d3a60d69200f']...)
+2026-02-14 23:06:22,263 | INFO | app.scraping.orchestrator | Total documents en base: 15
+2026-02-14 23:06:22,263 | INFO | app.scraping.orchestrator | Traitement des alertes...
+2026-02-14 23:06:22,264 | INFO | root | --- AlertService: Processing 5 docs for admin ---
+2026-02-14 23:06:22,265 | INFO | root | --- Alert Calculated: Level=medium, Score=29 ---
+2026-02-14 23:06:22,267 | INFO | root | --- Alert Saved to DB: 6990f1de1c5c6a747127ea2e ---
+2026-02-14 23:06:22,267 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:06:22,268 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:06:22,270 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:06:22,270 | INFO | root | --- Alert Calculated: Level=medium, Score=29 ---
+2026-02-14 23:06:22,272 | INFO | root | --- Alert Saved to DB: 6990f1de1c5c6a747127ea30 ---
+2026-02-14 23:06:22,273 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:06:22,273 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:06:22,275 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:06:22,275 | INFO | root | --- Alert Calculated: Level=low, Score=19 ---
+2026-02-14 23:06:22,277 | INFO | root | --- Alert Saved to DB: 6990f1de1c5c6a747127ea32 ---
+2026-02-14 23:06:22,277 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:06:22,278 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:06:22,280 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:06:22,281 | INFO | root | --- Alert Calculated: Level=medium, Score=28 ---
+2026-02-14 23:06:22,283 | INFO | root | --- Alert Saved to DB: 6990f1de1c5c6a747127ea34 ---
+2026-02-14 23:06:22,284 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:06:22,284 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:06:22,286 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:06:22,287 | INFO | root | --- Alert Calculated: Level=low, Score=19 ---
+2026-02-14 23:06:22,288 | INFO | root | --- Alert Saved to DB: 6990f1de1c5c6a747127ea36 ---
+2026-02-14 23:06:22,289 | INFO | root | --- Broadcasting to WebSocket ---
+2026-02-14 23:06:22,289 | ERROR | app.backend.api | Error broadcasting to admin: Object of type ObjectId is not JSON serializable
+2026-02-14 23:06:22,291 | INFO | app.storage.audit_log | Audit: ALERT_GENERATED | AUTO_NOTIFY | SUCCESS
+2026-02-14 23:06:22,910 | INFO | app.rag.pipeline | Indexation RAG: 10 chunks from 5 documents.
+2026-02-14 23:06:25,009 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:06:25,030 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /sources HTTP/1.1" 200
+2026-02-14 23:06:27,338 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:06:27,359 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:06:29,941 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:06:32,346 | INFO | uvicorn.access | 127.0.0.1:57764 - "OPTIONS /documents/6990f1de45e5d3a60d692012 HTTP/1.1" 200
+2026-02-14 23:06:32,354 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /documents/6990f1de45e5d3a60d692012 HTTP/1.1" 200
+2026-02-14 23:06:36,477 | INFO | uvicorn.access | 127.0.0.1:57764 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:06:36,482 | INFO | uvicorn.access | 127.0.0.1:57765 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:06:36,491 | INFO | uvicorn.access | 127.0.0.1:57764 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-14 23:06:36,502 | INFO | uvicorn.access | 127.0.0.1:57765 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:06:36,507 | INFO | uvicorn.access | 127.0.0.1:57764 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:06:36,517 | INFO | uvicorn.access | 127.0.0.1:57765 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-14 23:06:36,534 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:06:36,537 | INFO | uvicorn.access | 127.0.0.1:57765 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:06:36,553 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:06:36,561 | INFO | uvicorn.access | 127.0.0.1:57765 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:06:36,570 | INFO | uvicorn.access | 127.0.0.1:57764 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:06:36,574 | INFO | uvicorn.access | 127.0.0.1:57765 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:06:38,516 | INFO | uvicorn.access | 127.0.0.1:57765 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:06:38,528 | INFO | uvicorn.access | 127.0.0.1:57765 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:06:51,563 | INFO | uvicorn.access | 127.0.0.1:50664 - "GET /documents/6990f1de45e5d3a60d692012 HTTP/1.1" 200
+2026-02-14 23:06:59,936 | INFO | uvicorn.access | 127.0.0.1:50665 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:07:04,653 | INFO | uvicorn.access | 127.0.0.1:50665 - "OPTIONS /search HTTP/1.1" 200
+2026-02-14 23:07:04,670 | INFO | app.nlp.embeddings | Loading embedding model: intfloat/multilingual-e5-large...
+2026-02-14 23:07:04,739 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-14 23:07:04,740 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: intfloat/multilingual-e5-large
+2026-02-14 23:07:16,078 | INFO | app.nlp.embeddings | ✅ Embedding model loaded: intfloat/multilingual-e5-large (1024 dimensions)
+2026-02-14 23:07:16,592 | INFO | app.rag.pipeline | RAG Pipeline: FAISS dimension = 1024
+2026-02-14 23:07:16,775 | INFO | app.rag.vector_store | FAISS index loaded: 53 vectors (1024D)
+2026-02-14 23:07:20,465 | INFO | app.nlp.reranking | Loading reranking model: cross-encoder/ms-marco-multilingual-MiniLM-L-6-v2...
+2026-02-14 23:07:20,640 | ERROR | app.nlp.reranking | Failed to load reranker: cross-encoder/ms-marco-multilingual-MiniLM-L-6-v2 is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2026-02-14 23:07:22,052 | INFO | app.nlp.llm_service | ✅ LLM Provider: Google Gemini initialized.
+2026-02-14 23:07:22,393 | INFO | uvicorn.access | 127.0.0.1:50665 - "POST /search HTTP/1.1" 200
+2026-02-14 23:07:30,424 | INFO | uvicorn.access | 127.0.0.1:61934 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:08:00,431 | INFO | uvicorn.access | 127.0.0.1:65107 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:08:47,984 | INFO | uvicorn.access | 127.0.0.1:54946 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:09:00,238 | INFO | uvicorn.access | 127.0.0.1:59806 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:09:19,578 | INFO | uvicorn.access | 127.0.0.1:59975 - "OPTIONS /chatbot/ask HTTP/1.1" 200
+2026-02-14 23:09:19,827 | INFO | app.nlp.embeddings | Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2...
+2026-02-14 23:09:19,829 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2026-02-14 23:09:19,830 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-14 23:09:27,139 | INFO | app.nlp.embeddings | ✅ Embedding model loaded: paraphrase-multilingual-MiniLM-L12-v2 (384 dimensions)
+2026-02-14 23:09:27,695 | WARNING | app.rag.vector_store | ⚠️ FAISS dimension changed (1024 → 384). Rebuilding index (old vectors discarded).
+2026-02-14 23:09:29,224 | INFO | app.nlp.llm_service | ✅ LLM Provider: Google Gemini initialized.
+2026-02-14 23:09:29,336 | INFO | app.rag.chatbot | RAG Retrieval for 'parle moi des offres recentes de cih bank': Found 5 docs.
+2026-02-14 23:09:29,336 | INFO | app.rag.chatbot |    [0] Score: 4.8422 | Title: Offre fonctionnaires
+2026-02-14 23:09:29,337 | INFO | app.rag.chatbot |    [1] Score: 4.2276 | Title: code18
+2026-02-14 23:09:29,337 | INFO | app.rag.chatbot |    [2] Score: 3.9446 | Title: CODE 60
+2026-02-14 23:09:29,338 | INFO | app.rag.chatbot |    [3] Score: 3.9183 | Title: Besoin prévisionnel du Trésor pour le mois de février 2026
+2026-02-14 23:09:29,338 | INFO | app.rag.chatbot |    [4] Score: 3.8508 | Title: Club Sayidati
+2026-02-14 23:09:29,340 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:09:30,240 | INFO | uvicorn.access | 127.0.0.1:59191 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:09:34,479 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:09:34,493 | INFO | app.rag.chatbot | Chatbot answer generated via gemini
+2026-02-14 23:09:34,498 | INFO | uvicorn.access | 127.0.0.1:59975 - "POST /chatbot/ask HTTP/1.1" 200
+2026-02-14 23:10:00,236 | INFO | uvicorn.access | 127.0.0.1:49345 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:10:07,923 | INFO | uvicorn.access | 127.0.0.1:49346 - "OPTIONS /admin/users HTTP/1.1" 200
+2026-02-14 23:10:07,927 | INFO | uvicorn.access | 127.0.0.1:49346 - "OPTIONS /admin/users HTTP/1.1" 200
+2026-02-14 23:10:07,951 | INFO | uvicorn.access | 127.0.0.1:49346 - "GET /admin/users HTTP/1.1" 200
+2026-02-14 23:10:07,963 | INFO | uvicorn.access | 127.0.0.1:49346 - "GET /admin/users HTTP/1.1" 200
+2026-02-14 23:10:13,205 | INFO | uvicorn.access | 127.0.0.1:52300 - "OPTIONS /admin/users/hamza HTTP/1.1" 200
+2026-02-14 23:10:13,217 | INFO | app.services.audit_service | Audit Log: DELETE_USER by admin on USER_MGMT - SUCCESS
+2026-02-14 23:10:13,218 | INFO | uvicorn.access | 127.0.0.1:52300 - "DELETE /admin/users/hamza HTTP/1.1" 200
+2026-02-14 23:10:13,231 | INFO | uvicorn.access | 127.0.0.1:52300 - "GET /admin/users HTTP/1.1" 200
+2026-02-14 23:10:26,358 | INFO | uvicorn.access | 127.0.0.1:55221 - "OPTIONS /admin/users HTTP/1.1" 200
+2026-02-14 23:10:26,908 | INFO | app.services.audit_service | Audit Log: CREATE_USER by admin on USER_MGMT - SUCCESS
+2026-02-14 23:10:26,910 | INFO | uvicorn.access | 127.0.0.1:55221 - "POST /admin/users HTTP/1.1" 200
+2026-02-14 23:10:26,921 | INFO | uvicorn.access | 127.0.0.1:55221 - "GET /admin/users HTTP/1.1" 200
+2026-02-14 23:10:29,937 | INFO | uvicorn.access | 127.0.0.1:55221 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:10:34,772 | INFO | app.backend.api | WebSocket disconnected for user: admin
+2026-02-14 23:10:34,774 | INFO | uvicorn.error | connection closed
+2026-02-14 23:10:41,401 | INFO | app.storage.audit_log | Audit: SECURITY | LOGIN | SUCCESS
+2026-02-14 23:10:41,402 | INFO | uvicorn.access | 127.0.0.1:55238 - "POST /token HTTP/1.1" 200
+2026-02-14 23:10:41,417 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /users/me HTTP/1.1" 200
+2026-02-14 23:10:41,698 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:10:41,719 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:10:41,733 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:10:41,746 | INFO | uvicorn.error | 127.0.0.1:55251 - "WebSocket /ws/notifications/iliass" [accepted]
+2026-02-14 23:10:41,746 | INFO | app.backend.api | WebSocket connected for user: iliass
+2026-02-14 23:10:41,748 | INFO | uvicorn.error | connection open
+2026-02-14 23:10:41,749 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:10:41,768 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:10:41,782 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:10:41,796 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:10:45,124 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:10:45,139 | INFO | uvicorn.access | 127.0.0.1:55238 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:10:55,527 | INFO | uvicorn.access | 127.0.0.1:55262 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:10:55,535 | INFO | uvicorn.access | 127.0.0.1:55262 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:00,460 | INFO | uvicorn.access | 127.0.0.1:55263 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:11:00,463 | INFO | uvicorn.access | 127.0.0.1:55262 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:11:00,477 | INFO | uvicorn.access | 127.0.0.1:55263 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:00,485 | INFO | uvicorn.access | 127.0.0.1:55262 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:11:00,497 | INFO | uvicorn.access | 127.0.0.1:55262 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:00,500 | INFO | uvicorn.access | 127.0.0.1:55263 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:11:11,971 | INFO | uvicorn.access | 127.0.0.1:55282 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:11:16,770 | INFO | uvicorn.access | 127.0.0.1:55282 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:16,785 | INFO | uvicorn.access | 127.0.0.1:55282 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:24,015 | INFO | uvicorn.access | 127.0.0.1:61779 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:11:24,020 | INFO | uvicorn.access | 127.0.0.1:61781 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:24,024 | INFO | uvicorn.access | 127.0.0.1:61780 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:11:24,043 | INFO | uvicorn.access | 127.0.0.1:61781 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:24,048 | INFO | uvicorn.access | 127.0.0.1:61779 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:11:24,050 | INFO | uvicorn.access | 127.0.0.1:61780 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:11:24,725 | INFO | uvicorn.access | 127.0.0.1:61780 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:11:24,739 | INFO | uvicorn.access | 127.0.0.1:61780 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:11:26,219 | INFO | uvicorn.access | 127.0.0.1:61781 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:26,223 | INFO | uvicorn.access | 127.0.0.1:61779 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:11:26,234 | INFO | uvicorn.access | 127.0.0.1:61780 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:11:26,257 | INFO | uvicorn.access | 127.0.0.1:61781 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:11:26,264 | INFO | uvicorn.access | 127.0.0.1:61779 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:11:26,275 | INFO | uvicorn.access | 127.0.0.1:61780 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:11:41,972 | INFO | uvicorn.access | 127.0.0.1:53116 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:11:42,614 | INFO | uvicorn.access | 127.0.0.1:53116 - "POST /search HTTP/1.1" 200
+2026-02-14 23:12:11,972 | INFO | uvicorn.access | 127.0.0.1:59160 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:12:41,672 | INFO | uvicorn.access | 127.0.0.1:59161 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:13:01,316 | INFO | app.rag.chatbot | RAG Retrieval for 'cih': Found 5 docs.
+2026-02-14 23:13:01,317 | INFO | app.rag.chatbot |    [0] Score: 1.6570 | Title: CIH MOBILE
+2026-02-14 23:13:01,319 | INFO | app.rag.chatbot |    [1] Score: 0.9018 | Title: Offre fonctionnaires
+2026-02-14 23:13:01,320 | INFO | app.rag.chatbot |    [2] Score: 0.8998 | Title: code18
+2026-02-14 23:13:01,321 | INFO | app.rag.chatbot |    [3] Score: 0.7636 | Title: Club Sayidati
+2026-02-14 23:13:01,321 | INFO | app.rag.chatbot |    [4] Score: 0.7621 | Title: CODE 60
+2026-02-14 23:13:01,322 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:13:03,601 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:13:03,603 | INFO | app.rag.chatbot | Chatbot answer generated via gemini
+2026-02-14 23:13:03,604 | INFO | uvicorn.access | 127.0.0.1:54046 - "POST /chatbot/ask HTTP/1.1" 200
+2026-02-14 23:13:11,971 | INFO | uvicorn.access | 127.0.0.1:54053 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:13:41,973 | INFO | uvicorn.access | 127.0.0.1:64531 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:14:11,974 | INFO | uvicorn.access | 127.0.0.1:63153 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:14:41,967 | INFO | uvicorn.access | 127.0.0.1:59095 - "OPTIONS /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:14:41,974 | INFO | uvicorn.access | 127.0.0.1:59095 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:15:11,973 | INFO | uvicorn.access | 127.0.0.1:59054 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:15:41,971 | INFO | uvicorn.access | 127.0.0.1:55048 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:16:11,971 | INFO | uvicorn.access | 127.0.0.1:52351 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:16:24,340 | INFO | app.rag.chatbot | RAG Retrieval for 'quel sont les nouveautes aujourdhui': Found 5 docs.
+2026-02-14 23:16:24,341 | INFO | app.rag.chatbot |    [0] Score: 0.7621 | Title: CODE 60
+2026-02-14 23:16:24,341 | INFO | app.rag.chatbot |    [1] Score: 0.5111 | Title: Emission de Bons de Trésor par adjudication - Séance du 03-02-2026
+2026-02-14 23:16:24,342 | INFO | app.rag.chatbot |    [2] Score: 0.5111 | Title: Emission de Bons de Trésor par adjudication - Séance du 27-01-2026
+2026-02-14 23:16:24,342 | INFO | app.rag.chatbot |    [3] Score: 0.5111 | Title: Echange de valeurs du Trésor du 29-01-2026
+2026-02-14 23:16:24,342 | INFO | app.rag.chatbot |    [4] Score: 0.5111 | Title: Emission de Bons de Trésor par adjudication - Séance du 10-02-2026
+2026-02-14 23:16:24,344 | INFO | google_genai.models | AFC is enabled with max remote calls: 10.
+2026-02-14 23:16:27,674 | INFO | httpx | HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 200 OK"
+2026-02-14 23:16:27,677 | INFO | app.rag.chatbot | Chatbot answer generated via gemini
+2026-02-14 23:16:27,677 | INFO | uvicorn.access | 127.0.0.1:63034 - "POST /chatbot/ask HTTP/1.1" 200
+2026-02-14 23:16:41,972 | INFO | uvicorn.access | 127.0.0.1:53638 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:16:55,012 | INFO | uvicorn.access | 127.0.0.1:64139 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-14 23:16:55,013 | INFO | uvicorn.access | 127.0.0.1:64140 - "OPTIONS /documents HTTP/1.1" 200
+2026-02-14 23:16:55,023 | INFO | uvicorn.access | 127.0.0.1:64139 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:16:55,035 | INFO | uvicorn.access | 127.0.0.1:64139 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:17:02,331 | INFO | uvicorn.access | 127.0.0.1:57402 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:02,333 | INFO | uvicorn.access | 127.0.0.1:57403 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:02,336 | INFO | uvicorn.access | 127.0.0.1:57404 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:02,339 | INFO | uvicorn.access | 127.0.0.1:57405 - "OPTIONS /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:02,340 | INFO | uvicorn.access | 127.0.0.1:57406 - "OPTIONS /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:02,341 | INFO | uvicorn.access | 127.0.0.1:57407 - "OPTIONS /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:02,368 | INFO | uvicorn.access | 127.0.0.1:57404 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:02,373 | INFO | uvicorn.access | 127.0.0.1:57403 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:02,377 | INFO | uvicorn.access | 127.0.0.1:57402 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:02,387 | INFO | uvicorn.access | 127.0.0.1:57404 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:02,401 | INFO | uvicorn.access | 127.0.0.1:57407 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:02,407 | INFO | uvicorn.access | 127.0.0.1:57402 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:03,133 | INFO | uvicorn.access | 127.0.0.1:57402 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:17:03,146 | INFO | uvicorn.access | 127.0.0.1:57402 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:17:03,795 | INFO | uvicorn.access | 127.0.0.1:57402 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:03,831 | INFO | uvicorn.access | 127.0.0.1:57404 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:03,836 | INFO | uvicorn.access | 127.0.0.1:57407 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:03,850 | INFO | uvicorn.access | 127.0.0.1:57402 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:03,863 | INFO | uvicorn.access | 127.0.0.1:57407 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:03,881 | INFO | uvicorn.access | 127.0.0.1:57404 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:11,971 | INFO | uvicorn.access | 127.0.0.1:57413 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:17:15,519 | INFO | uvicorn.access | 127.0.0.1:57413 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:17:15,532 | INFO | uvicorn.access | 127.0.0.1:57413 - "GET /documents HTTP/1.1" 200
+2026-02-14 23:17:16,119 | INFO | uvicorn.access | 127.0.0.1:57414 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:16,122 | INFO | uvicorn.access | 127.0.0.1:57413 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:16,146 | INFO | uvicorn.access | 127.0.0.1:57414 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:16,156 | INFO | uvicorn.access | 127.0.0.1:57413 - "GET /analytics/dashboard HTTP/1.1" 200
+2026-02-14 23:17:16,171 | INFO | uvicorn.access | 127.0.0.1:57413 - "GET /alerts/latest HTTP/1.1" 200
+2026-02-14 23:17:16,173 | INFO | uvicorn.access | 127.0.0.1:57414 - "GET /analytics/kpis HTTP/1.1" 200
+2026-02-14 23:17:18,631 | INFO | app.backend.api | WebSocket disconnected for user: iliass
+2026-02-14 23:17:18,633 | INFO | uvicorn.error | connection closed
+2026-02-14 23:17:19,126 | INFO | uvicorn.access | 127.0.0.1:57420 - "OPTIONS /users/me HTTP/1.1" 200
+2026-02-14 23:17:19,135 | INFO | uvicorn.access | 127.0.0.1:57420 - "GET /users/me HTTP/1.1" 200
+2026-02-14 23:17:19,232 | INFO | uvicorn.access | 127.0.0.1:57420 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:17:19,526 | INFO | uvicorn.error | 127.0.0.1:57431 - "WebSocket /ws/notifications/iliass" [accepted]
+2026-02-14 23:17:19,527 | INFO | app.backend.api | WebSocket connected for user: iliass
+2026-02-14 23:17:19,528 | INFO | uvicorn.error | connection open
+2026-02-14 23:17:50,423 | INFO | uvicorn.access | 127.0.0.1:59816 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:18:20,426 | INFO | uvicorn.access | 127.0.0.1:50369 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:18:50,427 | INFO | uvicorn.access | 127.0.0.1:52505 - "GET /alerts/unread-count HTTP/1.1" 200
+2026-02-14 23:19:20,423 | INFO | uvicorn.access | 127.0.0.1:58583 - "GET /alerts/unread-count HTTP/1.1" 200

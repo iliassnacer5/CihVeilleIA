@@ -1,34 +1,56 @@
-fastapi
-uvicorn[standard]
-httpx
-beautifulsoup4
-lxml
-spacy
-sentence-transformers
-torch
-faiss-cpu
-numpy
-pydantic
-pydantic-settings
-langdetect
-dateparser
-transformers
-pymongo
-motor
-passlib[bcrypt]
-python-jose[cryptography]
-python-dotenv
-streamlit
-plotly
-pandas
-python-multipart
-playwright
-pdfplumber
-cryptography
-email-validator
-# --- Production Dependencies ---
-slowapi
-redis
-celery[redis]
-google-genai
+# ============================================
+# CIH-Veille-IA — Python Dependencies
+# ============================================
+# Install: pip install -r requirements.txt
 
+# --- Core Framework ---
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+pydantic>=2.0
+pydantic-settings>=2.0
+python-dotenv>=1.0.0
+python-multipart>=0.0.6
+
+# --- Database ---
+pymongo>=4.5.0
+motor>=3.3.0
+
+# --- AI / NLP ---
+torch>=2.0.0
+transformers>=4.35.0
+sentence-transformers>=2.2.0
+spacy>=3.6.0
+langdetect>=1.0.9
+numpy>=1.24.0
+
+# --- Vector Store ---
+faiss-cpu>=1.7.4
+
+# --- LLM Providers ---
+google-genai>=1.0.0
+
+# --- Scraping ---
+httpx>=0.24.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+playwright>=1.40.0
+pdfplumber>=0.10.0
+dateparser>=1.1.0
+
+# --- Security ---
+passlib[bcrypt]>=1.7.4
+python-jose[cryptography]>=3.3.0
+cryptography>=41.0.0
+email-validator>=2.0.0
+
+# --- Rate Limiting ---
+slowapi>=0.1.8
+
+# --- Cache & Task Queue (Optional — Production) ---
+redis>=5.0.0
+celery[redis]>=5.3.0
+
+# --- Data / Visualization (Optional — Dashboard) ---
+streamlit>=1.28.0
+plotly>=5.17.0
+pandas>=2.1.0

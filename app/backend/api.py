@@ -664,7 +664,7 @@ def create_app() -> FastAPI:
         """Traduit un document vers l'anglais à la demande."""
         from app.nlp.translation_service import get_translation_service
         
-        doc = await store.get_document_by_id(doc_id)
+        doc = await store.get_by_id(doc_id)
         if not doc:
             raise HTTPException(status_code=404, detail="Document non trouvé")
         

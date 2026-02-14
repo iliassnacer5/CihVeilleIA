@@ -37,7 +37,7 @@ class NotificationService:
         score = data.get("score", 0.0)
         priority = data.get("priority", "NORMAL").lower()
 
-        is_high_priority = priority in ["critical", "important"]
+        is_high_priority = priority in ["critical", "important", "high"]
         meets_threshold = score >= settings.notification_rag_threshold
 
         if not (is_high_priority or meets_threshold):
