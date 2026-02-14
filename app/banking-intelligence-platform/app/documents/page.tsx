@@ -1,11 +1,12 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { ChevronRight, ExternalLink, Calendar, Zap, Upload, Loader2, Sparkles, BookOpen, Tag, Users, CheckCircle, Brain, Trash2 } from 'lucide-react'
+import { ChevronRight, ExternalLink, Calendar, Zap, Upload, Loader2, Sparkles, BookOpen, Tag, Users, CheckCircle, Brain, Trash2, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DataTable } from '@/components/data-table'
 import { api } from '@/lib/api'
+import { exportDocumentAsPDF } from '@/lib/pdf-export'
 
 import { Document as ApiDocument, DocumentDetail as ApiDocumentDetail, SummarizeResponse } from '@/lib/api'
 
@@ -45,6 +46,8 @@ export default function DocumentsPage() {
   const [synthesis, setSynthesis] = useState<SummarizeResponse | null>(null)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isDeleting, setIsDeleting] = useState(false)
+  const [translatedText, setTranslatedText] = useState<string | null>(null)
+  const [isTranslating, setIsTranslating] = useState(false)
 
   const loadDocuments = async () => {
     setIsLoading(true)
@@ -66,6 +69,7 @@ export default function DocumentsPage() {
     setIsDetailLoading(true)
     setViewType('detail')
     setSynthesis(null) // Reset synthesis when viewing a new doc
+    setTranslatedText(null) // Reset translation when viewing a new doc
     try {
       const detail = await api.getDocumentDetail(docId)
       setSelectedDoc(detail)
@@ -73,6 +77,20 @@ export default function DocumentsPage() {
       console.error('Failed to load document detail:', error)
     } finally {
       setIsDetailLoading(false)
+    }
+  }
+
+  const handleTranslate = async () => {
+    if (!selectedDoc || translatedText) return // Don't translate if already translated
+
+    setIsTranslating(true)
+    try {
+      const result = await api.translateDocument(selectedDoc.id)
+      setTranslatedText(result.translated_text)
+    } catch (error) {
+      console.error('Failed to translate document:', error)
+    } finally {
+      setIsTranslating(false)
     }
   }
 
@@ -184,34 +202,54 @@ export default function DocumentsPage() {
             Back to Documents
           </button>
 
-          {/* RÉSUMER BUTTON */}
-          <Button
-            onClick={handleSummarize}
-            disabled={isSummarizing}
-            className="relative overflow-hidden group"
-            style={{
-              background: isSummarizing
-                ? undefined
-                : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)',
-              color: 'white',
-              border: 'none',
-            }}
-          >
-            {isSummarizing ? (
-              <>
-                <Loader2 className="animate-spin mr-2" size={18} />
-                Analyse IA en cours...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 group-hover:animate-pulse" size={18} />
-                Résumer avec l&apos;IA
-              </>
-            )}
-            <span
-              className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            />
-          </Button>
+          {/* RÉSUMER + EXPORT BUTTONS */}
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => selectedDoc && exportDocumentAsPDF({
+                title: selectedDoc.title,
+                source: selectedDoc.source,
+                date: selectedDoc.date,
+                theme: selectedDoc.theme,
+                confidence: selectedDoc.confidence,
+                summary: selectedDoc.summary,
+                content: selectedDoc.content,
+                entities: selectedDoc.entities,
+                url: selectedDoc.url,
+              })}
+              variant="outline"
+              className="gap-2"
+            >
+              <Download size={18} />
+              Export PDF
+            </Button>
+            <Button
+              onClick={handleSummarize}
+              disabled={isSummarizing}
+              className="relative overflow-hidden group"
+              style={{
+                background: isSummarizing
+                  ? undefined
+                  : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)',
+                color: 'white',
+                border: 'none',
+              }}
+            >
+              {isSummarizing ? (
+                <>
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                  Analyse IA en cours...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 group-hover:animate-pulse" size={18} />
+                  Résumer avec l&apos;IA
+                </>
+              )}
+              <span
+                className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              />
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -240,6 +278,30 @@ export default function DocumentsPage() {
                 View Original
               </a>
             )}
+            <Button
+              onClick={handleTranslate}
+              disabled={isTranslating || !!translatedText}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              {isTranslating ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Translating...
+                </>
+              ) : translatedText ? (
+                <>
+                  <CheckCircle size={16} />
+                  Translated
+                </>
+              ) : (
+                <>
+                  <Sparkles size={16} />
+                  Translate to English
+                </>
+              )}
+            </Button>
           </div>
         </div>
 
@@ -406,6 +468,21 @@ export default function DocumentsPage() {
                   </div>
                   <p className="text-sm text-foreground mt-1">{selectedDoc.confidence}%</p>
                 </div>
+
+                {/* Translated Text */}
+                {translatedText && (
+                  <div className="space-y-2 pt-4 border-t border-border">
+                    <p className="text-xs font-semibold text-muted-foreground mb-1 flex items-center gap-2">
+                      <Sparkles size={14} className="text-blue-500" />
+                      English Translation
+                    </p>
+                    <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                      <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                        {translatedText}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
 

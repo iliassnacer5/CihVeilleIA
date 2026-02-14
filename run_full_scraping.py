@@ -7,20 +7,20 @@ from app.rag.pipeline import RagPipeline
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def main():
+async def main():
     logger.info("Starting Full Scraping Evaluation...")
-    
+
     # Initialize components
     orchestrator = ScrapingOrchestrator()
-    
+
     # Run for all sources
     logger.info("Executing orchestrator.run_all_sources()...")
-    results = orchestrator.run_all_sources(limit_per_source=3)
-    
+    results = await orchestrator.run_all_sources(limit_per_source=3)
+
     total_docs = sum(results.values())
     logger.info(f"Scraping completed. Total documents added: {total_docs}")
     for source, count in results.items():
         logger.info(f" - {source}: {count} items")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

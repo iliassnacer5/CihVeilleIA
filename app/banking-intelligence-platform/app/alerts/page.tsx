@@ -71,12 +71,17 @@ export default function AlertsPage() {
     setAlerts(alerts.filter((alert) => alert.id !== id))
   }
 
-  const handleMarkAsRead = (id: string | number) => {
-    setAlerts(
-      alerts.map((alert) =>
-        alert.id === id ? { ...alert, read: true } : alert
+  const handleMarkAsRead = async (id: string | number) => {
+    try {
+      await api.markAlertAsRead(id.toString())
+      setAlerts(
+        alerts.map((alert) =>
+          alert.id === id ? { ...alert, read: true } : alert
+        )
       )
-    )
+    } catch (error) {
+      console.error('Failed to mark alert as read:', error)
+    }
   }
 
   if (isLoading) {

@@ -9,7 +9,7 @@ const DEFAULT_TIMEOUT = parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || '30000',
 const AUTH_TOKEN_KEY = 'cih_veille_auth_token';
 
 // Helper to manage auth token
-const auth = {
+export const auth = {
     getToken: () => typeof window !== 'undefined' ? localStorage.getItem(AUTH_TOKEN_KEY) : null,
     setToken: (token: string) => typeof window !== 'undefined' ? localStorage.setItem(AUTH_TOKEN_KEY, token) : null,
     clearToken: () => typeof window !== 'undefined' ? localStorage.removeItem(AUTH_TOKEN_KEY) : null,
@@ -232,10 +232,26 @@ export async function fetchWithRetry(
 // ==============================================
 
 export interface User {
+    id?: string;
     username: string;
     email?: string;
     role: string;
     is_active: boolean;
+    last_login?: string;
+    created_at?: string;
+}
+
+export interface AuditLog {
+    id?: string;
+    timestamp: number;
+    user_id: string;
+    username: string;
+    role: string;
+    action: string;
+    module: string;
+    status: string;
+    details?: any;
+    ip_address?: string;
 }
 
 export interface AuthResponse {
@@ -251,6 +267,7 @@ export interface Source {
     frequency: string;
     status: string;
     lastUpdated: string;
+    whitelisted: boolean;
 }
 
 export interface KpiResponse {
@@ -347,13 +364,12 @@ export const api = {
             method: 'POST',
             body: JSON.stringify(source),
         }),
-    scrapeSource: (sourceId: string) => fetchWithRetry(`/sources/scrape/${sourceId}`),
+    scrapeSource: (sourceId: string) => fetchWithRetry(`/sources/scrape/${sourceId}`, {}, 0, 300000),
     deleteSource: (sourceId: string) => fetchWithRetry(`/sources/${sourceId}`, { method: 'DELETE' }),
 
     // Analytics
     getKpis: (): Promise<KpiResponse> => fetchWithRetry('/analytics/kpis'),
     getDashboardAnalytics: (): Promise<DashboardAnalytics> => fetchWithRetry('/analytics/dashboard'),
-    getLatestAlerts: (): Promise<Alert[]> => fetchWithRetry('/alerts/latest'),
 
     // Documents
     getDocuments: (): Promise<Document[]> => fetchWithRetry('/documents'),
@@ -368,8 +384,14 @@ export const api = {
     uploadDocument: (file: File) => {
         const formData = new FormData();
         formData.append('file', file);
+        const token = auth.getToken();
+        const headers: Record<string, string> = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
         return fetch(`${API_BASE_URL}/documents/upload`, {
             method: 'POST',
+            headers,
             body: formData,
         }).then(res => res.json());
     },
@@ -384,6 +406,21 @@ export const api = {
         body: JSON.stringify({ question }),
     }),
 
+    // Alerts
+    getLatestAlerts: (): Promise<Alert[]> => fetchWithRetry('/alerts/latest'),
+    getUnreadAlertsCount: (): Promise<{ count: number }> => fetchWithRetry('/alerts/unread-count'),
+    markAlertAsRead: (alertId: string): Promise<any> => fetchWithRetry(`/alerts/${alertId}/read`, { method: 'POST' }),
+
+    // Translation
+    translateDocument: (docId: string): Promise<{ translated_text: string; original_lang: string; target_lang: string }> =>
+        fetchWithRetry(`/documents/${docId}/translate`, { method: 'POST' }),
+
+    // Scheduler Controls
+    getSchedulerStatus: (): Promise<any> => fetchWithRetry('/scheduler/status'),
+    startScheduler: () => fetchWithRetry('/scheduler/start', { method: 'POST' }),
+    stopScheduler: () => fetchWithRetry('/scheduler/stop', { method: 'POST' }),
+    scrapeAllSources: () => fetchWithRetry('/scrape-all', { method: 'POST' }, 0, 600000), // 10min timeout
+
     // Audit & Settings
     getAuditLogs: () => fetchWithRetry('/audit/logs'),
     getSettings: () => fetchWithRetry('/settings'),
@@ -396,4 +433,26 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(domain),
     }),
+
+    // Generic Methods
+    get: (url: string, options: any = {}) => {
+        let fullUrl = url;
+        if (options.params) {
+            const params = new URLSearchParams();
+            Object.entries(options.params).forEach(([key, value]) => {
+                if (value !== undefined) params.append(key, String(value));
+            });
+            fullUrl += `?${params.toString()}`;
+        }
+        return fetchWithRetry(fullUrl, options);
+    },
+    post: (url: string, body: any) => fetchWithRetry(url, {
+        method: 'POST',
+        body: JSON.stringify(body),
+    }),
+    patch: (url: string, body: any) => fetchWithRetry(url, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+    }),
+    delete: (url: string) => fetchWithRetry(url, { method: 'DELETE' }),
 };

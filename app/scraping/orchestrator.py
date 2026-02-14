@@ -15,6 +15,7 @@ from app.rag.pipeline import RagPipeline
 logger = logging.getLogger(__name__)
 
 from app.alerts.alerts_service import AlertService
+from app.nlp.translation_service import get_translation_service
 
 class ScrapingOrchestrator:
     """Orchestrateur pour la collecte massive d'informations avec enrichissement IA."""
@@ -122,11 +123,15 @@ class ScrapingOrchestrator:
             )
         
         try:
-            items = list(await scraper.fetch())
+            # Global timeout: 120s max per source (prevents infinite hangs on SSL/network)
+            items = list(await asyncio.wait_for(scraper.fetch(), timeout=120))
             if not items:
+                logger.info(f"Aucun article trouvé pour {source_id}")
                 return 0
             
             docs_to_save = []
+            translation_service = get_translation_service()
+            
             for item in items:
                 # Si le texte est vide ou si l'URL finit par .pdf, on tente une extraction PDF
                 text = item.raw_text
@@ -135,6 +140,14 @@ class ScrapingOrchestrator:
                     if extracted_text:
                         text = extracted_text
 
+                # Détection de langue et traduction automatique vers le français
+                original_lang = "fr"
+                if text and len(text.strip()) > 50:
+                    original_lang = await asyncio.to_thread(translation_service.detect_language, text)
+                    if original_lang != "fr":
+                        logger.info(f"Translating document from {original_lang} to French...")
+                        text = await asyncio.to_thread(translation_service.translate_to_french, text, original_lang)
+
                 doc = {
                     "source_id": source_id,
                     "title": item.title,
@@ -142,6 +155,7 @@ class ScrapingOrchestrator:
                     "text": text,
                     "category": item.category,
                     "doc_type": item.doc_type,
+                    "original_lang": original_lang,
                     "created_at": time.time(),
                 }
                 docs_to_save.append(doc)
@@ -149,13 +163,18 @@ class ScrapingOrchestrator:
             # ENRICHISSEMENT IA
             logger.info(f"Enrichissement IA pour {len(docs_to_save)} documents...")
             enriched_docs = await self._enrich_documents_async(docs_to_save)
-            
+            logger.info(f"Enrichissement terminé, {len(enriched_docs)} documents enrichis")
+
             logger.info(f"Sauvegarde de {len(enriched_docs)} documents dans MongoDB...")
             try:
                 ids = await self.mongo_store.save_documents(enriched_docs)
                 logger.info(f"✓ {len(ids)} documents sauvegardés avec succès (IDs: {ids[:2]}...)")
+                # Vérification immédiate
+                count = await self.mongo_store.collection.count_documents({})
+                logger.info(f"Total documents en base: {count}")
             except Exception as save_err:
                 logger.error(f"❌ Échec de la sauvegarde MongoDB: {save_err}")
+                logger.error(f"Détails de l'erreur: {type(save_err).__name__}: {save_err}")
                 raise
             
             # GENERATION ALERTS (Nouveau Phase 3)
@@ -176,6 +195,9 @@ class ScrapingOrchestrator:
             await self.rag_pipeline.index_documents(texts, metadatas)
             
             return len(enriched_docs)
+        except asyncio.TimeoutError:
+            logger.warning(f"⏱ Timeout dépassé (120s) pour {source_id} — source ignorée")
+            return 0
         except Exception as e:
             logger.error(f"Erreur scraping {source_id}: {e}")
             return 0

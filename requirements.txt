@@ -17,7 +17,6 @@ pymongo
 motor
 passlib[bcrypt]
 python-jose[cryptography]
-msal
 python-dotenv
 streamlit
 plotly
@@ -25,3 +24,11 @@ pandas
 python-multipart
 playwright
 pdfplumber
+cryptography
+email-validator
+# --- Production Dependencies ---
+slowapi
+redis
+celery[redis]
+google-genai
+

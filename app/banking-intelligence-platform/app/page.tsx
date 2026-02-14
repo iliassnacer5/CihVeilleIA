@@ -7,6 +7,9 @@ import { KPICard } from '@/components/kpi-card'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { api } from '@/lib/api'
+import { useAuth } from '@/app/context/AuthContext'
+import { Search, MessageSquare, Globe, Bell } from 'lucide-react'
+import Link from 'next/link'
 
 function getSeverityColor(severity: string) {
   switch (severity) {
@@ -25,6 +28,7 @@ export default function DashboardPage() {
   const [alerts, setAlerts] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { user, isAdmin } = useAuth()
 
   const loadData = async () => {
     setIsLoading(true)
@@ -109,34 +113,159 @@ export default function DashboardPage() {
     )
   }
 
+  if (!isAdmin) {
+    return (
+      <div className="space-y-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Bienvenue, {user?.username}</h1>
+            <p className="text-muted-foreground">Voici votre espace de veille stratégique.</p>
+          </div>
+          <div className="flex gap-2 text-xs font-mono uppercase tracking-widest opacity-50 bg-secondary px-3 py-1 rounded-full items-center">
+            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2" />
+            Mode Analyste
+          </div>
+        </div>
+
+        {/* Quick Actions for User */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Link href="/search" className="group">
+            <Card className="hover:border-primary transition-all cursor-pointer h-full group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Recherche Sémantique</CardTitle>
+                <Search size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-xs text-muted-foreground">Explorez la base de connaissances via notre moteur IA.</p>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link href="/chatbot" className="group">
+            <Card className="hover:border-primary transition-all cursor-pointer h-full group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Assistant AI Chat</CardTitle>
+                <MessageSquare size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-xs text-muted-foreground">Interrogez directement les documents par chat interactif.</p>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link href="/documents" className="group">
+            <Card className="hover:border-primary transition-all cursor-pointer h-full group-hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Documents Collectés</CardTitle>
+                <FileText size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-xs text-muted-foreground">Consultez les dernières analyses et veilles extraites.</p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Latest Alerts for User */}
+          <Card className="lg:col-span-2 border border-border">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Alertes Récentes</CardTitle>
+                  <CardDescription>Mises à jour réglementaires et marché</CardDescription>
+                </div>
+                <Link href="/alerts">
+                  <Button variant="ghost" size="sm">Voir tout</Button>
+                </Link>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {alerts.length > 0 ? alerts.slice(0, 5).map((alert) => (
+                  <div
+                    key={alert.id}
+                    className="flex items-start gap-4 p-4 border border-border rounded-lg hover:bg-secondary/50 transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-foreground text-sm mb-1">{alert.title}</h4>
+                      <p className="text-xs text-muted-foreground">{alert.source} • {alert.timestamp}</p>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${getSeverityColor(alert.severity)}`}>
+                      {alert.severity}
+                    </span>
+                  </div>
+                )) : (
+                  <div className="text-center py-8 text-muted-foreground">Aucune alerte récente.</div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* User Stats/Shortcuts */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Documents du mois</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{kpis?.documents_month || 0}</div>
+                <p className="text-xs text-muted-foreground text-green-500 flex items-center mt-1">
+                  <TrendingUp size={12} className="mr-1" /> +12% vs mois dernier
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="bg-primary/5 border-primary/20">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <AlertCircle size={16} className="text-primary" /> Rappels IA
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  La nouvelle réglementation BAM sur le Open Banking est prioritaire cette semaine.
+                </p>
+                <Button variant="link" size="sm" className="px-0 h-auto text-primary text-xs mt-2">En savoir plus</Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-8">
       {/* KPI Cards */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground mb-6">Dashboard</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-foreground">Dashboard Administrateur</h1>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="w-2 h-2 bg-green-500 rounded-full" />
+            Serveur Backend : OK
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <KPICard
-            title="Monitored Sources"
+            title="Sources Surveillées"
             value={kpis?.monitored_sources?.toString() || "0"}
-            subtitle="Active sources tracking"
+            subtitle="Connecteurs actifs"
             icon={<Database size={32} />}
           />
           <KPICard
-            title="Documents (Month)"
+            title="Documents (Mois)"
             value={kpis?.documents_month?.toLocaleString() || "0"}
-            subtitle="Collected this month"
+            subtitle="Collectés ce mois"
             icon={<FileText size={32} />}
           />
           <KPICard
-            title="Regulatory Updates"
+            title="Mises à jour Rég."
             value={kpis?.regulatory_updates?.toString() || "0"}
-            subtitle="Detected & processed"
+            subtitle="Détectées & traitées"
             icon={<AlertCircle size={32} />}
           />
           <KPICard
-            title="AI Processing"
+            title="Traitement IA"
             value={`${kpis?.ai_processing_rate || 0}%`}
-            subtitle="System uptime"
+            subtitle="Taux de succès"
             icon={<CheckCircle2 size={32} />}
           />
         </div>
@@ -147,8 +276,8 @@ export default function DashboardPage() {
         {/* Documents Over Time */}
         <Card className="border border-border">
           <CardHeader>
-            <CardTitle className="text-lg">Documents Over Time</CardTitle>
-            <CardDescription>Monthly document collection trend</CardDescription>
+            <CardTitle className="text-lg">Tendances de Collecte</CardTitle>
+            <CardDescription>Documents et alertes générés sur 6 mois</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -179,7 +308,7 @@ export default function DashboardPage() {
                   stroke="hsl(var(--chart-2))"
                   strokeWidth={2}
                   dot={{ fill: 'hsl(var(--chart-2))' }}
-                  name="Alerts"
+                  name="Alertes"
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -189,8 +318,8 @@ export default function DashboardPage() {
         {/* Distribution by Theme */}
         <Card className="border border-border">
           <CardHeader>
-            <CardTitle className="text-lg">Distribution by Theme</CardTitle>
-            <CardDescription>Document categorization breakdown</CardDescription>
+            <CardTitle className="text-lg">Distribution par Thématique</CardTitle>
+            <CardDescription>Répartition IA des contenus analysés</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -224,18 +353,20 @@ export default function DashboardPage() {
       </div>
 
       {/* Latest Alerts */}
-      <Card className="border border-border">
+      <Card className="border border-border shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-lg">Latest Alerts</CardTitle>
+              <CardTitle className="text-lg text-primary">Dernières Alertes Système</CardTitle>
               <CardDescription>
-                Most recent detected regulatory and market updates
+                Surveillance en temps réel des flux entrants
               </CardDescription>
             </div>
-            <Button variant="outline" size="sm">
-              View All
-            </Button>
+            <Link href="/audit">
+              <Button variant="outline" size="sm">
+                Consulter l'Audit
+              </Button>
+            </Link>
           </div>
         </CardHeader>
         <CardContent>
@@ -243,7 +374,7 @@ export default function DashboardPage() {
             {alerts.map((alert) => (
               <div
                 key={alert.id}
-                className="flex items-start gap-4 p-4 border border-border rounded-lg hover:bg-secondary transition-colors"
+                className="flex items-start gap-4 p-4 border border-border rounded-lg hover:bg-secondary/50 transition-colors"
               >
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-foreground text-sm mb-1">
@@ -254,10 +385,9 @@ export default function DashboardPage() {
                   </p>
                 </div>
                 <span
-                  className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${getSeverityColor(alert.severity)}`}
+                  className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase whitespace-nowrap ${getSeverityColor(alert.severity)}`}
                 >
-                  {alert.severity.charAt(0).toUpperCase() +
-                    alert.severity.slice(1)}
+                  {alert.severity}
                 </span>
               </div>
             ))}

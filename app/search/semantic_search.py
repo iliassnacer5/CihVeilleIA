@@ -51,7 +51,7 @@ class SemanticSearchEngine:
 
     def __init__(
         self,
-        embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
+        embedding_model: str = "paraphrase-multilingual-MiniLM-L12-v2",
         mongo_store: Optional[MongoEnrichedDocumentStore] = None,
     ) -> None:
         self.mongo_store = mongo_store or MongoEnrichedDocumentStore()

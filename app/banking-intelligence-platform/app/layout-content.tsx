@@ -21,11 +21,13 @@ import {
   Bell,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { api } from '@/lib/api'
 
 interface NavItem {
   label: string
   icon: React.ReactNode
   href: string
+  role?: 'ROLE_ADMIN' | 'ROLE_USER'
 }
 
 const navItems: NavItem[] = [
@@ -34,6 +36,7 @@ const navItems: NavItem[] = [
     label: 'Sources Management',
     icon: <Globe size={20} />,
     href: '/sources',
+    role: 'ROLE_ADMIN',
   },
   {
     label: 'Collected Documents',
@@ -51,13 +54,27 @@ const navItems: NavItem[] = [
     label: 'Analytics & KPIs',
     icon: <BarChart3 size={20} />,
     href: '/analytics',
+    role: 'ROLE_ADMIN',
   },
   {
     label: 'Audit & Compliance',
     icon: <Shield size={20} />,
     href: '/audit',
+    role: 'ROLE_ADMIN',
   },
-  { label: 'Settings', icon: <Settings size={20} />, href: '/settings' },
+  {
+    label: 'User Management',
+    icon: <User size={20} />,
+    href: '/admin/users',
+    role: 'ROLE_ADMIN',
+  },
+  {
+    label: 'Email Configuration',
+    icon: <Bell size={20} />,
+    href: '/admin/emails',
+    role: 'ROLE_ADMIN',
+  },
+  { label: 'Settings', icon: <Settings size={20} />, href: '/settings', role: 'ROLE_ADMIN' },
 ]
 
 import { useAuth } from './context/AuthContext'
@@ -74,9 +91,28 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const pathname = usePathname()
   const { user, logout, isLoading } = useAuth()
+  const [unreadCount, setUnreadCount] = useState(0)
 
   // Hide sidebar and header on login page
   const isLoginPage = pathname === '/login'
+
+  // Fetch unread count
+  React.useEffect(() => {
+    if (!user || isLoginPage) return
+
+    const fetchCount = async () => {
+      try {
+        const { count } = await api.getUnreadAlertsCount()
+        setUnreadCount(count)
+      } catch (err) {
+        console.error("Failed to fetch unread count", err)
+      }
+    }
+
+    fetchCount()
+    const interval = setInterval(fetchCount, 30000) // Refresh every 30s
+    return () => clearInterval(interval)
+  }, [user, isLoginPage])
 
   if (isLoginPage) {
     return <main>{children}</main>
@@ -103,11 +139,14 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between p-6 border-b border-sidebar-border">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-sidebar-accent rounded-lg flex items-center justify-center">
-                <Globe size={16} className="text-sidebar-accent-foreground" />
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-9 h-9 gradient-cih rounded-lg flex items-center justify-center shadow-md">
+                <Globe size={18} className="text-white" />
               </div>
-              <span className="font-semibold text-lg hidden sm:inline">CIH</span>
+              <div className="hidden sm:block">
+                <span className="font-bold text-lg tracking-tight">CIH</span>
+                <span className="text-xs block opacity-60 -mt-1 tracking-widest uppercase">Veille IA</span>
+              </div>
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -119,23 +158,32 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
-                    ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
-                    : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
-                    }`}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </Link>
-              )
-            })}
+            {navItems
+              .filter(item => !item.role || item.role === user?.role)
+              .map((item) => {
+                const isActive = pathname === item.href
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setSidebarOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                      ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
+                      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                      }`}
+                  >
+                    <div className="relative">
+                      {item.icon}
+                      {item.href === '/alerts' && unreadCount > 0 && (
+                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-[10px] text-white font-bold rounded-full flex items-center justify-center border border-sidebar shadow-sm">
+                          {unreadCount > 9 ? '9+' : unreadCount}
+                        </span>
+                      )}
+                    </div>
+                    <span>{item.label}</span>
+                  </Link>
+                )
+              })}
           </nav>
 
           {/* User Profile */}
@@ -190,8 +238,8 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
             >
               <Menu size={20} />
             </button>
-            <h1 className="text-lg font-bold text-foreground">
-              CIH <span className="text-primary">Intelligence</span>
+            <h1 className="text-lg font-bold text-foreground tracking-tight">
+              CIH <span className="text-primary">Intelligence</span> <span className="text-muted-foreground text-sm font-normal">v2.0</span>
             </h1>
           </div>
 
@@ -199,7 +247,11 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-4">
             <Link href="/alerts" className="p-2 hover:bg-secondary rounded-lg transition-colors text-muted-foreground hover:text-foreground relative">
               <Bell size={20} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-card" />
+              {unreadCount > 0 && (
+                <span className="absolute top-1.5 right-1.5 min-w-[14px] h-[14px] px-1 bg-red-500 text-[10px] text-white font-bold rounded-full flex items-center justify-center border border-card shadow-sm">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </Link>
             <button className="p-2 hover:bg-secondary rounded-lg transition-colors text-muted-foreground hover:text-foreground">
               <Settings size={20} />

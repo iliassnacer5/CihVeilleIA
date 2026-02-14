@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Plus, Edit2, Pause, Play, Trash2, Loader2, RefreshCcw } from 'lucide-react'
+import { Plus, Edit2, Pause, Play, Trash2, Loader2, RefreshCcw, ShieldCheck, ShieldX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DataTable } from '@/components/data-table'
@@ -148,11 +148,11 @@ export default function SourcesPage() {
                   </span>
                 ),
               },
-              { key: 'frequency', label: 'Frequency', width: '15%' },
+              { key: 'frequency', label: 'Frequency', width: '10%' },
               {
                 key: 'status',
                 label: 'Status',
-                width: '15%',
+                width: '10%',
                 render: (value) => (
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${value === 'Active'
@@ -164,7 +164,21 @@ export default function SourcesPage() {
                   </span>
                 ),
               },
-              { key: 'lastUpdated', label: 'Last Updated', width: '20%' },
+              {
+                key: 'whitelisted',
+                label: 'Whitelist',
+                width: '12%',
+                render: (value) => (
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${value
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300'
+                      : 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300'
+                    }`}>
+                    {value ? <ShieldCheck size={14} /> : <ShieldX size={14} />}
+                    {value ? 'Autorisé' : 'Non autorisé'}
+                  </span>
+                ),
+              },
+              { key: 'lastUpdated', label: 'Last Updated', width: '15%' },
             ]}
             data={sources}
             rowKey="id"

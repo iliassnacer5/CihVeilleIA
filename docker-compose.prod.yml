@@ -1,0 +1,127 @@
+# =====================================================
+# CIH Veille IA — Docker Compose (PRODUCTION)
+# =====================================================
+# Usage: docker compose -f docker-compose.prod.yml up -d --build
+# =====================================================
+
+services:
+  # ─── Reverse Proxy (Nginx) ────────────────────────
+  nginx:
+    build: ./nginx
+    container_name: veille-nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      api:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    networks:
+      - veille-network
+
+  # ─── Backend API (FastAPI) ────────────────────────
+  api:
+    build:
+      context: .
+      target: production
+    container_name: veille-api
+    restart: always
+    env_file:
+      - .env.production
+    environment:
+      - MONGODB_URI=mongodb://mongo_admin:${MONGO_PASSWORD:-SecureP@ss2026}@mongo:27017/VeillePlus?authSource=admin
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - faiss_data:/app/vector_store
+      - api_logs:/app/logs
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 90s
+      retries: 3
+    networks:
+      - veille-network
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: "2.0"
+
+  # ─── Frontend (Next.js) ──────────────────────────
+  frontend:
+    build:
+      context: ./app/banking-intelligence-platform
+      args:
+        - NEXT_PUBLIC_API_URL=/api
+    container_name: veille-frontend
+    restart: always
+    environment:
+      - NODE_ENV=production
+    networks:
+      - veille-network
+
+  # ─── MongoDB (Authentified) ──────────────────────
+  mongo:
+    image: mongo:7
+    container_name: veille-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-SecureP@ss2026}
+      MONGO_INITDB_DATABASE: VeillePlus
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    networks:
+      - veille-network
+    # Do NOT expose ports in production — only accessible via internal network
+    # ports:
+    #   - "27017:27017"
+
+    # ─── Redis (Cache & Task Queue) ──────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: veille-redis
+    restart: always
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - veille-network
+
+# ─── Volumes Persistants ────────────────────────────
+volumes:
+  mongo_data:
+    driver: local
+  mongo_config:
+    driver: local
+  faiss_data:
+    driver: local
+  redis_data:
+    driver: local
+  api_logs:
+    driver: local
+
+# ─── Réseau Interne ─────────────────────────────────
+networks:
+  veille-network:
+    driver: bridge

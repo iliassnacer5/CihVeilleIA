@@ -81,7 +81,7 @@ export function DataTable<T>({
           </thead>
           <tbody>
             {data.map((row, index) => {
-              const key = String(row[rowKey])
+              const key = row[rowKey] != null ? String(row[rowKey]) : `row-${index}`
               const isSelected = selectedKeys.has(key)
 
               return (

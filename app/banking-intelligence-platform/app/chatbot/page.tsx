@@ -21,6 +21,42 @@ const bankingPrompts = [
   'How does the current market volatility affect our strategy?',
 ]
 
+function CollapsibleSources({ sources }: { sources: string[] }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div className="mt-3 pt-2 border-t border-border/40">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 text-xs font-semibold opacity-80 hover:opacity-100 transition-opacity focus:outline-none"
+      >
+        <div className={`transform transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}>
+          ▶
+        </div>
+        <span>{sources.length} Sources {isOpen ? '(Hide)' : '(Show)'}</span>
+      </button>
+
+      {isOpen && (
+        <ul className="mt-2 space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
+          {sources.map((source, idx) => (
+            <li key={idx} className="text-xs opacity-75 flex items-start gap-2 pl-4">
+              <span className="block mt-1 text-[10px]">•</span>
+              <a
+                href={source.startsWith('http') ? source : '#'}
+                target={source.startsWith('http') ? '_blank' : undefined}
+                rel="noopener noreferrer"
+                className={source.startsWith('http') ? 'hover:underline text-accent' : ''}
+              >
+                {source}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export default function ChatbotPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -104,29 +140,14 @@ export default function ChatbotPage() {
           >
             <div
               className={`max-w-2xl rounded-lg p-4 ${message.role === 'user'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-secondary text-foreground border border-border'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary text-foreground border border-border'
                 }`}
             >
               <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
 
               {message.sources && message.sources.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-current border-opacity-20">
-                  <p className="text-xs font-semibold mb-2 opacity-80">
-                    Sources:
-                  </p>
-                  <ul className="space-y-1">
-                    {message.sources.map((source, idx) => (
-                      <li
-                        key={idx}
-                        className="text-xs opacity-75 flex items-start gap-2"
-                      >
-                        <span className="block mt-1">•</span>
-                        <span>{source}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <CollapsibleSources sources={message.sources} />
               )}
 
               <p className="text-xs opacity-70 mt-2">

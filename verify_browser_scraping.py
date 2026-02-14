@@ -6,10 +6,10 @@ from app.scraping.sources_registry import SOURCES_REGISTRY
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def test_ammc_browser():
+async def test_ammc_browser():
     config = SOURCES_REGISTRY["ammc_news"]
     engines = ["chromium"] # AMMC should work with chromium if it's just a timeout/WAF issue
-    
+
     for engine in engines:
         logger.info(f"--- Testing engine: {engine} for {config['name']} ---")
         try:
@@ -21,9 +21,9 @@ def test_ammc_browser():
                 max_articles=2,
                 engine=engine
             )
-            
-            items = list(scraper.fetch())
-            
+
+            items = await scraper.fetch()
+
             if items:
                 logger.info(f"SUCCESS with {engine}: Found {len(items)} items")
                 return # Stop at first success
@@ -33,4 +33,4 @@ def test_ammc_browser():
             logger.error(f"EXCEPTION with {engine}: {e}")
 
 if __name__ == "__main__":
-    test_ammc_browser()
+    asyncio.run(test_ammc_browser())

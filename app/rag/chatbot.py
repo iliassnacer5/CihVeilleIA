@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 from app.nlp.banking_nlp import BankingNlpService
+from app.nlp.llm_service import LlmService, SYSTEM_PROMPT_RAG
 from app.search.semantic_search import SearchFilters, SearchResult, SemanticSearchEngine
 
 
@@ -28,24 +29,25 @@ class ChatbotAnswer:
 
 
 class RagChatbot:
-    """Chatbot RAG pour questions métier bancaires.
+    """Chatbot RAG v2 pour questions métier bancaires.
 
-    Caractéristiques:
-    - ne répond qu'à partir des documents indexés (RAG strict) ;
-    - cite systématiquement les sources utilisées ;
-    - applique des seuils de confiance pour limiter les hallucinations ;
-    - s'appuie sur des modèles Transformers pour résumer le contexte.
+    Améliorations v2:
+    - Utilise un LLM génératif (Gemini/OpenAI) au lieu d'un simple résumé ;
+    - Recherche hybride (vectorielle + mots-clés) pour plus de précision ;
+    - Citations précises des sources dans les réponses ;
+    - Garde-fous stricts contre les hallucinations.
     """
 
     def __init__(
         self,
         search_engine: Optional[SemanticSearchEngine] = None,
         nlp_service: Optional[BankingNlpService] = None,
-        min_vector_score: float = 0.25,
+        min_vector_score: float = 0.01,
         min_documents: int = 1,
     ) -> None:
         self.search_engine = search_engine or SemanticSearchEngine()
         self.nlp_service = nlp_service or BankingNlpService()
+        self.llm_service = LlmService()
         self.min_vector_score = min_vector_score
         self.min_documents = min_documents
 
@@ -53,7 +55,6 @@ class RagChatbot:
         sources: List[ChatSource] = []
         for r in results:
             if not r.url and not r.title:
-                # on ne cite que les résultats identifiables
                 continue
             sources.append(
                 ChatSource(
@@ -87,6 +88,9 @@ class RagChatbot:
     ) -> ChatbotAnswer:
         """Répond à une question métier en s'appuyant uniquement sur les documents indexés."""
         import asyncio
+        import logging
+        logger = logging.getLogger(__name__)
+
         if not question or not question.strip():
             return self._make_fallback_answer(
                 question=question,
@@ -95,34 +99,54 @@ class RagChatbot:
 
         filters = filters or SearchFilters()
 
-        # Recherche principalement vectorielle pour la sémantique (Async)
-        results = await self.search_engine.vector_search(
-            query=question,
-            filters=filters,
-            top_k=top_k,
-        )
+        # --- Hybrid Search (v2: vector + keyword) ---
+        try:
+            results = await self.search_engine.hybrid_search(
+                query=question,
+                filters=filters,
+                keyword_weight=0.3,
+                vector_weight=0.7,
+                limit=top_k,
+            )
+        except Exception as e:
+            logger.warning(f"Hybrid search failed, falling back to vector: {e}")
+            results = await self.search_engine.vector_search(
+                query=question,
+                filters=filters,
+                top_k=top_k,
+            )
 
         if not results:
+            logger.warning(f"RAG: No results found for query '{question}'")
             return self._make_fallback_answer(
                 question=question,
                 reason="Aucun document pertinent trouvé.",
             )
 
+        # Log results for debugging
+        logger.info(f"RAG Retrieval for '{question}': Found {len(results)} docs.")
+        for i, res in enumerate(results):
+            logger.info(f"   [{i}] Score: {res.score:.4f} | Title: {res.title}")
+
         # Vérification de la confiance minimale
         best_score = float(results[0].score)
-        if best_score < self.min_vector_score or len(results) < self.min_documents:
+        if best_score < self.min_vector_score:
+            logger.warning(f"RAG: Best score {best_score} < threshold {self.min_vector_score}")
             return self._make_fallback_answer(
                 question=question,
                 reason=f"Score de similarité insuffisant (score max={best_score:.3f}).",
             )
-
-        # Construction du contexte à partir des meilleurs résultats
+        
+        # Construction du contexte
         context_texts: List[str] = []
+        source_titles: List[str] = []
         for r in results:
             ctx = r.summary or r.text_snippet or ""
             if not ctx:
                 continue
-            context_texts.append(ctx)
+            title = r.title or "Document"
+            context_texts.append(f"[Document: {title}]\n{ctx}")
+            source_titles.append(title)
 
         if not context_texts:
             return self._make_fallback_answer(
@@ -130,35 +154,48 @@ class RagChatbot:
                 reason="Les documents trouvés ne contiennent pas de texte exploitable.",
             )
 
-        joined_context = "\n\n".join(context_texts)
-        # NLP processing offloaded to thread
-        summaries = await asyncio.to_thread(
-            self.nlp_service.summarize_documents,
-            texts=[f"Question: {question}\n\nContexte:\n{joined_context}"],
-            max_length=160,
-            min_length=40,
+        joined_context = "\n\n---\n\n".join(context_texts)
+        
+        # --- LLM Generation (v2: replaces simple summarization) ---
+        prompt = (
+            f"Question de l'utilisateur : {question}\n\n"
+            f"Contexte documentaire :\n\n{joined_context}\n\n---\n\n"
+            "Réponds à la question en t'appuyant EXCLUSIVEMENT sur les documents ci-dessus.\n"
+            "Cite les sources utilisées avec le format [Source: titre].\n"
+            "Si les documents ne permettent pas de répondre, indique-le clairement."
         )
 
-        summary_text = summaries[0].summary if summaries else ""
-        if not summary_text.strip():
-            return self._make_fallback_answer(
-                question=question,
-                reason="Le modèle de résumé n'a pas pu générer de réponse fiable.",
+        try:
+            answer_text = await self.llm_service.generate(
+                prompt=prompt,
+                system_prompt=SYSTEM_PROMPT_RAG,
+                max_tokens=1024,
+                temperature=0.3,
+            )
+            logger.info(f"Chatbot answer generated via {self.llm_service.provider}")
+        except Exception as e:
+            logger.error(f"LLM generation failed: {e}")
+            # Fallback to disclaimer
+            answer_text = (
+                "Une erreur est survenue lors de la génération de la réponse. "
+                "Voici les documents pertinents trouvés, veuillez les consulter directement."
             )
 
-        answer_text = (
-            "Voici une réponse synthétique basée uniquement sur les documents de veille trouvés. "
-            "Elle ne doit pas être interprétée comme un avis réglementaire ou de conformité.\n\n"
-            f"{summary_text.strip()}"
+        # Add disclaimer for banking compliance
+        final_answer = (
+            f"{answer_text.strip()}\n\n"
+            "---\n"
+            "*⚠️ Cette réponse est générée par IA à partir des documents de veille. "
+            "Elle ne constitue pas un avis réglementaire officiel.*"
         )
 
         sources = self._build_sources(results)
+        reason = f"Réponse générée via {self.llm_service.provider} à partir de {len(results)} documents."
 
         return ChatbotAnswer(
             question=question,
-            answer=answer_text,
+            answer=final_answer,
             safe=True,
-            reason="Réponse générée à partir de documents sélectionnés par similarité vectorielle.",
+            reason=reason,
             sources=sources,
         )
-

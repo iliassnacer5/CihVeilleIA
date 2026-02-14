@@ -1,0 +1,58 @@
+# =====================================================
+# CIH Veille IA — .gitignore
+# =====================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# --- Environment / Secrets ---
+.env
+.env.local
+.env.production
+.env.*.local
+!.env.example
+!.env.production.example
+!.env.example_notifications
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Node / Frontend ---
+node_modules/
+.next/
+out/
+
+# --- Data / Models (large files) ---
+vector_store/
+models/
+data/
+
+# --- Docker ---
+docker-compose.override.yml
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Test artifacts ---
+test_*.txt
+verification.log
+.pytest_cache/
+.notebook/

@@ -64,7 +64,7 @@ class ChartDataItem(BaseModel):
 
 class ThemeDistributionItem(BaseModel):
     name: str
-    value: int
+    value: float
 
 
 class DashboardAnalytics(BaseModel):
@@ -104,6 +104,7 @@ class DocumentDetail(BaseModel):
     summary: str
     entities: List[str]
     content: str
+    original_lang: str = "fr"
 
 
 class SummarizeResponse(BaseModel):
@@ -115,6 +116,12 @@ class SummarizeResponse(BaseModel):
     key_facts: List[str]
 
 
+class TranslationResponse(BaseModel):
+    translated_text: str
+    original_lang: str
+    target_lang: str
+
+
 class UploadResponse(BaseModel):
     id: str
     filename: str
@@ -122,13 +129,16 @@ class UploadResponse(BaseModel):
 
 
 class AuditLog(BaseModel):
-    id: str
-    timestamp: str
-    user: str
+    id: Optional[str] = None
+    timestamp: float
+    user_id: str
+    username: str
+    role: str
     action: str
     module: str
-    status: str
-    details: str
+    status: str  # SUCCESS, FAILED
+    details: Optional[dict] = None
+    ip_address: Optional[str] = None
 
 
 class WhitelistedDomain(BaseModel):
@@ -152,6 +162,7 @@ class SourceSchema(BaseModel):
     frequency: str
     status: str = "Active"
     lastUpdated: str = "Never"
+    whitelisted: bool = False
 
 
 class Token(BaseModel):
@@ -164,11 +175,25 @@ class TokenData(BaseModel):
 
 
 class User(BaseModel):
+    id: Optional[str] = None
     username: str
     email: Optional[str] = None
-    role: str = "analyst"  # analyst, admin
+    role: str = "ROLE_USER"  # ROLE_USER, ROLE_ADMIN
     is_active: bool = True
+    last_login: Optional[datetime] = None
+    created_at: Optional[datetime] = None
 
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    password: str
+    role: str = "ROLE_USER"
+
+class UserUpdate(BaseModel):
+    email: Optional[str] = None
+    role: Optional[str] = None
+    is_active: Optional[bool] = None
+    password: Optional[str] = None
 
 class UserInDB(User):
     hashed_password: str

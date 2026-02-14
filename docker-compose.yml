@@ -12,17 +12,21 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/cih_veille
+      - MONGODB_URI=mongodb://mongo:27017
+      - MONGODB_DB_NAME=VeillePlus
+    volumes:
+      - faiss_data:/app/vector_store
     depends_on:
       - mongo
-    command: uvicorn run_api:app --host 0.0.0.0 --port 8000
 
   frontend:
     build:
       context: ./app/banking-intelligence-platform
       args:
-        - NEXT_PUBLIC_API_URL=http://localhost:8000
+        - NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
     ports:
       - "3000:3000"
     depends_on:
@@ -30,3 +34,4 @@ services:
 
 volumes:
   mongo_data:
+  faiss_data:

@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import uuid
 import time
+from datetime import datetime
 from typing import Any, Dict, Iterable, List, Mapping, Optional
 
 from bson import ObjectId
@@ -21,14 +22,23 @@ class BaseMongoStore:
         uri: Optional[str] = None,
         db_name: Optional[str] = None,
         collection_name: str = "default",
+        client: Optional[AsyncIOMotorClient] = None,
     ) -> None:
         self._uri = uri or settings.mongodb_uri
         self._db_name = db_name or settings.mongodb_db_name
         self._collection_name = collection_name
 
-        self._client = AsyncIOMotorClient(self._uri, serverSelectionTimeoutMS=5000)
+        if client:
+            self._client = client
+        else:
+            self._client = AsyncIOMotorClient(self._uri, serverSelectionTimeoutMS=5000)
+            
         self._db = self._client[self._db_name]
         self._collection: AsyncIOMotorCollection = self._db[self._collection_name]
+
+    async def close(self):
+        if self._client:
+            self._client.close()
 
     @property
     def collection(self) -> AsyncIOMotorCollection:
@@ -46,6 +56,7 @@ class MongoEnrichedDocumentStore(BaseMongoStore):
         await self._collection.create_index([("source_id", ASCENDING)], name="idx_source_id", background=True)
         await self._collection.create_index([("lang", ASCENDING)], name="idx_lang", background=True)
         await self._collection.create_index([("created_at", ASCENDING)], name="idx_created_at", background=True)
+        await self._collection.create_index([("url", ASCENDING)], name="idx_url", unique=True, background=True)
         await self._collection.create_index(
             [("title", "text"), ("text", "text")],
             name="idx_text_search",
@@ -53,11 +64,29 @@ class MongoEnrichedDocumentStore(BaseMongoStore):
         )
 
     async def save_documents(self, docs: Iterable[Mapping]) -> List[str]:
+        """Sauvegarde des documents avec détection de doublons basée sur l'URL."""
         docs_list = list(docs)
         if not docs_list:
             return []
-        result = await self._collection.insert_many(docs_list)
-        return [str(_id) for _id in result.inserted_ids]
+        
+        saved_ids = []
+        for doc in docs_list:
+            # Upsert: met à jour si l'URL existe déjà, sinon insère
+            result = await self._collection.update_one(
+                {"url": doc.get("url")},
+                {"$set": doc},
+                upsert=True
+            )
+            # Récupère l'ID (soit celui inséré, soit celui existant)
+            if result.upserted_id:
+                saved_ids.append(str(result.upserted_id))
+            else:
+                # Document déjà existant, récupère son ID
+                existing = await self._collection.find_one({"url": doc.get("url")})
+                if existing:
+                    saved_ids.append(str(existing["_id"]))
+        
+        return saved_ids
 
     async def delete_documents(self, mongo_ids: List[str]) -> int:
         """Supprime un ou plusieurs documents par leurs IDs MongoDB."""
@@ -159,14 +188,64 @@ class MongoUserStore(BaseMongoStore):
         await self._collection.create_index([("email", ASCENDING)], unique=True)
 
     async def get_user_by_username(self, username: str) -> Optional[dict]:
-        return await self._collection.find_one({"username": username})
+        user = await self._collection.find_one({"username": username})
+        if user:
+            user["id"] = str(user["_id"])
+        return user
+
+    async def list_users(self, skip: int = 0, limit: int = 50, filters: dict = None) -> List[dict]:
+        query = {}
+        if filters:
+            if "role" in filters:
+                query["role"] = filters["role"]
+            if "is_active" in filters:
+                query["is_active"] = filters["is_active"]
+            if "search" in filters:
+                query["$or"] = [
+                    {"username": {"$regex": filters["search"], "$options": "i"}},
+                    {"email": {"$regex": filters["search"], "$options": "i"}}
+                ]
+        
+        cursor = self._collection.find(query).skip(skip).limit(limit).sort("created_at", DESCENDING)
+        docs = await cursor.to_list(length=limit)
+        for doc in docs:
+            doc["id"] = str(doc["_id"])
+            if "hashed_password" in doc:
+                del doc["hashed_password"]
+        return docs
+
+    async def count_users(self, filters: dict = None) -> int:
+        query = {}
+        if filters:
+            # Shared logic with list_users
+            if "role" in filters:
+                query["role"] = filters["role"]
+            if "is_active" in filters:
+                query["is_active"] = filters["is_active"]
+            if "search" in filters:
+                query["$or"] = [
+                    {"username": {"$regex": filters["search"], "$options": "i"}},
+                    {"email": {"$regex": filters["search"], "$options": "i"}}
+                ]
+        return await self._collection.count_documents(query)
 
     async def create_user(self, user_data: dict) -> str:
+        user_data["created_at"] = datetime.utcnow()
+        user_data.setdefault("is_active", True)
         result = await self._collection.insert_one(user_data)
         return str(result.inserted_id)
 
     async def update_user(self, username: str, update_data: dict):
         await self._collection.update_one({"username": username}, {"$set": update_data})
+
+    async def update_last_login(self, username: str):
+        await self._collection.update_one(
+            {"username": username}, 
+            {"$set": {"last_login": datetime.utcnow()}}
+        )
+
+    async def delete_user(self, username: str):
+        await self._collection.delete_one({"username": username})
 
 class MongoAlertStore(BaseMongoStore):
     """Stockage persistant des alertes et des abonnements utilisateurs."""
@@ -178,11 +257,11 @@ class MongoAlertStore(BaseMongoStore):
     async def ensure_indexes(self) -> None:
         await self._collection.create_index([("user_id", ASCENDING)])
         await self._collection.create_index([("created_at", DESCENDING)])
-        await self._collection.create_index([("is_read", ASCENDING)])
+        await self._collection.create_index([("read", ASCENDING)])
 
     async def save_alert(self, alert_data: dict) -> str:
         alert_data.setdefault("created_at", time.time())
-        alert_data.setdefault("is_read", False)
+        alert_data.setdefault("read", False)
         result = await self._collection.insert_one(alert_data)
         return str(result.inserted_id)
 
@@ -194,7 +273,11 @@ class MongoAlertStore(BaseMongoStore):
         return docs
 
     async def mark_as_read(self, alert_id: str):
-        await self._collection.update_one({"_id": ObjectId(alert_id)}, {"$set": {"is_read": True}})
+        await self._collection.update_one({"_id": ObjectId(alert_id)}, {"$set": {"read": True}})
+
+    async def count_unread_alerts(self, user_id: str) -> int:
+        """Compte le nombre d'alertes non lues pour un utilisateur."""
+        return await self._collection.count_documents({"user_id": user_id, "read": False})
 
 class MongoSystemStore(BaseMongoStore):
     """Stockage MongoDB pour les données système (Audit, Paramètres)."""
@@ -218,7 +301,7 @@ class MongoSystemStore(BaseMongoStore):
         cursor = self.audit_col.find().sort("timestamp", DESCENDING).limit(limit)
         docs = await cursor.to_list(length=limit)
         for d in docs:
-            d["_id"] = str(d["_id"])
+            d["id"] = str(d["_id"])
         return docs
 
     async def get_settings(self) -> dict:

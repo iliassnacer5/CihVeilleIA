@@ -8,20 +8,20 @@ from passlib.context import CryptContext
 
 from app.config.settings import settings
 from app.backend.schemas import TokenData, UserInDB
-from app.storage.mongo_store import MongoUserStore
+from app.storage.user_repository import UserRepository
 
 # Configuration de la sécurité
-pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt", "pbkdf2_sha256"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Singleton UserStore (sera initialisé via dépendance)
-_USER_STORE: Optional[MongoUserStore] = None
+# Singleton UserRepository
+_USER_REPO: Optional[UserRepository] = None
 
-def get_user_store() -> MongoUserStore:
-    global _USER_STORE
-    if _USER_STORE is None:
-        _USER_STORE = MongoUserStore()
-    return _USER_STORE
+def get_user_repository() -> UserRepository:
+    global _USER_REPO
+    if _USER_REPO is None:
+        _USER_REPO = UserRepository()
+    return _USER_REPO
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -41,7 +41,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
-    user_store: MongoUserStore = Depends(get_user_store)
+    user_repo: UserRepository = Depends(get_user_repository)
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -57,7 +57,7 @@ async def get_current_user(
     except JWTError:
         raise credentials_exception
     
-    user = await user_store.get_user_by_username(username=token_data.username)
+    user = await user_repo.get_by_username(username=token_data.username)
     if user is None:
         raise credentials_exception
     
@@ -65,15 +65,22 @@ async def get_current_user(
     user["id"] = str(user["_id"])
     return user
 
+# Rôles standard
+ROLE_ADMIN = "ROLE_ADMIN"
+ROLE_USER = "ROLE_USER"
+
 async def get_current_active_user(current_user: dict = Depends(get_current_user)):
     if not current_user.get("is_active", True):
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
-def check_admin_role(current_user: dict = Depends(get_current_user)):
-    if current_user.get("role") != "admin":
+def check_admin_role(current_user: dict = Depends(get_current_active_user)):
+    if current_user.get("role") != ROLE_ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="The user doesn't have enough privileges"
         )
+    return current_user
+
+async def get_current_admin(current_user: dict = Depends(check_admin_role)):
     return current_user

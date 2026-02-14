@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import List, Optional, Sequence
+import logging
 
 from transformers import pipeline
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -37,34 +40,32 @@ class BankingSummary:
 
 
 class BankingNlpService:
-    """Service NLP bancaire basé sur Transformers.
+    """Service NLP bancaire haute performance pour CIH Veille IA.
 
     Fonctionnalités:
-    - classification thématique des documents;
-    - extraction d'entités nommées (organismes, produits, etc.);
-    - génération de résumés courts.
+    - classification thématique zero-shot (XLM-RoBERTa Large);
+    - extraction d'entités nommées (CamemBERT NER);
+    - génération de résumés via Google Gemini (qualité professionnelle).
 
     Les modèles par défaut sont:
-    - classification: DeBERTa multilingue (`MoritzLaurer/mDeBERTa-v3-base-mnli-xnli`);
+    - classification: XLM-RoBERTa Large XNLI (`joeddav/xlm-roberta-large-xnli`);
     - NER: CamemBERT NER (`Jean-Baptiste/camembert-ner`);
-    - résumé: mT5 multilingue (`csebuetnlp/mT5_multilingual_XLSum`).
-
-    Tu peux surcharger les noms de modèles via le constructeur.
+    - résumé: Google Gemini 2.0 Flash (via API).
     """
 
     def __init__(
         self,
-        classifier_model: str = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli", # Multilingue robuste
-        ner_model: str = "Jean-Baptiste/camembert-ner", # Excellent pour le Français
-        summarizer_model: str = "csebuetnlp/mT5_multilingual_XLSum", # Spécialisé multilingue (XLSum)
+        classifier_model: str = "joeddav/xlm-roberta-large-xnli",  # Meilleur zero-shot multilingue
+        ner_model: str = "Jean-Baptiste/camembert-ner",  # Meilleur NER français
+        summarizer_model: str = "Falconsai/text_summarization",  # Fallback local si pas de Gemini
         device: int | str | None = None,
     ) -> None:
         """Initialise les noms de modèles sans charger les pipelines immédiatement.
 
         Args:
             classifier_model: modèle zero-shot multilingue.
-            ner_model: modèle NER multilingue.
-            summarizer_model: modèle de summarization.
+            ner_model: modèle NER français.
+            summarizer_model: modèle de summarization local (fallback).
             device: index GPU (0,1,...) ou -1 / None pour CPU.
         """
         self.model_names = {
@@ -78,55 +79,90 @@ class BankingNlpService:
         self._classifier_pipeline = None
         self._ner_pipeline = None
         self._summarizer_pipeline = None
+        self._gemini_client = None
+        self._gemini_available = None  # None = pas encore vérifié
 
-        # Thématiques bancaires par défaut
+        # Thématiques bancaires élargies pour CIH Bank
         self.default_topics: List[str] = [
             "réglementation bancaire",
             "lutte contre le blanchiment (LCB-FT)",
             "risque de crédit",
             "risque opérationnel",
+            "risque de marché",
             "cybersécurité",
+            "protection des données personnelles",
             "paiements et moyens de paiement",
             "banque de détail",
             "banque de financement et d'investissement",
             "innovation et fintech",
             "intelligence artificielle en banque",
             "durabilité et finance verte",
+            "inclusion financière",
+            "politique monétaire",
+            "taux d'intérêt et marché obligataire",
+            "immobilier et crédit hypothécaire",
+            "transformation digitale",
+            "gouvernance d'entreprise",
+            "conformité et contrôle interne",
         ]
+
+    def _get_gemini_client(self):
+        """Initialise le client Gemini pour les résumés haute qualité."""
+        if self._gemini_available is None:
+            try:
+                from google import genai
+                from app.config.settings import settings
+                if getattr(settings, "gemini_api_key", None):
+                    self._gemini_client = genai.Client(api_key=settings.gemini_api_key)
+                    self._gemini_available = True
+                    logger.info("✅ Gemini available for high-quality summarization")
+                else:
+                    self._gemini_available = False
+            except Exception as e:
+                logger.warning(f"Gemini not available for summarization: {e}")
+                self._gemini_available = False
+        return self._gemini_client
 
     @property
     def _classifier(self):
         if self._classifier_pipeline is None:
+            logger.info(f"Loading classifier: {self.model_names['classifier']}...")
             self._classifier_pipeline = pipeline(
                 "zero-shot-classification",
                 model=self.model_names["classifier"],
                 device=self.device,
             )
+            logger.info("✅ Classifier loaded.")
         return self._classifier_pipeline
 
     @property
     def _ner(self):
         if self._ner_pipeline is None:
+            logger.info(f"Loading NER: {self.model_names['ner']}...")
             self._ner_pipeline = pipeline(
                 "token-classification",
                 model=self.model_names["ner"],
                 aggregation_strategy="simple",
                 device=self.device,
             )
+            logger.info("✅ NER loaded.")
         return self._ner_pipeline
 
     @property
     def _summarizer(self):
         if self._summarizer_pipeline is None:
+            logger.info(f"Loading local summarizer: {self.model_names['summarizer']}...")
             self._summarizer_pipeline = pipeline(
                 "summarization",
                 model=self.model_names["summarizer"],
                 device=self.device,
+                truncation=True,
             )
+            logger.info("✅ Local summarizer loaded.")
         return self._summarizer_pipeline
 
     # ---------------------------------------------------------------------
-    # Classification thématique
+    # Classification thématique (XLM-RoBERTa Large)
     # ---------------------------------------------------------------------
     def classify_documents(
         self,
@@ -160,8 +196,11 @@ class BankingNlpService:
                 )
                 continue
 
+            # Tronquer pour éviter les problèmes de mémoire sur les gros docs
+            truncated = text[:1500] if len(text) > 1500 else text
+
             output = self._classifier(
-                text,
+                truncated,
                 candidate_labels=list(candidate_labels),
                 multi_label=multi_label,
             )
@@ -185,7 +224,7 @@ class BankingNlpService:
         return results
 
     # ---------------------------------------------------------------------
-    # Extraction d'entités bancaires
+    # Extraction d'entités bancaires (CamemBERT NER)
     # ---------------------------------------------------------------------
     def extract_entities(
         self,
@@ -205,17 +244,25 @@ class BankingNlpService:
                 all_entities.append([])
                 continue
 
-            raw_entities = self._ner(text)
+            # Tronquer pour les gros documents
+            truncated = text[:2000] if len(text) > 2000 else text
+            raw_entities = self._ner(truncated)
 
             entities: List[BankingEntity] = []
+            seen = set()  # Déduplications des entités
             for ent in raw_entities:
                 score = float(ent.get("score", 0.0))
                 if score < score_threshold:
                     continue
 
+                word = ent.get("word", "").strip()
+                if not word or word in seen or len(word) < 2:
+                    continue
+                seen.add(word)
+
                 entities.append(
                     BankingEntity(
-                        text=ent.get("word", ""),
+                        text=word,
                         label=ent.get("entity_group") or ent.get("entity") or "ENT",
                         score=score,
                         start=int(ent.get("start", 0)),
@@ -228,7 +275,7 @@ class BankingNlpService:
         return all_entities
 
     # ---------------------------------------------------------------------
-    # Résumé de documents
+    # Résumé de documents (Gemini prioritaire, fallback local)
     # ---------------------------------------------------------------------
     def summarize_documents(
         self,
@@ -238,40 +285,61 @@ class BankingNlpService:
     ) -> List[BankingSummary]:
         """Génère des résumés courts de documents bancaires.
 
-        Args:
-            texts: liste de documents.
-            max_length: longueur max du résumé (tokens du modèle).
-            min_length: longueur min du résumé.
+        Utilise Gemini pour des résumés FR de haute qualité.
+        Fallback sur le modèle local si Gemini n'est pas disponible.
         """
         summaries: List[BankingSummary] = []
 
         for text in texts:
             if not text or not text.strip():
-                summaries.append(
-                    BankingSummary(
-                        original_text=text,
-                        summary="",
-                    )
-                )
+                summaries.append(BankingSummary(original_text=text, summary=""))
                 continue
 
-            # Certains modèles sont sensibles à la longueur; on tronque si besoin
-            # La gestion fine des longueurs peut être adaptée pour un PFE.
+            # Essayer Gemini d'abord (meilleure qualité)
+            gemini = self._get_gemini_client()
+            if gemini:
+                try:
+                    summary = self._summarize_with_gemini(text)
+                    summaries.append(BankingSummary(original_text=text, summary=summary))
+                    continue
+                except Exception as e:
+                    logger.warning(f"Gemini summarization failed, falling back: {e}")
+
+            # Fallback: modèle local
+            truncated_text = text[:2048] if len(text) > 2048 else text
             output = self._summarizer(
-                text,
+                truncated_text,
                 max_length=max_length,
-                min_length=min_length,
+                min_length=min(min_length, max_length - 1),
                 do_sample=False,
+                truncation=True,
             )
-
             summary_text = output[0]["summary_text"]
-
-            summaries.append(
-                BankingSummary(
-                    original_text=text,
-                    summary=summary_text.strip(),
-                )
-            )
+            summaries.append(BankingSummary(original_text=text, summary=summary_text.strip()))
 
         return summaries
 
+    def _summarize_with_gemini(self, text: str) -> str:
+        """Génère un résumé professionnel via Gemini."""
+        # Tronquer si nécessaire (Gemini peut gérer beaucoup mais on est prudent)
+        truncated = text[:8000] if len(text) > 8000 else text
+
+        prompt = f"""Tu es un analyste de veille réglementaire et bancaire pour CIH Bank (Maroc).
+Génère un résumé professionnel et structuré du document suivant.
+
+Règles :
+1. Le résumé doit faire entre 3 et 5 phrases.
+2. Mentionne les points clés, chiffres importants et implications pour le secteur bancaire.
+3. Réponds UNIQUEMENT en français.
+4. Ne commence pas par "Ce document" ou "Cet article", commence directement par le contenu.
+
+Document :
+{truncated}
+
+Résumé professionnel :"""
+
+        response = self._gemini_client.models.generate_content(
+            model="gemini-2.5-flash-preview-05-20",
+            contents=prompt,
+        )
+        return response.text.strip()

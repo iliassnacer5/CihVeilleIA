@@ -5,67 +5,50 @@ from typing import Any, Dict, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.config.settings import settings
 
+from app.storage.audit_repository import AuditRepository
+
 logger = logging.getLogger(__name__)
 
 class AuditLogger:
     """Service de journalisation d'audit asynchrone pour la conformité bancaire."""
 
-    def __init__(self, db_name: str = "cih_audit"):
-        self._uri = settings.mongodb_uri
-        self._db_name = db_name
-        self._client = None
-        self._collection = None
-
-    def _get_collection(self):
-        if self._collection is None:
-            self._client = AsyncIOMotorClient(self._uri)
-            self._db = self._client[self._db_name]
-            self._collection = self._db["audit_trail"]
-        return self._collection
+    def __init__(self, repository: Optional[AuditRepository] = None):
+        self.repository = repository or AuditRepository()
 
     async def ensure_indexes(self):
-        col = self._get_collection()
-        await col.create_index([("timestamp", -1)])
-        await col.create_index([("event_type", 1)])
+        await self.repository.ensure_indexes()
 
-    async def log_event_async(
+    async def log_event(
         self, 
-        event_type: str, 
+        module: str, 
         action: str, 
         status: str, 
         details: Dict[str, Any], 
-        user_id: str = "system"
+        user_id: str = "system",
+        entity: Optional[str] = None,
+        entity_id: Optional[str] = None
     ):
         """Enregistre un événement d'audit de manière asynchrone."""
-        col = self._get_collection()
         
         entry = {
-            "timestamp": datetime.utcnow(),
-            "event_type": event_type,
+            "timestamp": datetime.utcnow().timestamp(),
+            "module": module,
             "action": action,
             "status": status,
             "details": details,
-            "user_id": user_id
+            "user_id": user_id,
+            "username": details.get("username", "system"),
+            "role": details.get("role", "ROLE_USER"),
+            "ip_address": details.get("ip_address", "0.0.0.0"),
+            "entity": entity,
+            "entity_id": entity_id
         }
         
         try:
-            await col.insert_one(entry)
-            logger.info(f"Audit: {event_type} | {action} | {status}")
+            await self.repository.save_log(entry)
+            logger.info(f"Audit: {module} | {action} | {status}")
         except Exception as e:
             logger.error(f"Échec de l'écriture du log d'audit: {e}")
 
-    def log_event(self, *args, **kwargs):
-        """Wrapper synchrone (fire-and-forget) pour compatibilité."""
-        try:
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                loop.create_task(self.log_event_async(*args, **kwargs))
-            else:
-                asyncio.run(self.log_event_async(*args, **kwargs))
-        except Exception:
-            # Fallback if loop is missing or other issues
-            import threading
-            threading.Thread(target=lambda: asyncio.run(self.log_event_async(*args, **kwargs))).start()
-
-# Instance globale
+# Instance globale pour compatibilité
 audit_logger = AuditLogger()
